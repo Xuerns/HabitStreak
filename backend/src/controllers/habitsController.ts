@@ -12,10 +12,10 @@ export const createHabits = async (req: Request, res: Response) => {
     }
 
     await pool.execute(
-      "INSERT INTO habits (user_id, title, DESCRIPTION) VALUES (?, ?, ?)",
+      "INSERT INTO habits (user_id, title, DESCRIPTION, completed) VALUES (?, ?, ?, false)",
       [user.id, title, description],
     );
-    res.json({message: "Berhasil membuat habits baru"});
+    res.json({ message: "Berhasil membuat habits baru" });
   } catch {
     res.status(500).json({ message: "Server Error" });
   }
@@ -26,7 +26,10 @@ export const getHabits = async (req: Request, res: Response) => {
   const user = (req as any).user;
 
   try {
-    const [data]: any = await pool.execute("SELECT * from habits WHERE user_id = ?", [user.id]);
+    const [data]: any = await pool.execute(
+      "SELECT * from habits WHERE user_id = ?",
+      [user.id],
+    );
 
     res.json(data);
   } catch {
@@ -51,7 +54,7 @@ export const updateHabits = async (req: Request, res: Response) => {
     );
 
     if (result.affectedRows === 0) {
-      return res.status(404).json({message: "habit tidak ditemukan"})
+      return res.status(404).json({ message: "habit tidak ditemukan" });
     }
 
     res.json({ message: "Berhasil Update habits" });
@@ -72,6 +75,23 @@ export const deleteHabits = async (req: Request, res: Response) => {
     ]);
 
     res.json({ message: "Berhasil hapus habits" });
+  } catch {
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+// Toggle Habits
+export const toggleHabits = async (req: Request, res: Response) => {
+  const user = (req as any).user;
+  const { id } = req.params;
+
+  try {
+    await pool.execute(
+      "UPDATE habits SET completed = NOT completed where user_id = ? AND id = ?",
+      [user.id, id],
+    );
+
+    res.json({ message: "Berhasil Toggle" });
   } catch {
     res.status(500).json({ message: "Server Error" });
   }

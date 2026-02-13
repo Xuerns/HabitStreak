@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchApi } from "../service/fetchApi";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import SideBar from "../components/SideBar";
 
 interface User {
   NAME: string;
@@ -10,6 +11,8 @@ interface User {
 export default function Profile() {
   const [datas, setDatas] = useState<User | null>(null);
   const navigate = useNavigate();
+
+  // Api Call
   const handleProfile = async () => {
     try {
       const data = await fetchApi.getProfile();
@@ -17,34 +20,41 @@ export default function Profile() {
       setDatas(data.user);
     } catch (err: any) {
       console.log(err.response?.data);
+      if (err.response?.status === 401) {
+        localStorage.removeItem("token")
+        navigate("/auth/login");
+      }
     }
   };
 
+  // Logout
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login");
+    navigate("/auth/login");
   };
 
+  // token & call function
   useEffect(() => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
 
     if (!token) {
-        navigate("/login")
-        return
+      navigate("/auth/login");
+      return;
     }
 
     handleProfile();
   }, []);
 
-  
-
   return (
-    <div>
+    <div className="h-screen flex">
+      <SideBar
+        handleLogout={handleLogout}
+        datasName={datas?.NAME}
+        datasGmail={datas?.gmail}
+      />
       <div>
-        <p>{datas?.NAME}</p>
-        <p>{datas?.gmail}</p>
+        <Outlet />
       </div>
-      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 }

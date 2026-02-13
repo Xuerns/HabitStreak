@@ -39,8 +39,6 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
     const { gmail, password } = req.body
 
-    console.log(process.env.JWT_SECRET as string)
-
     try {
         if (!gmail || !password) {
             return res.status(400).json({message: "Data tidak lengkap"})

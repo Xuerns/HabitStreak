@@ -1,15 +1,24 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate ,Route, Routes } from "react-router-dom";
 import LoginPage from "./page/LoginPage";
 import RegisterPage from "./page/RegisterPage";
-import Profile from "./page/Profile";
+import MainPage from "./page/MainPage";
+import Dashboard from "./page/Dashboard";
+import HabitsPage from "./page/HabitsPage";
+import AnalyticsPage from "./page/AnalyticsPage";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/" element={<MainPage />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="habitspage" element={<HabitsPage />} />
+          <Route path="analyticspage" element={<AnalyticsPage />} />
+        </Route>
+        <Route path="/auth">
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
+        </Route>
       </Routes>
     </>
   );

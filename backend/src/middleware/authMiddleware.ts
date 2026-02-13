@@ -12,7 +12,6 @@ function authMiddleware(req: Request, res: Response, next: NextFunction) {
     return res.status(401).json({ message: "Token tidak ada" });
   }
 
-  
   // Pisahkan token menggunakan split
   let token = authHeader.split(" ")[1]; 
 
@@ -27,7 +26,7 @@ function authMiddleware(req: Request, res: Response, next: NextFunction) {
     (req as any).user = decoded;
     next();
   } catch {
-    return res.status(401).json({ message: "Token Incalid / Expired" });
+    return res.status(401).json({ message: "Token Invalid / Expired" });
   }
 }
 

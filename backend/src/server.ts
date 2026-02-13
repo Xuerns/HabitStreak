@@ -15,7 +15,7 @@ app.use(cors())
 app.use(express.json());
 
 // Routes
-app.get("/profile", authMiddleware, async (req: Request, res: Response) => {
+app.get("/mainpage", authMiddleware, async (req: Request, res: Response) => {
   const user = (req as any).user;
 
   const [row]: any = await pool.execute("SELECT * from user where id = ?", [
