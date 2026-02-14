@@ -36,12 +36,10 @@ export default function Profile() {
   // token & call function
   useEffect(() => {
     const token = localStorage.getItem("token");
-
     if (!token) {
       navigate("/auth/login");
       return;
     }
-
     handleProfile();
   }, []);
 

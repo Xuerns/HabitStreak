@@ -54,10 +54,10 @@ export const fetchApi = {
     return res.data;
   },
 
-  async toggleHabits(id: number) {
-    const res = await api.patch(`/habits/${id}/toggle`, null, {
-      headers: getAuthHeader(),
-    });
+  async completeHabits(id: number) {
+    const res = await api.post(`/habits/${id}/completed`, {
+      Headers: getAuthHeader()
+    }) 
     return res.data;
   },
 };

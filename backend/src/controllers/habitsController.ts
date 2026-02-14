@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import pool from "../db";
+import { diff } from "node:util";
 
 // Create Habits
 export const createHabits = async (req: Request, res: Response) => {
@@ -80,19 +81,57 @@ export const deleteHabits = async (req: Request, res: Response) => {
   }
 };
 
-// Toggle Habits
-export const toggleHabits = async (req: Request, res: Response) => {
+// Complete Habits
+export const completeHabits = async (req: Request, res: Response) => {
   const user = (req as any).user;
   const { id } = req.params;
 
   try {
-    await pool.execute(
-      "UPDATE habits SET completed = NOT completed where user_id = ? AND id = ?",
+    // Ambil Habits
+    const [rows] = await pool.execute(
+      "SELECT streak, last_completed FROM habits WHERE user_id = ? AND id = ?",
       [user.id, id],
     );
 
-    res.json({ message: "Berhasil Toggle" });
-  } catch {
-    res.status(500).json({ message: "Server Error" });
+    // Validasi apakah habit ada
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "Habit tidak ditemukan" });
+    }
+
+    const habit = rows[0]; // deklarasi habit
+    const todayStr = new Date().toISOString().split("T")[0]; 
+
+    // Insert habits log
+    await pool.execute("INSET INTO habits_logs (id, DATE) VALUES (?, ?)", [
+      id,
+      todayStr,
+    ]);
+
+    // initial habitstreak
+    let HabitStreak = 1;
+
+    // Validasi apakah habits sudah melewati batas waktu
+    if (habit.last_completed) {
+      const lastDate = new Date(habit.last_completed);
+      const different =
+        lastDate.getTime() - new Date().getTime() - 1000 * 60 * 60 * 24;
+
+      if (different === 1) {
+        HabitStreak = habit.streak + 1;
+      }
+    }
+
+    // Update streak dan last_completed
+    await pool.execute(
+      "UPDATE habits SET streak = ?, last_completed = ? WHERE id = ?",
+      [HabitStreak, todayStr, id],
+    );
+    res.json({message: "habits Complete", Streak: HabitStreak})
+  } catch (error: any) {
+    // Cek apakah duplikat
+    if (error.code === "ER_DUP_ENTRY") {
+      return res.status(400).json({message: "Habits udah diselesaikan"})
+    }
+    res.status(500).json({message: "Server Error"})
   }
 };

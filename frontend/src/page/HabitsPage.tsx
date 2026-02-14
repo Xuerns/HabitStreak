@@ -6,11 +6,12 @@ interface habit {
   TITLE: string;
   DESCRIPTION: string;
   completed: boolean;
+  due_date: string | Date
 }
 
 export default function HabitsPage() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [habits, setHabits] = useState<habit[]>([]);
 
   // Get habits / Ambil habits yang sudah ada
@@ -43,12 +44,6 @@ export default function HabitsPage() {
     await getHabits();
   };
 
-  const handleToggle = async (id: number) => {
-    const data = await fetchApi.toggleHabits(id);
-    console.log(data)
-    await getHabits()
-  };
-
   useEffect(() => {
     getHabits();
   }, []);
@@ -68,14 +63,15 @@ export default function HabitsPage() {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
+      <label>Date</label>
       <button onClick={handleSubmit}>Submit</button>
       <ul>
         {habits.map((item) => (
           <li key={item.id} className="flex">
-            <button onClick={() => handleToggle(item.id)}>Done</button>
             <p>{item.DESCRIPTION}</p>
             <button onClick={() => handleDelete(item.id)}>Delete</button>
             <p>{item.completed}</p>
+            <p>Due: {new Date(item.due_date).toLocaleDateString()}</p>
           </li>
         ))}
       </ul>
