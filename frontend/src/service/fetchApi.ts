@@ -55,8 +55,8 @@ export const fetchApi = {
   },
 
   async completeHabits(id: number) {
-    const res = await api.post(`/habits/${id}/completed`, {
-      Headers: getAuthHeader()
+    const res = await api.post(`/habits/${id}/completed`, {}, {
+      headers: getAuthHeader()
     }) 
     return res.data;
   },

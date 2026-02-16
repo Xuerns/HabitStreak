@@ -5,14 +5,14 @@ interface habit {
   id: number;
   TITLE: string;
   DESCRIPTION: string;
-  completed: boolean;
-  due_date: string | Date
 }
 
 export default function HabitsPage() {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [habits, setHabits] = useState<habit[]>([]);
+  const [streak, setStreak] = useState(0);
+  const [percentage, setPercentage] = useState(0);
 
   // Get habits / Ambil habits yang sudah ada
   const getHabits = async () => {
@@ -44,13 +44,29 @@ export default function HabitsPage() {
     await getHabits();
   };
 
+  const handleComplete = async (id: number) => {
+    try {
+      const data = await fetchApi.completeHabits(id);
+      setStreak(data.streak);
+      setPercentage(data.precentage);
+      console.log("Ini Datanya:", data.message, data.precentage, data.streak);
+      await getHabits();
+    } catch (error: any) {
+      const msg = error.response?.data?.message || "Gagal menyelesaikan habit";
+      console.error("Error:", msg);
+      alert(msg);
+    }
+  };
+
   useEffect(() => {
     getHabits();
   }, []);
 
   return (
     <div>
-      <p>Habits</p>
+      <p>
+        Habits | 🔥 Streak: {streak} | 📊 Hari ini: {percentage.toFixed(0)}%
+      </p>
       <label>Title</label>
       <input
         type="text"
@@ -68,10 +84,9 @@ export default function HabitsPage() {
       <ul>
         {habits.map((item) => (
           <li key={item.id} className="flex">
+            <button onClick={() => handleComplete(item.id)}>Done</button>
             <p>{item.DESCRIPTION}</p>
             <button onClick={() => handleDelete(item.id)}>Delete</button>
-            <p>{item.completed}</p>
-            <p>Due: {new Date(item.due_date).toLocaleDateString()}</p>
           </li>
         ))}
       </ul>
