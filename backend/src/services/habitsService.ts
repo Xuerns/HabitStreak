@@ -99,7 +99,7 @@ export const completeHabitsService = async (userId: number, habitId: any) => {
   const rawLastStreak = rowsStreak[0].last_streak_date;
   let currentStreakDate: string | null = null;
   if (rawLastStreak) {
-    const day = new Date();
+    const day = new Date(rawLastStreak);
     currentStreakDate = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
   }
 
@@ -109,7 +109,7 @@ export const completeHabitsService = async (userId: number, habitId: any) => {
   if (precentage >= 70) {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
-    const yesterdayStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() - 1).padStart(2, "0")}-${String(yesterday.getDate()).padStart(2, "0")}`;
+    const yesterdayStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, "0")}-${String(yesterday.getDate()).padStart(2, "0")}`;
     if (currentStreakDate === todayStr) {
       newStreak = currentStreak;
     } else if (currentStreakDate === yesterdayStr) {
