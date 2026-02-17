@@ -60,4 +60,12 @@ export const fetchApi = {
     }) 
     return res.data;
   },
+
+  // Dashboard
+  async getDashboard() {
+    const res = await api.get("/dashboard", {
+      headers: getAuthHeader()
+    })
+    return res.data
+  }
 };

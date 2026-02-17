@@ -44,12 +44,15 @@ export default function HabitsPage() {
     await getHabits();
   };
 
+  const getDashboard = async () => {
+    const data = await fetchApi.getDashboard();
+    setStreak(data.streak)
+    setPercentage(data.precentage)
+  }
+
   const handleComplete = async (id: number) => {
     try {
       const data = await fetchApi.completeHabits(id);
-      setStreak(data.streak);
-      setPercentage(data.precentage);
-      console.log("Ini Datanya:", data.message, data.precentage, data.streak);
       await getHabits();
     } catch (error: any) {
       const msg = error.response?.data?.message || "Gagal menyelesaikan habit";
@@ -59,6 +62,7 @@ export default function HabitsPage() {
   };
 
   useEffect(() => {
+    getDashboard();
     getHabits();
   }, []);
 

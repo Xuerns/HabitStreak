@@ -1,12 +1,10 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt = require("jsonwebtoken");
-import console from "node:console";
 const JWT_TOKEN = process.env.JWT_SECRET as string;
 
 function authMiddleware(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
 
-  console.log(JWT_TOKEN);
   // validasi ketika tidak ada token / authheader tidak dikirim
   if (!authHeader) {
     return res.status(401).json({ message: "Token tidak ada" });
