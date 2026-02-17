@@ -134,3 +134,15 @@ export const completeHabitsService = async (userId: number, habitId: any) => {
 
   return { message: "habit completed", streak: newStreak, precentage };
 };
+
+// Undo Habits
+export const undoHabitService = async (userId: number, habitId: any) => {
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+
+  await pool.execute(
+    "DELETE hl FROM habits_logs AS hl INNER JOIN habits AS h ON hl.habits_id = h.id WHERE hl.habits_id = ? AND h.user_id = ? AND hl.DATE = ?",
+    [habitId, userId, todayStr],
+  );
+  return { message: "berhasil undo" };
+};

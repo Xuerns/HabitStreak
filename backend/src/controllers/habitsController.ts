@@ -4,6 +4,7 @@ import {
   createHabitsService,
   deleteHabitsService,
   getHabitsService,
+  undoHabitService,
   updateHabitsService,
 } from "../services/habitsService";
 
@@ -63,15 +64,27 @@ export const completeHabits = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    const result = await completeHabitsService(userId, id)
-    res.status(200).json(result)
+    const result = await completeHabitsService(userId, id);
+    res.status(200).json(result);
   } catch (error: any) {
     if (error.code === "ER_DUP_ENTRY") {
       return res
         .status(400)
         .json({ message: "habits sudah diselesaikan hari ini" });
     }
-    const status = error.status || 500
+    const status = error.status || 500;
     res.status(status).json({ message: error.message || "Server Error" });
+  }
+};
+
+// Undo Habits
+export const undoHabit = async (req: Request, res: Response) => {
+  const userId = (req as any).user.id;
+  const { id } = req.params;
+  try {
+    const result = await undoHabitService(userId, id);
+    res.status(200).json(result);
+  } catch {
+    res.status(500).json({ message: "Server Error" });
   }
 };

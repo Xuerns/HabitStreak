@@ -55,17 +55,28 @@ export const fetchApi = {
   },
 
   async completeHabits(id: number) {
-    const res = await api.post(`/habits/${id}/completed`, {}, {
-      headers: getAuthHeader()
-    }) 
+    const res = await api.post(
+      `/habits/${id}/completed`,
+      {},
+      {
+        headers: getAuthHeader(),
+      },
+    );
+    return res.data;
+  },
+
+  async undohabit(id: number) {
+    const res = await api.delete(`/habits/${id}/completed`, {
+      headers: getAuthHeader(),
+    });
     return res.data;
   },
 
   // Dashboard
   async getDashboard() {
     const res = await api.get("/dashboard", {
-      headers: getAuthHeader()
-    })
-    return res.data
-  }
+      headers: getAuthHeader(),
+    });
+    return res.data;
+  },
 };

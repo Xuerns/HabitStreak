@@ -27,6 +27,7 @@ export default function HabitsPage() {
     setTitle("");
     setDescription("");
     console.log("habits baru: ", data);
+    await getDashboard();
     await getHabits(); // refresh list otomatis
   };
 
@@ -34,6 +35,7 @@ export default function HabitsPage() {
   const handleDelete = async (id: number) => {
     const data = await fetchApi.deleteHabits(id);
     console.log(data);
+    await getDashboard();
     await getHabits(); // refresh list otomatis
   };
 
@@ -44,16 +46,23 @@ export default function HabitsPage() {
     await getHabits();
   };
 
+  const handleUndo = async (id: number) => {
+    const data = await fetchApi.undohabit(id);
+    console.log(data);
+    await getDashboard();
+  };
+
   const getDashboard = async () => {
     const data = await fetchApi.getDashboard();
-    setStreak(data.streak)
-    setPercentage(data.precentage)
-  }
+    setStreak(data.streak);
+    setPercentage(data.precentage);
+  };
 
   const handleComplete = async (id: number) => {
     try {
       const data = await fetchApi.completeHabits(id);
       await getHabits();
+      await getDashboard();
     } catch (error: any) {
       const msg = error.response?.data?.message || "Gagal menyelesaikan habit";
       console.error("Error:", msg);
@@ -64,7 +73,7 @@ export default function HabitsPage() {
   useEffect(() => {
     getDashboard();
     getHabits();
-  }, []);
+  }, [percentage]);
 
   return (
     <div>
@@ -91,6 +100,7 @@ export default function HabitsPage() {
             <button onClick={() => handleComplete(item.id)}>Done</button>
             <p>{item.DESCRIPTION}</p>
             <button onClick={() => handleDelete(item.id)}>Delete</button>
+            <button onClick={() => handleUndo(item.id)}>Reset</button>
           </li>
         ))}
       </ul>
