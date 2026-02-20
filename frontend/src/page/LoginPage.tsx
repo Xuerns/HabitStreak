@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { fetchApi } from "../service/fetchApi";
 import { useNavigate } from "react-router-dom";
+import Bg_login from "../assets/BG_Login.png";
+import AuthForm from "../components/AuthForm";
 
 export default function LoginPage() {
-  const [gmail, setGmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleLogin = async (data: { gmail: string; password: string }) => {
     try {
-      const data = await fetchApi.login({ gmail, password });
-      console.log("data:", data);
+      const res = await fetchApi.login(data);
+      console.log("data:", res);
       alert("Berhasil login mas");
-      navigate("/")
+      navigate("/");
     } catch (err) {
       console.log(err);
       alert("Shit gagal login");
@@ -20,19 +20,18 @@ export default function LoginPage() {
   };
 
   useEffect(() => {
-    const isLogin = localStorage.getItem("token")
+    const isLogin = localStorage.getItem("token");
     if (isLogin) {
-        navigate("/")
+      navigate("/");
     }
-  }, [navigate])
+  }, [navigate]);
 
   return (
-    <div>
-      <label htmlFor="">Gmail</label>
-      <input type="email" value={gmail} onChange={(e) => setGmail(e.target.value)}/>
-      <label htmlFor="">Password</label>
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-      <button onClick={handleLogin}>Login</button>
+    <div
+      className="flex h-screen justify-center items-center bg-cover"
+      style={{ backgroundImage: `url(${Bg_login})` }}
+    >
+      <AuthForm type="login" onSubmit={handleLogin} />
     </div>
   );
 }

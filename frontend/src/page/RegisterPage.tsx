@@ -1,43 +1,35 @@
-import { useState } from "react";
 import { fetchApi } from "../service/fetchApi";
+import { useNavigate } from "react-router-dom";
+import Bg_register from "../assets/BG_Register.png";
+import AuthForm from "../components/AuthForm";
 
 export default function RegisterPage() {
-  const [name, setName] = useState("");
-  const [gmail, setGmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleRegister = async () => {
+  const handleRegister = async (data: {
+    name?: string;
+    gmail: string;
+    password: string;
+  }) => {
     try {
-      const data = await fetchApi.register({ name, gmail, password });
-      console.log("Data:", data);
-      alert("Gello Berhasil Register boss");
+      const res = await fetchApi.register(
+        data as { name: string; gmail: string; password: string },
+      );
+      console.log("Data:", res);
+      alert("Berhasil Register boss");
+      navigate("/auth/login");
     } catch (err: any) {
       console.log(err.response?.data);
-      alert("Noooo gagal");
+      alert("Gagal register");
     }
   };
 
   return (
-    <div>
-      <label htmlFor="">Name</label>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <label htmlFor="">Gmail</label>
-      <input
-        type="email"
-        value={gmail}
-        onChange={(e) => setGmail(e.target.value)}
-      />
-      <label htmlFor="">Password</label>
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handleRegister}>Register</button>
+    <div
+      className="flex h-screen justify-center items-center bg-cover"
+      style={{ backgroundImage: `url(${Bg_register})` }}
+    >
+      <AuthForm type="register" onSubmit={handleRegister} />
     </div>
   );
 }
