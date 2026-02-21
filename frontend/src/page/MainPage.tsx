@@ -44,13 +44,13 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className="h-screen flex p-2">
+    <div className="h-screen flex p-1">
       <SideBar
         handleLogout={handleLogout}
       />
-      <div className="p-2 w-full">
-        <div className="flex items-center justify-end">
-          <div className="flex items-center gap-2 bg-gray-100 px-3 py-1 rounded">
+      <div className="px-2 w-full">
+        <div className="flex items-center justify-end shadow-sm shadow-black/30 py-0.5">
+          <div className="flex items-center gap-2 px-3 py-1 rounded">
             <h6 className="font-medium">{datas?.NAME}</h6>
             <div className="h-10 w-10 rounded-full bg-amber-200"></div>
           </div>

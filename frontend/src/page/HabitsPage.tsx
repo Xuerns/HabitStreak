@@ -11,8 +11,6 @@ export default function HabitsPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [habits, setHabits] = useState<habit[]>([]);
-  const [streak, setStreak] = useState(0);
-  const [percentage, setPercentage] = useState(0);
 
   // Get habits / Ambil habits yang sudah ada
   const getHabits = async () => {
@@ -27,7 +25,6 @@ export default function HabitsPage() {
     setTitle("");
     setDescription("");
     console.log("habits baru: ", data);
-    await getDashboard();
     await getHabits(); // refresh list otomatis
   };
 
@@ -35,7 +32,6 @@ export default function HabitsPage() {
   const handleDelete = async (id: number) => {
     const data = await fetchApi.deleteHabits(id);
     console.log(data);
-    await getDashboard();
     await getHabits(); // refresh list otomatis
   };
 
@@ -49,20 +45,14 @@ export default function HabitsPage() {
   const handleUndo = async (id: number) => {
     const data = await fetchApi.undohabit(id);
     console.log(data);
-    await getDashboard();
   };
 
-  const getDashboard = async () => {
-    const data = await fetchApi.getDashboard();
-    setStreak(data.streak);
-    setPercentage(data.precentage);
-  };
+  
 
   const handleComplete = async (id: number) => {
     try {
       await fetchApi.completeHabits(id);
       await getHabits();
-      await getDashboard();
     } catch (error: any) {
       const msg = error.response?.data?.message || "Gagal menyelesaikan habit";
       console.error("Error:", msg);
@@ -71,15 +61,11 @@ export default function HabitsPage() {
   };
 
   useEffect(() => {
-    getDashboard();
     getHabits();
-  }, [percentage]);
+  }, []);
 
   return (
     <div>
-      <p>
-        Habits | 🔥 Streak: {streak} | 📊 Hari ini: {percentage.toFixed(0)}%
-      </p>
       <label>Title</label>
       <input
         type="text"
