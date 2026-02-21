@@ -12,7 +12,7 @@ export default function LoginPage() {
       const res = await fetchApi.login(data);
       console.log("data:", res);
       alert("Berhasil login mas");
-      navigate("/");
+      navigate("/dashboard");
     } catch (err) {
       console.log(err);
       alert("Shit gagal login");
@@ -22,7 +22,7 @@ export default function LoginPage() {
   useEffect(() => {
     const isLogin = localStorage.getItem("token");
     if (isLogin) {
-      navigate("/");
+      navigate("/dashboard");
     }
   }, [navigate]);
 

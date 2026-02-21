@@ -40,11 +40,11 @@ export default function HabitsPage() {
   };
 
   // Handle Update / Ubah Habits
-  const handleUpdate = async (id: number) => {
-    const data = await fetchApi.updateHabits({ title, description }, id);
-    console.log(data);
-    await getHabits();
-  };
+  // const handleUpdate = async (id: number) => {
+  //   const data = await fetchApi.updateHabits({ title, description }, id);
+  //   console.log(data);
+  //   await getHabits();
+  // };
 
   const handleUndo = async (id: number) => {
     const data = await fetchApi.undohabit(id);
@@ -60,7 +60,7 @@ export default function HabitsPage() {
 
   const handleComplete = async (id: number) => {
     try {
-      const data = await fetchApi.completeHabits(id);
+      await fetchApi.completeHabits(id);
       await getHabits();
       await getDashboard();
     } catch (error: any) {

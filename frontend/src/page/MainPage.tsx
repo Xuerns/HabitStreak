@@ -12,7 +12,7 @@ export default function Profile() {
   const [datas, setDatas] = useState<User | null>(null);
   const navigate = useNavigate();
 
-  // Api Call
+  // Get Profile
   const handleProfile = async () => {
     try {
       const data = await fetchApi.getProfile();
@@ -21,7 +21,7 @@ export default function Profile() {
     } catch (err: any) {
       console.log(err.response?.data);
       if (err.response?.status === 401) {
-        localStorage.removeItem("token")
+        localStorage.removeItem("token");
         navigate("/auth/login");
       }
     }
@@ -44,13 +44,17 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className="h-screen flex">
+    <div className="h-screen flex p-2">
       <SideBar
         handleLogout={handleLogout}
-        datasName={datas?.NAME}
-        datasGmail={datas?.gmail}
       />
-      <div>
+      <div className="p-2 w-full">
+        <div className="flex items-center justify-end">
+          <div className="flex items-center gap-2 bg-gray-100 px-3 py-1 rounded">
+            <h6 className="font-medium">{datas?.NAME}</h6>
+            <div className="h-10 w-10 rounded-full bg-amber-200"></div>
+          </div>
+        </div>
         <Outlet />
       </div>
     </div>
