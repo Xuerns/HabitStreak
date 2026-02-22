@@ -11,11 +11,9 @@ export default function LoginPage() {
     try {
       const res = await fetchApi.login(data);
       console.log("data:", res);
-      alert("Berhasil login mas");
       navigate("/dashboard");
     } catch (err) {
       console.log(err);
-      alert("Shit gagal login");
     }
   };
 

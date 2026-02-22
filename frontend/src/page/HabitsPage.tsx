@@ -78,7 +78,6 @@ export default function HabitsPage() {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-      <label>Date</label>
       <button onClick={handleSubmit}>Submit</button>
       <ul>
         {habits.map((item) => (
