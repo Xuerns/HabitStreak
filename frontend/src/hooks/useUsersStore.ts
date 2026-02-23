@@ -1,8 +1,11 @@
 import { create } from "zustand";
 
 interface userState {
+  // Initial State
   name: string;
   gmail: string;
+
+  // Action
   setUser: (name: string, gmail: string) => void;
   clearUser: () => void;
 }

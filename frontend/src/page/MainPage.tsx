@@ -6,6 +6,7 @@ import { useUsersStore } from "../hooks/useUsersStore";
 
 export default function Profile() {
   const {name, setUser, clearUser} = useUsersStore()
+  
   const navigate = useNavigate();
 
   // Get Profile

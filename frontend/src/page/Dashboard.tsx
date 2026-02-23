@@ -1,28 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { fetchApi } from "../service/fetchApi";
 import DashboardCard from "../components/DashboardCard";
 import DailyMessage from "../components/DailyMessage";
-
-interface Alltype {
-  streak: number;
-  longestStreak: number;
-  totalHabit: number;
-  precentage: number;
-  remainingTo70: number;
-}
+import { useDashboardStore } from "../hooks/useDashboardStore";
 
 export default function Dashboard() {
-  const [all, setAll] = useState<Alltype>({
-    streak: 0,
-    longestStreak: 0,
-    totalHabit: 0,
-    precentage: 0,
-    remainingTo70: 0,
-  });
+  const {
+    currentStreak,
+    longestStreak,
+    totalHabit,
+    precetage,
+    remainingTo70,
+    setCurrentStreak,
+    setLongestStreak,
+    setTotalHabit,
+    setPrecentage,
+    setRemainingTo70,
+  } = useDashboardStore();
 
   const getDashboard = async () => {
     const data = await fetchApi.getDashboard();
-    setAll(data);
+    setCurrentStreak(data.streak)
+    setLongestStreak(data.longestStreak)
+    setTotalHabit(data.totalHabit)
+    setPrecentage(data.precentage)
+    setRemainingTo70(data.remainingTo70)
   };
 
   useEffect(() => {
@@ -34,24 +36,20 @@ export default function Dashboard() {
       <div>
         <h1 className="text-3xl py-3 font-bold">Dashboard</h1>
         <div className="grid grid-cols-5 gap-2 text-white">
-          <DashboardCard data={all.streak} label="Streak" type="normal" />
+          <DashboardCard data={currentStreak} label="Streak" type="normal" />
           <DashboardCard
-            data={all.longestStreak}
+            data={longestStreak}
             label="Longest Streak"
             type="normal"
           />
+          <DashboardCard data={totalHabit} label="Total Habit" type="normal" />
           <DashboardCard
-            data={all.totalHabit}
-            label="Total Habit"
-            type="normal"
-          />
-          <DashboardCard
-            data={all.precentage}
+            data={precetage}
             label="Precentage"
             type="precentage"
           />
           <DashboardCard
-            data={all.remainingTo70}
+            data={remainingTo70}
             label="Remaining to 70%"
             type="precentage"
           />
