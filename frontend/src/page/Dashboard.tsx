@@ -16,15 +16,18 @@ export default function Dashboard() {
     setTotalHabit,
     setPrecentage,
     setRemainingTo70,
+    todayHabits,
+    setTodayHabits,
   } = useDashboardStore();
 
   const getDashboard = async () => {
     const data = await fetchApi.getDashboard();
-    setCurrentStreak(data.streak)
-    setLongestStreak(data.longestStreak)
-    setTotalHabit(data.totalHabit)
-    setPrecentage(data.precentage)
-    setRemainingTo70(data.remainingTo70)
+    setCurrentStreak(data.streak);
+    setLongestStreak(data.longestStreak);
+    setTotalHabit(data.totalHabit);
+    setPrecentage(data.precentage);
+    setRemainingTo70(data.remainingTo70);
+    setTodayHabits(data.todayHabits);
   };
 
   useEffect(() => {
@@ -35,7 +38,11 @@ export default function Dashboard() {
     <div className="px-1 flex flex-col gap-3">
       <div>
         <h1 className="text-3xl py-3 font-bold">Dashboard</h1>
+      </div>
+      <div className="grid grid-cols-[8fr_2fr]">
+        
         <div className="grid grid-cols-5 gap-2 text-white">
+          <DailyMessage/>
           <DashboardCard data={currentStreak} label="Streak" type="normal" />
           <DashboardCard
             data={longestStreak}
@@ -54,8 +61,10 @@ export default function Dashboard() {
             type="precentage"
           />
         </div>
+        <div>
+          s
+        </div>
       </div>
-      <DailyMessage />
     </div>
   );
 }
