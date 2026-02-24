@@ -25,7 +25,7 @@ export default function DailyMessage() {
   ];
 
       return (
-    <div className="col-span-full relative overflow-hidden bg-white rounded-xl px-6 py-3 mb-4 shadow-sm border border-gray-200">
+    <div className="col-span-f relative overflow-hidden bg-white rounded-xl px-6 py-3 shadow-sm border border-gray-200">
       {/* Aksen warna di sebelah kiri */}
       <div className="absolute top-0 left-0 w-1.5 h-full bg-linear-to-b from-amber-400 to-orange-500"></div>
       

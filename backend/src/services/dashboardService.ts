@@ -58,7 +58,7 @@ export const dashboardService = async (userId: number) => {
 
   // Ambil 3 daftar habit yang paling sering dikerjakan
   const [topHabitsRows]: any = await pool.execute(
-    "SELECT h.id, h.title, h.DESCRIPTION, COUNT(hl.habits_id) as total_Completed from habits h LEFT JOIN habits_logs hl ON h.id = hl.habits_id WHERE h.user_id = ? GROUP BY h.id ORDER BY total_completed DESC LIMIT 3 ",
+    "SELECT h.id, h.title, h.DESCRIPTION, COUNT(hl.habits_id) as total_completed from habits h LEFT JOIN habits_logs hl ON h.id = hl.habits_id WHERE h.user_id = ? GROUP BY h.id ORDER BY total_completed DESC LIMIT 3 ",
     [userId],
   );
   const topHabits = topHabitsRows;

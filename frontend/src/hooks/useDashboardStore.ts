@@ -19,7 +19,7 @@ interface heatMap {
   count: number;
 }
 
-interface habitState {
+interface dashboardState {
   // Initial State
   currentStreak: number;
   longestStreak: number;
@@ -41,7 +41,7 @@ interface habitState {
   setHeatmap: (data: heatMap[]) => void;
 }
 
-export const useDashboardStore = create<habitState>()((set) => ({
+export const useDashboardStore = create<dashboardState>()((set) => ({
   currentStreak: 0,
   longestStreak: 0,
   totalHabit: 0,
