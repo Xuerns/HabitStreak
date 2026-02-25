@@ -1,0 +1,33 @@
+import { create } from "zustand";
+
+interface habits {
+  id: number;
+  title: string;
+  description: string;
+  is_completed?: boolean;
+}
+
+interface habitsState {
+  // Initial Value
+  Habits: habits[];
+
+  // Action
+  setHabits: (habits: habits[]) => void;
+  removeHabit: (id: number) => void;
+  updateHabit: (id: number, title: string, description: string) => void;
+  toggleComplete: (id: number, status: boolean) => void;
+}
+
+export const useHabitsStore = create<habitsState>()((set, get) => ({
+  Habits: [],
+  setHabits: (habits) => set({ Habits: habits }),
+  removeHabit: (id) =>
+    set({ Habits: get().Habits.filter((habit) => habit.id !== id) }),
+  updateHabit: (id, title, description) => set({Habits: get().Habits.map((habit) => habit.id === id ? {...habit, title, description} : habit)}),
+  toggleComplete: (id, status) =>
+    set({
+      Habits: get().Habits.map((habit) =>
+        habit.id === id ? { ...habit, is_completed: status } : habit,
+      ),
+    }),
+}));

@@ -5,15 +5,14 @@ import DailyMessage from "../components/DailyMessage";
 import { useDashboardStore } from "../hooks/useDashboardStore";
 import ActivityHeatmap from "../components/ActivityHeatmap";
 import DailyProgressBar from "../components/DailyProgressBar";
-import { FireIcon } from "../components/FireIcon";
 import StreakCard from "../components/StreakCard";
+import TodayHabits from "../components/TodayHabits";
 
 export default function Dashboard() {
   const {
     currentStreak,
     longestStreak,
     totalHabit,
-    todayHabits,
     topHabits,
     setCurrentStreak,
     setLongestStreak,
@@ -42,11 +41,11 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="px-1 py-3 flex flex-col gap-3 h-[calc(100vh-60px)]">
+    <div className="px-1 py-3 flex flex-col gap-3 h-[calc(100vh-60px)] overflow-hidden">
       {/* Grid Utama */}
       <div className="grid grid-cols-[8fr_2fr] gap-3 flex-1 min-h-0">
         {/* Container 1 (Kiri) */}
-        <div className="flex flex-col gap-2 text-white px-2 h-full">
+        <div className="flex flex-col gap-2 text-white px-2 min-h-0">
           <div className="text-black">
             <DailyMessage />
           </div>
@@ -68,13 +67,13 @@ export default function Dashboard() {
 
           {/* Activity & Progress Row */}
           <div className="w-full flex-1 min-h-0 text-black rounded grid grid-cols-[1fr_1.5fr] gap-2">
-            <div className="flex flex-col gap-2 h-full min-h-0">
+            <div className="flex flex-col gap-2 min-h-0">
               <ActivityHeatmap />
-              <div className="flex-1 flex items-center justify-center bg-white border border-gray-200 rounded-md shadow-sm text-gray-400 font-medium">
+              <div className="flex-1 flex items-center justify-center bg-white border border-gray-200 rounded-md shadow-sm text-gray-400 font-medium min-h-0">
                 Empty
               </div>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 min-h-0">
               <div className="grid grid-cols-2 gap-2">
                 <DailyProgressBar />
                 <div className="border border-gray-200 shadow-sm rounded-md p-3 h-full">
@@ -91,7 +90,7 @@ export default function Dashboard() {
                           {item.title}
                         </span>
                         <span className="font-bold text-amber-500 text-lg">
-                          {item.total_completed} 
+                          {item.total_completed}
                         </span>
                       </li>
                     ))}
@@ -99,30 +98,19 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="flex-1 flex items-center justify-center w-full text-gray-400 font-medium bg-white rounded-md shadow-sm border border-gray-200">
+              <div className="flex-1 flex items-center justify-center w-full text-gray-400 font-medium bg-white rounded-md shadow-sm border border-gray-200 min-h-0">
                 Empty
               </div>
             </div>
           </div>
         </div>
         {/* Container 2 (Kanan) */}
-        <div className="flex flex-col gap-3 pr-1">
+        <div className="flex flex-col gap-3 pr-1 min-h-0 overflow-hidden">
           {/* Today Habits */}
-          <div className="border border-gray-200 shadow-sm rounded-md p-3 flex-1">
-            <h3 className="font-semibold text-2xl pb-1 mb-2 border-b border-gray-300">
-              Today Habit
-            </h3>
-            <ul>
-              {todayHabits.map((item) => (
-                <li key={item.id}>
-                  <span>{item.title}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <TodayHabits />
 
           {/* Streak */}
-          <StreakCard/>
+          <StreakCard />
         </div>
       </div>
     </div>

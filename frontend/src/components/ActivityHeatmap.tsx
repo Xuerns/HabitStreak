@@ -32,11 +32,11 @@ export default function ActivityHeatmap() {
     if (count === 1) return "bg-amber-200";
     if (count === 2) return "bg-amber-300";
     if (count === 3) return "bg-amber-400";
-    return "bg-amber-500"; 
+    return "bg-amber-500";
   };
 
   return (
-    <div className="flex bg-white items-center justify-center p-2 w-full h-35 rounded-md shadow-sm border border-gray-200 flex-col">
+    <div className="flex bg-white items-center justify-center p-2 w-full rounded-md shadow-sm border border-gray-200 flex-col shrink-0">
       <h3 className="font-semibold text-gray-700 mb-3 text-sm self-start">
         Activity (This Month)
       </h3>

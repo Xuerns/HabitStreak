@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchApi } from "../service/fetchApi";
+import { useHabitsStore } from "../hooks/useHabitsStore";
 
 interface habit {
   id: number;
@@ -10,49 +11,40 @@ interface habit {
 export default function HabitsPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [habits, setHabits] = useState<habit[]>([]);
-
-  // Get habits / Ambil habits yang sudah ada
-  const getHabits = async () => {
-    const data = await fetchApi.gethabits();
-    console.log(data);
-    setHabits(data);
-  };
+  const { Habits, setHabits, removeHabit, updateHabit, toggleComplete } =
+    useHabitsStore();
 
   // Handle Submit / Tambah habits
   const handleSubmit = async () => {
-    const data = await fetchApi.createHabits({ title, description });
+    await fetchApi.createHabits({ title, description });
     setTitle("");
     setDescription("");
-    console.log("habits baru: ", data);
-    await getHabits(); // refresh list otomatis
+    const data = await fetchApi.gethabits();
+    setHabits(data);
   };
 
   // Handle delete / Delete habits
   const handleDelete = async (id: number) => {
-    const data = await fetchApi.deleteHabits(id);
-    console.log(data);
-    await getHabits(); // refresh list otomatis
+    await fetchApi.deleteHabits(id);
+    removeHabit(id)
   };
 
   // Handle Update / Ubah Habits
-  // const handleUpdate = async (id: number) => {
-  //   const data = await fetchApi.updateHabits({ title, description }, id);
-  //   console.log(data);
-  //   await getHabits();
-  // };
-
-  const handleUndo = async (id: number) => {
-    const data = await fetchApi.undohabit(id);
-    console.log(data);
+  const handleUpdate = async (id: number) => {
+    await fetchApi.updateHabits({ title, description }, id);
+    const data = await fetchApi.gethabits();
+    setHabits(data);
   };
 
-  
+  const handleUndo = async (id: number) => {
+    await fetchApi.undohabit(id);
+    toggleComplete(id, false)
+  };
 
   const handleComplete = async (id: number) => {
     try {
       await fetchApi.completeHabits(id);
-      await getHabits();
+      toggleComplete(id, true)
     } catch (error: any) {
       const msg = error.response?.data?.message || "Gagal menyelesaikan habit";
       console.error("Error:", msg);
@@ -60,8 +52,13 @@ export default function HabitsPage() {
     }
   };
 
+  // Get habits / Ambil habits yang sudah ada
   useEffect(() => {
-    getHabits();
+    const fetchHabits = async () => {
+      const data = await fetchApi.gethabits();
+      setHabits(data);
+    };
+    fetchHabits();
   }, []);
 
   return (
@@ -80,10 +77,10 @@ export default function HabitsPage() {
       />
       <button onClick={handleSubmit}>Submit</button>
       <ul>
-        {habits.map((item) => (
+        {Habits.map((item) => (
           <li key={item.id} className="flex">
             <button onClick={() => handleComplete(item.id)}>Done</button>
-            <p>{item.DESCRIPTION}</p>
+            <p>{item.title}</p>
             <button onClick={() => handleDelete(item.id)}>Delete</button>
             <button onClick={() => handleUndo(item.id)}>Reset</button>
           </li>

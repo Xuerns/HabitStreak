@@ -48,7 +48,7 @@ export const dashboardService = async (userId: number) => {
 
   // Ambil daftar habit dengan statusnya untuk hari ini
   const [todayHabitsRows]: any = await pool.execute(
-    "SELECT h.id, h.title, h.description, IF(hl.DATE IS NOT NULL, true, false) as is_completed FROM habits h LEFT JOIN habits_logs hl ON h.id = hl.habits_id AND hl.DATE = ? WHERE h.user_id = ?",
+    "SELECT h.id, h.title, IF(hl.DATE IS NOT NULL, true, false) as is_completed FROM habits h LEFT JOIN habits_logs hl ON h.id = hl.habits_id AND hl.DATE = ? WHERE h.user_id = ?",
     [todayStr, userId],
   );
   const todayHabits = todayHabitsRows.map((row: any) => ({
