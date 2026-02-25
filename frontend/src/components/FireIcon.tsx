@@ -2,7 +2,7 @@ import svgPaths from "../imports/svg-1k1az2jwy3";
 import { useState, useEffect } from "react";
 
 interface FireIconProps {
-  level: 1 | 2 | 3 | 4 | 5 | 6;
+  level: 1 | 2 | 3 | 4 | 5 | 6 | number;
   className?: string;
 }
 

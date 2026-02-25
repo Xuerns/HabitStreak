@@ -6,6 +6,7 @@ import { useDashboardStore } from "../hooks/useDashboardStore";
 import ActivityHeatmap from "../components/ActivityHeatmap";
 import DailyProgressBar from "../components/DailyProgressBar";
 import { FireIcon } from "../components/FireIcon";
+import StreakCard from "../components/StreakCard";
 
 export default function Dashboard() {
   const {
@@ -121,15 +122,7 @@ export default function Dashboard() {
           </div>
 
           {/* Streak */}
-          <div className="border border-gray-200 shadow-sm rounded-md p-2">
-            <h3 className="text-2xl font-semibold">Streak</h3>
-            <div className="flex flex-col justify-center items-center gap-2">
-              <FireIcon level={1} className="h-30 w-30" />
-              <span className="text-2xl font-bold text-amber-400">
-                {currentStreak}
-              </span>
-            </div>
-          </div>
+          <StreakCard/>
         </div>
       </div>
     </div>
