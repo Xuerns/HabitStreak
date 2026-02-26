@@ -14,13 +14,13 @@ export default function DailyProgressBar() {
 
   return (
     <div className="flex flex-col items-center justify-center p-4 w-full  bg-white rounded-md shadow-sm border border-gray-200">
-      <div className="flex items-center justify-between w-full mb-4">
-        <span className="self-start">
+      <div className="flex items-center gap-5 w-full mb-4">
+        <div className="bg-amber-400 p-2 rounded shadow-sm shadow-amber-300">
+          <RiFireLine className="w-6 h-6 fill-amber-100" />
+        </div>
+        <div>
           <h3 className="text-gray-700 text-xl font-bold  ">Daily Streak</h3>
           <h5 className="text-xs text-gray-500">Keep the Momentum going</h5>
-        </span>
-        <div className="bg-amber-400 p-2 rounded-xl shadow-sm shadow-amber-300">
-          <RiFireLine className="w-6 h-6 fill-amber-100" />
         </div>
       </div>
 

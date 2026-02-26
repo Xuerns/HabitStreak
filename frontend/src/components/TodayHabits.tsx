@@ -31,7 +31,7 @@ export default function TodayHabits() {
     <div className="border border-gray-200 shadow-sm rounded-md flex-1 p-4 flex flex-col gap-2 min-h-0 overflow-hidden">
       <div className="flex flex-col shrink-0">
         <div className="flex items-center gap-2">
-          <div className="bg-amber-400 p-2 rounded-xl shadow-sm shadow-amber-200 ">
+          <div className="bg-amber-400 p-2 rounded shadow-sm shadow-amber-200 ">
             <IoIosTrendingUp className="w-5 h-5 fill-white" />
           </div>
           <div>

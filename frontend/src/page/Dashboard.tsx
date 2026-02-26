@@ -7,13 +7,15 @@ import ActivityHeatmap from "../components/ActivityHeatmap";
 import DailyProgressBar from "../components/DailyProgressBar";
 import StreakCard from "../components/StreakCard";
 import TodayHabits from "../components/TodayHabits";
+import TopHabits from "../components/TopHabits";
+import WeeklyChart from "../components/WeeklyChart";
+import { IoStatsChartSharp } from "react-icons/io5";
 
 export default function Dashboard() {
   const {
     currentStreak,
     longestStreak,
     totalHabit,
-    topHabits,
     setCurrentStreak,
     setLongestStreak,
     setTotalHabit,
@@ -60,7 +62,7 @@ export default function Dashboard() {
             />
             <DashboardCard
               data={totalHabit}
-              label="Total Habit"
+              label="Habit Completed"
               type="normal"
             />
           </div>
@@ -75,31 +77,21 @@ export default function Dashboard() {
             </div>
             <div className="flex flex-col gap-2 min-h-0">
               <div className="grid grid-cols-2 gap-2">
+                {/*Progress*/}
                 <DailyProgressBar />
-                <div className="border border-gray-200 shadow-sm rounded-md p-3 h-full">
-                  <h3 className="font-semibold mb-2 text-2xl border-b pb-1 border-b-gray-300">
-                    Top 3 Habit
-                  </h3>
-                  <ul className="flex flex-col gap-2">
-                    {topHabits.map((item) => (
-                      <li
-                        key={item.id}
-                        className="flex justify-between items-center bg-gray-50 border border-gray-300 p-2 rounded"
-                      >
-                        <span className="font-medium text-gray-700">
-                          {item.title}
-                        </span>
-                        <span className="font-bold text-amber-500 text-lg">
-                          {item.total_completed}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+
+                {/*Top Habit*/}
+                <TopHabits />
               </div>
 
-              <div className="flex-1 flex items-center justify-center w-full text-gray-400 font-medium bg-white rounded-md shadow-sm border border-gray-200 min-h-0">
-                Empty
+              <div className="flex-1 px-3 py-2 w-full text-gray-400 font-medium bg-white rounded-md shadow-sm border border-gray-200 min-h-0">
+                <div className="flex items-center gap-3">
+                  <div className="bg-amber-400 p-1 rounded shadow-sm shadow-amber-300">
+                    <IoStatsChartSharp className="fill-white"/>
+                  </div>
+                  <h2 className="text-md text-gray-700">Weekly Chart</h2>
+                </div>
+                <WeeklyChart />
               </div>
             </div>
           </div>
