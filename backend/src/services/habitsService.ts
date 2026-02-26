@@ -147,38 +147,47 @@ export const undoHabitService = async (userId: number, habitId: any) => {
   );
 
   const [completedhabit]: any = await pool.execute(
-    "SELECT COUNT(*) as completed from habits_logs hl JOIN habits h ON hl.habits_id = h.id WHERE h.user_id = ? AND hl.DATE = ?", [userId, todayStr]
-  )
+    "SELECT COUNT(*) as completed from habits_logs hl JOIN habits h ON hl.habits_id = h.id WHERE h.user_id = ? AND hl.DATE = ?",
+    [userId, todayStr],
+  );
   const [totalhabitToday]: any = await pool.execute(
-    "SELECT COUNT(*) as total from habits WHERE user_id = ?", [userId]
-  )
+    "SELECT COUNT(*) as total from habits WHERE user_id = ?",
+    [userId],
+  );
   const [streakRows]: any = await pool.execute(
-    "SELECT streak, last_streak_date from user WHERE id = ?",[userId]
-  )
+    "SELECT streak, last_streak_date from user WHERE id = ?",
+    [userId],
+  );
 
-  const completed = completedhabit[0].completed 
-  const total = totalhabitToday[0].total
-  const last = new Date(streakRows[0].last_streak_date)
-  const lastStr = `${last.getFullYear()}-${String(last.getMonth() + 1).padStart(2, "0")}-${String(last.getDate()).padStart(2, "0")}`
-  
+  const completed = completedhabit[0].completed;
+  const total = totalhabitToday[0].total;
+  const last = new Date(streakRows[0].last_streak_date);
+  const lastStr = `${last.getFullYear()}-${String(last.getMonth() + 1).padStart(2, "0")}-${String(last.getDate()).padStart(2, "0")}`;
 
-  const precentage = (completed / total) * 100
-  const todayStreak = streakRows[0].streak
-  
+  const precentage = (completed / total) * 100;
+  const todayStreak = streakRows[0].streak;
 
-  if (precentage < 70 && (lastStr === todayStr)) {
-    let newStreak = Math.max(0, todayStreak  - 1)
+  if (precentage < 70 && lastStr === todayStr) {
+    let newStreak = Math.max(0, todayStreak - 1);
 
-    const yesterday = new Date()
-    yesterday.setDate(yesterday.getDate() - 1)
-    const yesterdaystr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, "0")}-${String(yesterday.getDate()).padStart(2, "0")}`
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdaystr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, "0")}-${String(yesterday.getDate()).padStart(2, "0")}`;
 
-    const newStreakDate = todayStreak > 0 ? yesterdaystr : null 
+    const newStreakDate = todayStreak > 0 ? yesterdaystr : null;
 
     await pool.execute(
-      "UPDATE user set streak = ?, last_streak_date = ? WHERE id = ?", [newStreak, newStreakDate, userId]
-    )
+      "UPDATE user set streak = ?, last_streak_date = ? WHERE id = ?",
+      [newStreak, newStreakDate, userId],
+    );
   }
 
-  return { message: "berhasil undo" };
+  // Re-fetch the final streak after potential update
+  const [updatedStreak]: any = await pool.execute(
+    "SELECT streak FROM user WHERE id = ?",
+    [userId],
+  );
+  const finalStreak = updatedStreak[0].streak || 0;
+
+  return { message: "berhasil undo", streak: finalStreak, precentage };
 };

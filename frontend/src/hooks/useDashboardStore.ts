@@ -39,6 +39,7 @@ interface dashboardState {
   setTodayHabits: (habits: habit[]) => void;
   setTopHabits: (habits: topHabit[]) => void;
   setHeatmap: (data: heatMap[]) => void;
+  toggleTodayHabits: (id: number) => void;
 }
 
 export const useDashboardStore = create<dashboardState>()((set) => ({
@@ -61,4 +62,19 @@ export const useDashboardStore = create<dashboardState>()((set) => ({
   setTodayHabits: (habits: habit[]) => set({ todayHabits: habits }),
   setTopHabits: (habits: topHabit[]) => set({ topHabits: habits }),
   setHeatmap: (data: heatMap[]) => set({ heatMaps: data }),
+  toggleTodayHabits: (id: number) =>
+    set((state) => {
+      const updateToday = state.todayHabits.map((item) =>
+        item.id === id ? { ...item, is_completed: !item.is_completed } : item,
+      );
+      const total = updateToday.length;
+      const completed = updateToday.filter((habit) => habit.is_completed).length;
+      const newPrecentage = total > 0 ? (completed / total) * 100 : 0;
+      const newRemaining = newPrecentage >= 70 ? "Selesai" : 70 - newPrecentage;
+      return {
+        todayHabits: updateToday,
+        precetage: newPrecentage,
+        remainingTo70: newRemaining
+      }
+    }),
 }));

@@ -1,9 +1,31 @@
 import { IoIosTrendingUp } from "react-icons/io";
 import { useDashboardStore } from "../hooks/useDashboardStore";
 import ListHabitDashboard from "./ListHabitDashboard";
+import { fetchApi } from "../service/fetchApi";
 
 export default function TodayHabits() {
-  const { todayHabits } = useDashboardStore();
+  const { todayHabits, toggleTodayHabits, setCurrentStreak } =
+    useDashboardStore();
+
+  const handleToggle = async (id: number) => {
+    const habit = todayHabits.find((h) => h.id === id);
+    if (!habit) return;
+
+    try {
+      let res;
+      if (habit.is_completed) {
+        res = await fetchApi.undohabit(id);
+      } else {
+        res = await fetchApi.completeHabits(id);
+      }
+      toggleTodayHabits(id);
+      if (res.streak !== undefined) {
+        setCurrentStreak(res.streak);
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div className="border border-gray-200 shadow-sm rounded-md flex-1 p-4 flex flex-col gap-2 min-h-0 overflow-hidden">
@@ -23,7 +45,13 @@ export default function TodayHabits() {
 
       <ul className="flex flex-col gap-2 p-1 overflow-y-auto flex-1 min-h-0 [scrollbar-width:none]">
         {todayHabits.map((item) => (
-          <ListHabitDashboard key={item.id} title={item.title} />
+          <ListHabitDashboard
+            key={item.id}
+            title={item.title}
+            id={item.id}
+            is_completed={item.is_completed}
+            handleToggle={handleToggle}
+          />
         ))}
       </ul>
     </div>

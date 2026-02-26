@@ -1,4 +1,5 @@
 import { useDashboardStore } from "../hooks/useDashboardStore";
+import { RiFireLine } from "react-icons/ri";
 
 export default function DailyProgressBar() {
   const { precetage, remainingTo70 } = useDashboardStore();
@@ -13,9 +14,15 @@ export default function DailyProgressBar() {
 
   return (
     <div className="flex flex-col items-center justify-center p-4 w-full  bg-white rounded-md shadow-sm border border-gray-200">
-      <h3 className="font-semibold text-gray-700 text-sm mb-4 self-start">
-        Daily Goal Progress
-      </h3>
+      <div className="flex items-center justify-between w-full mb-4">
+        <span className="self-start">
+          <h3 className="text-gray-700 text-xl font-bold  ">Daily Streak</h3>
+          <h5 className="text-xs text-gray-500">Keep the Momentum going</h5>
+        </span>
+        <div className="bg-amber-400 p-2 rounded-xl shadow-sm shadow-amber-300">
+          <RiFireLine className="w-6 h-6 fill-amber-100" />
+        </div>
+      </div>
 
       <div className="relative flex items-center justify-center flex-1 w-full">
         <svg className="transform -rotate-90 w-40 h-40">
@@ -57,14 +64,14 @@ export default function DailyProgressBar() {
         </div>
       </div>
 
-      <div className="mt-2 text-center">
+      <div className=" text-center">
         {typeof remainingTo70 === "number" && remainingTo70 > 0 ? (
           <p className="text-sm font-medium text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-100">
-            {Math.ceil(remainingTo70)}% more to keep streak 
+            {Math.ceil(remainingTo70)}% more to keep streak
           </p>
         ) : typeof remainingTo70 === "string" && remainingTo70 === "Selesai" ? (
           <p className="text-sm font-medium text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-100">
-            Streak Secured! 
+            Streak Secured!
           </p>
         ) : (
           <p className="text-sm font-medium text-gray-500 bg-gray-50 px-3 py-1 rounded-full border border-gray-200">

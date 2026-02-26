@@ -20,14 +20,22 @@ interface habitsState {
 
 export const useHabitsStore = create<habitsState>()((set, get) => ({
   Habits: [],
+  todayHabits: [],
   setHabits: (habits) => set({ Habits: habits }),
   removeHabit: (id) =>
     set({ Habits: get().Habits.filter((habit) => habit.id !== id) }),
-  updateHabit: (id, title, description) => set({Habits: get().Habits.map((habit) => habit.id === id ? {...habit, title, description} : habit)}),
+  updateHabit: (id, title, description) =>
+    set({
+      Habits: get().Habits.map((habit) =>
+        habit.id === id ? { ...habit, title, description } : habit,
+      ),
+    }),
   toggleComplete: (id, status) =>
     set({
       Habits: get().Habits.map((habit) =>
         habit.id === id ? { ...habit, is_completed: status } : habit,
       ),
     }),
+
+  
 }));
