@@ -1,5 +1,5 @@
-import { useDashboardStore } from "../hooks/useDashboardStore";
 import { IoIosPodium } from "react-icons/io";
+import { useDashboardStore } from "../../hooks/useDashboardStore";
 
 export default function TopHabits() {
   const { topHabits } = useDashboardStore();
@@ -38,7 +38,9 @@ export default function TopHabits() {
       </ul>
       <div className="flex items-center justify-center flex-1">
         <span className="bg-amber-200 px-10 py-1 rounded-lg shadow-sm shadow-amber-400">
-          <h5 className="font-semibold text-amber-600">Small habits, big impact</h5>
+          <h5 className="font-semibold text-amber-600">
+            Small habits, big impact
+          </h5>
         </span>
       </div>
     </div>

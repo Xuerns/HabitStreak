@@ -6,7 +6,7 @@ import {
   XAxis,
   Tooltip,
 } from "recharts";
-import { useDashboardStore } from "../hooks/useDashboardStore";
+import { useDashboardStore } from "../../hooks/useDashboardStore";
 
 const COLORS = [
   "oklch(92.4% 0.12 95.746)",

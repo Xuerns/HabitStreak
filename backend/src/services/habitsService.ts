@@ -72,6 +72,12 @@ export const completeHabitsService = async (userId: number, habitId: any) => {
     [todayStr, habitId],
   );
 
+  // Catat Activity Log
+  await pool.execute(
+    "INSERT INTO activity_logs (user_id, habits_id, action) VALUES (?, ?, 'complete')",
+    [userId, habitId],
+  );
+
   const [rowsTotal]: any = await pool.execute(
     "SELECT COUNT(*) as total FROM habits WHERE user_id = ?",
     [userId],
@@ -119,8 +125,8 @@ export const completeHabitsService = async (userId: number, habitId: any) => {
       newStreak = 1;
     }
 
-    if (currentStreak > newLongestStreak) {
-      newLongestStreak = currentStreak;
+    if (newStreak > newLongestStreak) {
+      newLongestStreak = newStreak;
       await pool.execute(
         "UPDATE user SET streak = ?, last_streak_date = ?, longest_streak = ? WHERE id = ?",
         [newStreak, todayStr, newLongestStreak, userId],
@@ -144,6 +150,11 @@ export const undoHabitService = async (userId: number, habitId: any) => {
   await pool.execute(
     "DELETE hl FROM habits_logs AS hl INNER JOIN habits AS h ON hl.habits_id = h.id WHERE hl.habits_id = ? AND h.user_id = ? AND hl.DATE = ?",
     [habitId, userId, todayStr],
+  );
+
+  await pool.execute(
+    "INSERT INTO activity_logs (user_id, habits_id, action) VALUES (?, ?, 'undo')",
+    [userId, habitId],
   );
 
   const [completedhabit]: any = await pool.execute(

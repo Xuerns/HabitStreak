@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import { fetchApi } from "../service/fetchApi";
-import DashboardCard from "../components/DashboardCard";
-import DailyMessage from "../components/DailyMessage";
+import DashboardCard from "../components/dashboard/DashboardCard";
+import DailyMessage from "../components/dashboard/DailyMessage";
 import { useDashboardStore } from "../hooks/useDashboardStore";
-import ActivityHeatmap from "../components/ActivityHeatmap";
-import DailyProgressBar from "../components/DailyProgressBar";
-import StreakCard from "../components/StreakCard";
-import TodayHabits from "../components/TodayHabits";
-import TopHabits from "../components/TopHabits";
-import WeeklyChart from "../components/WeeklyChart";
+import ActivityHeatmap from "../components/dashboard/ActivityHeatmap";
+import DailyProgressBar from "../components/dashboard/DailyProgressBar";
+import StreakCard from "../components/dashboard/StreakCard";
+import TodayHabits from "../components/dashboard/TodayHabits";
+import TopHabits from "../components/dashboard/TopHabits";
+import WeeklyChart from "../components/dashboard/WeeklyChart";
 import { IoStatsChartSharp } from "react-icons/io5";
+import LogActivity from "../components/dashboard/LogActivity";
 
 export default function Dashboard() {
   const {
@@ -25,6 +26,7 @@ export default function Dashboard() {
     setTopHabits,
     setHeatmap,
     setWeeklyChart,
+    setActivityLogs,
   } = useDashboardStore();
 
   const getDashboard = async () => {
@@ -38,6 +40,7 @@ export default function Dashboard() {
     setTopHabits(data.topHabits);
     setHeatmap(data.heatmap);
     setWeeklyChart(data.weeklyChart);
+    setActivityLogs(data.activitylogs);
   };
 
   useEffect(() => {
@@ -73,8 +76,8 @@ export default function Dashboard() {
           <div className="w-full flex-1 min-h-0 text-black rounded grid grid-cols-[1fr_1.5fr] gap-2">
             <div className="flex flex-col gap-2 min-h-0">
               <ActivityHeatmap />
-              <div className="flex-1 flex items-center justify-center bg-white border border-gray-200 rounded-md shadow-sm text-gray-400 font-medium min-h-0">
-                Empty
+              <div className="flex-1 flex  bg-white border border-gray-200 rounded-md shadow-sm p-3 min-h-0">
+                <LogActivity />
               </div>
             </div>
             <div className="flex flex-col gap-2 min-h-0">

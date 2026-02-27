@@ -1,5 +1,5 @@
-import { useDashboardStore } from "../hooks/useDashboardStore";
 import { RiFireLine } from "react-icons/ri";
+import { useDashboardStore } from "../../hooks/useDashboardStore";
 
 export default function DailyProgressBar() {
   const { precetage, remainingTo70 } = useDashboardStore();
@@ -16,7 +16,7 @@ export default function DailyProgressBar() {
     <div className="flex flex-col items-center justify-center p-4 w-full  bg-white rounded-md shadow-sm border border-gray-200">
       <div className="flex items-center gap-5 w-full mb-4">
         <div className="bg-amber-400 p-2 rounded shadow-sm shadow-amber-300">
-          <RiFireLine className="w-6 h-6 fill-amber-100" />
+          <RiFireLine className="w-6 h-6 fill-white" />
         </div>
         <div>
           <h3 className="text-gray-700 text-xl font-bold  ">Daily Streak</h3>

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { fetchApi } from "../service/fetchApi";
 
 interface habit {
   id: number;
@@ -24,6 +25,12 @@ interface weeklyChart {
   total: number;
 }
 
+interface activityLogs {
+  action: "complete" | "undo";
+  created_at: string;
+  title: string;
+}
+
 interface dashboardState {
   // Initial State
   currentStreak: number;
@@ -35,6 +42,7 @@ interface dashboardState {
   topHabits: topHabit[];
   heatMaps: heatMap[];
   weeklyChart: weeklyChart[];
+  activityLogs: activityLogs[];
 
   // Action
   setCurrentStreak: (streak: number) => void;
@@ -47,6 +55,8 @@ interface dashboardState {
   setHeatmap: (data: heatMap[]) => void;
   toggleTodayHabits: (id: number) => void;
   setWeeklyChart: (data: weeklyChart[]) => void;
+  setActivityLogs: (data: activityLogs[]) => void;
+  refreshDashboard: () => Promise<void>;
 }
 
 export const useDashboardStore = create<dashboardState>()((set) => ({
@@ -59,6 +69,7 @@ export const useDashboardStore = create<dashboardState>()((set) => ({
   topHabits: [],
   heatMaps: [],
   weeklyChart: [],
+  activityLogs: [],
 
   setCurrentStreak: (streak: number) => set({ currentStreak: streak }),
   setLongestStreak: (longestStreak: number) =>
@@ -88,4 +99,23 @@ export const useDashboardStore = create<dashboardState>()((set) => ({
       };
     }),
   setWeeklyChart: (data: weeklyChart[]) => set({ weeklyChart: data }),
+  setActivityLogs: (data: activityLogs[]) => set({ activityLogs: data }),
+  refreshDashboard: async () => {
+    const data = await fetchApi.getDashboard();
+    set({
+      currentStreak: data.streak,
+      longestStreak: data.longestStreak,
+      totalHabit: data.totalHabit,
+      precetage: data.precentage,
+      remainingTo70: data.remainingTo70,
+      todayHabits: data.todayHabits.map((h: any) => ({
+        ...h,
+        is_completed: !!h.is_completed,
+      })),
+      topHabits: data.topHabits,
+      heatMaps: data.heatmap,
+      weeklyChart: data.weeklyChart,
+      activityLogs: data.activitylogs,
+    });
+  },
 }));

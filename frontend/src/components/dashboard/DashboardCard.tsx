@@ -1,4 +1,3 @@
-
 interface DashboardCardProps {
   data: string | number;
   label: string;
@@ -10,8 +9,6 @@ export default function DashboardCard({
   label,
   type,
 }: DashboardCardProps) {
-  
-
   return (
     <div className="bg-amber-600 rounded overflow-hidden">
       <div className="bg-amber-500 w-full h-full rounded-br-[2em] ring-1 ring-white">

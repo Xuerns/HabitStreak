@@ -1,27 +1,22 @@
 import { IoIosTrendingUp } from "react-icons/io";
-import { useDashboardStore } from "../hooks/useDashboardStore";
+import { useDashboardStore } from "../../hooks/useDashboardStore";
 import ListHabitDashboard from "./ListHabitDashboard";
-import { fetchApi } from "../service/fetchApi";
+import { fetchApi } from "../../service/fetchApi";
 
 export default function TodayHabits() {
-  const { todayHabits, toggleTodayHabits, setCurrentStreak } =
-    useDashboardStore();
+  const { todayHabits, refreshDashboard } = useDashboardStore();
 
   const handleToggle = async (id: number) => {
     const habit = todayHabits.find((h) => h.id === id);
     if (!habit) return;
 
     try {
-      let res;
       if (habit.is_completed) {
-        res = await fetchApi.undohabit(id);
+        await fetchApi.undohabit(id);
       } else {
-        res = await fetchApi.completeHabits(id);
+        await fetchApi.completeHabits(id);
       }
-      toggleTodayHabits(id);
-      if (res.streak !== undefined) {
-        setCurrentStreak(res.streak);
-      }
+      await refreshDashboard();
     } catch (error: any) {
       console.log(error.message);
     }

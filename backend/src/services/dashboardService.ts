@@ -95,6 +95,13 @@ export const dashboardService = async (userId: number) => {
     return { day, total: found ? found.total : 0 };
   });
 
+  // Ambil activity log untuk dashboard
+  const [activityRows]: any = await pool.execute(
+    "SELECT al.action, al.created_at, h.title FROM activity_logs al JOIN habits h ON al.habits_id = h.id WHERE al.user_id = ? ORDER BY al.created_at DESC LIMIT 20",
+    [userId],
+  );
+  const activitylogs = activityRows;
+
   return {
     streak,
     longestStreak,
@@ -105,5 +112,6 @@ export const dashboardService = async (userId: number) => {
     topHabits,
     heatmap,
     weeklyChart,
+    activitylogs,
   };
 };

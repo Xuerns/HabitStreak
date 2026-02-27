@@ -1,5 +1,5 @@
-import { useDashboardStore } from "../hooks/useDashboardStore";
-import { FireIcon } from "./FireIcon";
+import { useDashboardStore } from "../../hooks/useDashboardStore";
+import { FireIcon } from "../FireIcon";
 import { FaFire } from "react-icons/fa";
 
 type level = 1 | 2 | 3 | 4 | 5 | 6;

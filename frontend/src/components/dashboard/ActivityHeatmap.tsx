@@ -1,4 +1,4 @@
-import { useDashboardStore } from "../hooks/useDashboardStore";
+import { useDashboardStore } from "../../hooks/useDashboardStore";
 
 export default function ActivityHeatmap() {
   const { heatMaps } = useDashboardStore();

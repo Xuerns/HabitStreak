@@ -1,4 +1,4 @@
-import { useUsersStore } from "../hooks/useUsersStore";
+import { useUsersStore } from "../../hooks/useUsersStore";
 
 export default function DailyMessage() {
   const { name } = useUsersStore();
@@ -21,24 +21,21 @@ export default function DailyMessage() {
     "Sudah pertengahan minggu, jangan sampai kendor!", // Rabu (3)
     "Sedikit lagi menuju akhir pekan. Ayo selesaikan targetmu.", // Kamis (4)
     "Jum'at semangat! Selesaikan habitmu sebelum bersantai.", // Jum'at (5)
-    "Akhir pekan tiba! Tapi jangan lupa jalankan habit harianmu ya." // Sabtu (6)
+    "Akhir pekan tiba! Tapi jangan lupa jalankan habit harianmu ya.", // Sabtu (6)
   ];
 
-      return (
+  return (
     <div className="col-span-f relative overflow-hidden bg-white rounded-xl px-6 py-3 shadow-sm border border-gray-200">
       {/* Aksen warna di sebelah kiri */}
       <div className="absolute top-0 left-0 w-1.5 h-full bg-linear-to-b from-amber-400 to-orange-500"></div>
-      
+
       <div>
         <h2 className="text-xl font-bold text-gray-800 mb-1">
-          Selamat Hari {hari[Witchday]}, <span className="text-amber-500">{name || "Sobat"}</span>!
+          Selamat Hari {hari[Witchday]},{" "}
+          <span className="text-amber-500">{name || "Sobat"}</span>!
         </h2>
-        <p className="text-gray-500 font-medium">
-          {dailyQuotes[Witchday]}
-        </p>
+        <p className="text-gray-500 font-medium">{dailyQuotes[Witchday]}</p>
       </div>
     </div>
   );
-
-
 }
