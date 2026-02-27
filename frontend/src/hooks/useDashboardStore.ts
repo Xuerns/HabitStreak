@@ -19,6 +19,11 @@ interface heatMap {
   count: number;
 }
 
+interface weeklyChart {
+  day: string;
+  total: number;
+}
+
 interface dashboardState {
   // Initial State
   currentStreak: number;
@@ -29,6 +34,7 @@ interface dashboardState {
   todayHabits: habit[];
   topHabits: topHabit[];
   heatMaps: heatMap[];
+  weeklyChart: weeklyChart[];
 
   // Action
   setCurrentStreak: (streak: number) => void;
@@ -40,6 +46,7 @@ interface dashboardState {
   setTopHabits: (habits: topHabit[]) => void;
   setHeatmap: (data: heatMap[]) => void;
   toggleTodayHabits: (id: number) => void;
+  setWeeklyChart: (data: weeklyChart[]) => void;
 }
 
 export const useDashboardStore = create<dashboardState>()((set) => ({
@@ -51,6 +58,7 @@ export const useDashboardStore = create<dashboardState>()((set) => ({
   todayHabits: [],
   topHabits: [],
   heatMaps: [],
+  weeklyChart: [],
 
   setCurrentStreak: (streak: number) => set({ currentStreak: streak }),
   setLongestStreak: (longestStreak: number) =>
@@ -68,13 +76,16 @@ export const useDashboardStore = create<dashboardState>()((set) => ({
         item.id === id ? { ...item, is_completed: !item.is_completed } : item,
       );
       const total = updateToday.length;
-      const completed = updateToday.filter((habit) => habit.is_completed).length;
+      const completed = updateToday.filter(
+        (habit) => habit.is_completed,
+      ).length;
       const newPrecentage = total > 0 ? (completed / total) * 100 : 0;
       const newRemaining = newPrecentage >= 70 ? "Selesai" : 70 - newPrecentage;
       return {
         todayHabits: updateToday,
         precetage: newPrecentage,
-        remainingTo70: newRemaining
-      }
+        remainingTo70: newRemaining,
+      };
     }),
+  setWeeklyChart: (data: weeklyChart[]) => set({ weeklyChart: data }),
 }));

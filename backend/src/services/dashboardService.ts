@@ -40,6 +40,7 @@ export const dashboardService = async (userId: number) => {
       totalHabit,
       precentage: 0,
       remainingTo70: "Tidak Ada Habit",
+      weeklyChart: [],
     };
   }
   // Menghitung presentase hari ini
@@ -70,6 +71,30 @@ export const dashboardService = async (userId: number) => {
   );
   const heatmap = heatmapRows;
 
+  // ambil data untuk weekly chart
+  const DayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const dayOfWeek = today.getDay();
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - ((dayOfWeek + 6) % 7));
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+
+  const mondayStr = `${monday.getFullYear()}-${String(monday.getMonth() + 1).padStart(2, "0")}-${String(monday.getDate()).padStart(2, "0")}`;
+  const sundayStr = `${sunday.getFullYear()}-${String(sunday.getMonth() + 1).padStart(2, "0")}-${String(sunday.getDate()).padStart(2, "0")}`;
+
+  const [weeklyRow]: any = await pool.execute(
+    "SELECT DATE_FORMAT(hl.`DATE`, '%Y-%m-%d') as date, COUNT(*) as total FROM habits_logs hl JOIN habits h ON hl.habits_id = h.id WHERE h.user_id = ? AND hl.`DATE` >= ? AND hl.`DATE` <= ? GROUP BY DATE_FORMAT(hl.`DATE`, '%Y-%m-%d') ORDER BY date ASC",
+    [userId, mondayStr, sundayStr],
+  );
+
+  const weeklyChart = DayNames.map((day, index) => {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + index);
+    const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    const found = weeklyRow.find((row: any) => row.date === dateStr);
+    return { day, total: found ? found.total : 0 };
+  });
+
   return {
     streak,
     longestStreak,
@@ -79,5 +104,6 @@ export const dashboardService = async (userId: number) => {
     todayHabits,
     topHabits,
     heatmap,
+    weeklyChart,
   };
 };

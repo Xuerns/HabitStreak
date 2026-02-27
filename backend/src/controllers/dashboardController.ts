@@ -7,7 +7,8 @@ export const dashboardController = async (req: Request, res: Response) => {
   try {
     const result = await dashboardService(userId);
     res.json(result);
-  } catch {
+  } catch (err) {
+    console.error("Dashboard error:", err);
     res.status(500).json({ message: "Server Error" });
   }
 };

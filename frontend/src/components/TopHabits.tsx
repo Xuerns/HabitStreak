@@ -16,7 +16,7 @@ export default function TopHabits() {
       </div>
       <ul className="flex flex-col gap-2">
         {topHabits.map((item, index) => (
-          <div className="flex items-center w-full gap-2 ">
+          <div className="flex items-center w-full gap-2 " key={item.id}>
             <span className="text-xl font-semibold px-3 py-1 text-amber-500 rounded-lg bg-amber-200">
               {index + 1}
             </span>

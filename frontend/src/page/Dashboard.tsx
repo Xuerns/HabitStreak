@@ -24,6 +24,7 @@ export default function Dashboard() {
     setTodayHabits,
     setTopHabits,
     setHeatmap,
+    setWeeklyChart,
   } = useDashboardStore();
 
   const getDashboard = async () => {
@@ -36,6 +37,7 @@ export default function Dashboard() {
     setTodayHabits(data.todayHabits);
     setTopHabits(data.topHabits);
     setHeatmap(data.heatmap);
+    setWeeklyChart(data.weeklyChart);
   };
 
   useEffect(() => {
@@ -87,7 +89,7 @@ export default function Dashboard() {
               <div className="flex-1 px-3 py-2 w-full text-gray-400 font-medium bg-white rounded-md shadow-sm border border-gray-200 min-h-0">
                 <div className="flex items-center gap-3">
                   <div className="bg-amber-400 p-1 rounded shadow-sm shadow-amber-300">
-                    <IoStatsChartSharp className="fill-white"/>
+                    <IoStatsChartSharp className="fill-white" />
                   </div>
                   <h2 className="text-md text-gray-700">Weekly Chart</h2>
                 </div>
