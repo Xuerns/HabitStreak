@@ -41,7 +41,7 @@ export default function HabitsCard({
   const [isEditing, setIsEditing] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const { removeHabit, setHabits, toggleComplete } = useHabitsStore();
+  const { removeHabit, toggleComplete } = useHabitsStore();
 
   // Handle delete / Delete habits
   const handleDelete = async (id: number) => {
