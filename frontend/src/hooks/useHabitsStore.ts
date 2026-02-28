@@ -3,8 +3,9 @@ import { create } from "zustand";
 interface habits {
   id: number;
   title: string;
-  description: string;
+  DESCRIPTION: string;
   is_completed?: boolean;
+  create_at: string;
 }
 
 interface habitsState {
@@ -14,7 +15,7 @@ interface habitsState {
   // Action
   setHabits: (habits: habits[]) => void;
   removeHabit: (id: number) => void;
-  updateHabit: (id: number, title: string, description: string) => void;
+  updateHabit: (id: number, title: string, DESCRIPTION: string) => void;
   toggleComplete: (id: number, status: boolean) => void;
 }
 

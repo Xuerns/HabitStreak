@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { fetchApi } from "../service/fetchApi";
 import { useHabitsStore } from "../hooks/useHabitsStore";
+import HabitsCard from "../components/habitsPage/HabitsCard";
+import HabitsHeaders from "../components/habitsPage/HabitsHeaders";
 
 interface habit {
   id: number;
@@ -62,7 +64,8 @@ export default function HabitsPage() {
   }, []);
 
   return (
-    <div>
+    <div className="px-2">
+      <HabitsHeaders/>
       <label>Title</label>
       <input
         type="text"
@@ -76,14 +79,9 @@ export default function HabitsPage() {
         onChange={(e) => setDescription(e.target.value)}
       />
       <button onClick={handleSubmit}>Submit</button>
-      <ul>
+      <ul className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-3">
         {Habits.map((item) => (
-          <li key={item.id} className="flex">
-            <button onClick={() => handleComplete(item.id)}>Done</button>
-            <p>{item.title}</p>
-            <button onClick={() => handleDelete(item.id)}>Delete</button>
-            <button onClick={() => handleUndo(item.id)}>Reset</button>
-          </li>
+          <HabitsCard key={item.id} title={item.title} description={item.DESCRIPTION} is_completed={item.is_completed} create_at={item.create_at}/>
         ))}
       </ul>
     </div>

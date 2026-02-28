@@ -32,7 +32,7 @@ export default function LogActivity() {
         <h4 className="text-gray-700 text-xl font-bold">Recent Activity</h4>
       </div>
       <ul
-        className={`flex flex-col h-full overflow-y-scroll rounded-md [overflow-style:none] [scrollbar-width:none] gap-2 bg-gray-100 p-2 ${activityLogs.length === 0 && "items-center justify-center "}`}
+        className={`flex flex-col h-full overflow-y-scroll rounded-md [overflow-style:none] [scrollbar-width:none] gap-2 bg-gray-50 p-2 ${activityLogs.length === 0 && "items-center justify-center "}`}
       >
         {activityLogs.length === 0 ? (
           <span className="text-md font-bold text-gray-400">
@@ -40,10 +40,10 @@ export default function LogActivity() {
           </span>
         ) : (
           activityLogs.map((log) => (
-            <li className="flex items-center gap-2 text-gray-500">
-              <div className="bg-gray-200 flex justify-between items-center py-1 px-2 rounded-md flex-1">
+            <li className="flex items-center gap-2.5 text-gray-500">
+              <div className="bg-gray-100 flex justify-between items-center py-1 px-2 rounded-md flex-1">
                 <span className="text-sm flex items-center gap-2">
-                  {log.action === "undo" ? <FaUndo /> : <FaCheckCircle />}
+                  {log.action === "undo" ? <FaUndo className="fill-red-400"/> : <FaCheckCircle className="fill-green-400"/>}
                   {log.action === "undo"
                     ? `Anda Mengundo ${log.title}`
                     : `Anda Menyelesaikan ${log.title}`}

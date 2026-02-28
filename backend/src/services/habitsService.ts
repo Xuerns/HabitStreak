@@ -15,10 +15,14 @@ export const createHabitsService = async (data: any, id: number) => {
 
 // Get Habit
 export const getHabitsService = async (id: number) => {
-  const [habitsData] = await pool.execute(
-    "SELECT * FROM habits WHERE user_id = ?",
-    [id],
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+
+  const [habitsData]: any = await pool.execute(
+    "SELECT h.*, CASE WHEN hl.id IS NOT NULL THEN true ELSE false END as is_completed FROM habits h LEFT JOIN habits_logs hl ON h.id = hl.habits_id AND hl.DATE = ? WHERE h.user_id = ?",
+    [todayStr, id],
   );
+
   return habitsData;
 };
 
