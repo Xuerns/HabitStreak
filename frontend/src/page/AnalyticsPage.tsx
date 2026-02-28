@@ -1,9 +1,8 @@
 
 export default function AnalyticsPage() {
-    
-    return (
+  return (
     <div>
       <p>Analytics</p>
     </div>
-  )
+  );
 }
