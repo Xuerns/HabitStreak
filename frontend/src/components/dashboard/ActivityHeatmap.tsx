@@ -19,7 +19,7 @@ export default function ActivityHeatmap() {
 
   const days = getCurrentMonthDays();
 
-  const heatmapDict = heatMaps.reduce(
+  const heatmapDict = (heatMaps ?? []).reduce(
     (acc, curr) => {
       acc[curr.date] = curr.count;
       return acc;

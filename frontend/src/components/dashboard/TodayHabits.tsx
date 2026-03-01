@@ -39,15 +39,22 @@ export default function TodayHabits() {
       </div>
 
       <ul className="flex flex-col gap-2 p-1 overflow-y-auto flex-1 min-h-0 [scrollbar-width:none]">
-        {todayHabits.map((item) => (
-          <ListHabitDashboard
-            key={item.id}
-            title={item.title}
-            id={item.id}
-            is_completed={item.is_completed}
-            handleToggle={handleToggle}
-          />
-        ))}
+        {(todayHabits ?? []).length === 0 ? (
+          <div className="bg-gray-50/50 rounded flex justify-center items-center h-full">
+
+            <h4 className="font-bold text-gray-300">Belum Ada Habit</h4>
+          </div>
+        ) : (
+          todayHabits.map((item) => (
+            <ListHabitDashboard
+              key={item.id}
+              title={item.title}
+              id={item.id}
+              is_completed={item.is_completed}
+              handleToggle={handleToggle}
+            />
+          ))
+        )}
       </ul>
     </div>
   );

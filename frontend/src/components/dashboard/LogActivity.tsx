@@ -32,9 +32,9 @@ export default function LogActivity() {
         <h4 className="text-gray-700 text-xl font-bold">Recent Activity</h4>
       </div>
       <ul
-        className={`flex flex-col h-full overflow-y-scroll rounded-md [overflow-style:none] [scrollbar-width:none] gap-2 bg-gray-50 p-2 ${activityLogs.length === 0 && "items-center justify-center "}`}
+        className={`flex flex-col h-full overflow-y-scroll rounded-md [overflow-style:none] [scrollbar-width:none] gap-2 bg-gray-50 p-2 ${(activityLogs ?? []).length === 0 && "items-center justify-center "}`}
       >
-        {activityLogs.length === 0 ? (
+        {(activityLogs ?? []).length === 0 ? (
           <span className="text-md font-bold text-gray-400">
             Belum ada aktivitas
           </span>

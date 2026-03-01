@@ -22,7 +22,7 @@ export default function WeeklyChart() {
   const { weeklyChart } = useDashboardStore();
 
   return (
-    <ResponsiveContainer>
+    <ResponsiveContainer width="100%" height="100%">
       <BarChart data={weeklyChart} className="pb-3">
         <Tooltip />
         <Bar dataKey="total" radius={[4, 4, 0, 0]}>

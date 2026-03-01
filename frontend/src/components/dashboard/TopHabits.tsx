@@ -14,35 +14,43 @@ export default function TopHabits() {
           <h5 className="text-xs text-gray-500">Your strongest routines</h5>
         </div>
       </div>
-      <ul className="flex flex-col gap-2">
-        {topHabits.map((item, index) => (
-          <div className="flex items-center w-full gap-2 " key={item.id}>
-            <span className="text-xl font-semibold px-3 py-1 text-amber-500 rounded-lg bg-amber-200">
-              {index + 1}
-            </span>
-            <li
-              key={item.id}
-              className="flex flex-1 justify-between items-center bg-gray-50 border border-gray-300 p-2 rounded-xl group hover:shadow-md hover:shadow-gray-400/50 hover:bg-amber-50/50"
-            >
-              <span className="font-medium text-gray-700 group-hover:text-amber-500">
-                {item.title}
-              </span>
-              <div className="px-2 bg-amber-200 rounded">
-                <span className="font-bold text-amber-500 text-sm">
-                  {item.total_completed}
+      {(topHabits ?? []).length === 0 ? (
+        <div className="bg-gray-50/50 flex items-center justify-center h-full rounded">
+           <h4 className="font-bold text-gray-300">Belum Ada Habit</h4>
+        </div>
+      ) : (
+        <div className="flex flex-col h-full">
+          <ul className="flex flex-col gap-2 flex-1">
+            {(topHabits ?? []).map((item, index) => (
+              <div className="flex items-center w-full gap-2 " key={item.id}>
+                <span className="text-xl font-semibold px-3 py-1 text-amber-500 rounded-lg bg-amber-200">
+                  {index + 1}
                 </span>
+                <li
+                  key={item.id}
+                  className="flex flex-1 justify-between items-center bg-gray-50 border border-gray-300 p-2 rounded-xl group hover:shadow-md hover:shadow-gray-400/50 hover:bg-amber-50/50"
+                >
+                  <span className="font-medium text-gray-700 group-hover:text-amber-500">
+                    {item.title}
+                  </span>
+                  <div className="px-2 bg-amber-200 rounded">
+                    <span className="font-bold text-amber-500 text-sm">
+                      {item.total_completed}
+                    </span>
+                  </div>
+                </li>
               </div>
-            </li>
+            ))}
+          </ul>
+          <div className="flex items-center justify-center flex-1">
+            <span className="bg-amber-200 px-10 py-1 rounded-lg shadow-sm shadow-amber-400">
+              <h5 className="font-semibold text-amber-600">
+                Small habits, big impact
+              </h5>
+            </span>
           </div>
-        ))}
-      </ul>
-      <div className="flex items-center justify-center flex-1">
-        <span className="bg-amber-200 px-10 py-1 rounded-lg shadow-sm shadow-amber-400">
-          <h5 className="font-semibold text-amber-600">
-            Small habits, big impact
-          </h5>
-        </span>
-      </div>
+        </div>
+      )}
     </div>
   );
 }

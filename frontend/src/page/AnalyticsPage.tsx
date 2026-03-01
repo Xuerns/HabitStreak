@@ -1,8 +1,8 @@
 
 export default function AnalyticsPage() {
   return (
-    <div>
-      <p>Analytics</p>
+    <div className="py-3">
+      
     </div>
   );
 }
