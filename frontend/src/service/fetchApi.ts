@@ -79,4 +79,12 @@ export const fetchApi = {
     });
     return res.data;
   },
+
+  async getAnalytics(period?: number, month?: string) {
+    const res = await api.get("/analytics", {
+      headers: getAuthHeader(),
+      params: { period, month },
+    });
+    return res.data;
+  },
 };

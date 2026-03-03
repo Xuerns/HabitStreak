@@ -32,7 +32,7 @@ export const analyticService = async (
 
   // Ambil hari dimana habits full diselesaikan
   const [perfectRows]: any = await pool.execute(
-    "SELECT COUNT(*) as perfectDays FROM (SELECT hl.DATE, COUNT(hl.id) as completed FROM habits_logs hl JOIN habits h ON hl.habits_id = h.id WHERE h.user_id ? GROUP BY hl.DATE HAVING completed >= (SELECT COUNT(*) FROM habits WHERE user_id = ?) as perfect",
+    "SELECT COUNT(*) as perfectDays FROM (SELECT hl.DATE, COUNT(hl.id) as completed FROM habits_logs hl JOIN habits h ON hl.habits_id = h.id WHERE h.user_id = ? GROUP BY hl.DATE HAVING completed >= (SELECT COUNT(*) FROM habits WHERE user_id = ?) as perfect",
     [userId, userId],
   );
 

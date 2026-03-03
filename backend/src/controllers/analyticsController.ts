@@ -7,8 +7,8 @@ export const analyticsController = async (req: Request, res: Response) => {
   const monthParam =
     (req.query.month as string) ||
     `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}-${String(new Date().getDate()).padStart(2, "0")}`;
-  const [year, month] = monthParam.split('-');
-    try {
+  const [year = "", month = ""] = monthParam.split("-");
+  try {
     const data = await analyticService(userId, period, month, year);
     res.json(data);
   } catch (error) {
