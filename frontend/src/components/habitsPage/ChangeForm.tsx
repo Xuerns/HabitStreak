@@ -22,7 +22,7 @@ export default function ChangeForm({
     description,
   });
   const { setHabits } = useHabitsStore();
-  // Handle Update / Ubah Habits
+
   const handleSave = async () => {
     await fetchApi.updateHabits(formData, id);
     const data = await fetchApi.gethabits();
@@ -31,13 +31,13 @@ export default function ChangeForm({
   };
 
   return (
-    <div className="flex flex-col gap-2 py-2">
+    <div className="flex flex-col gap-2 py-1">
       <input
         type="text"
         value={formData.title}
         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
         placeholder="Habit Title"
-        className="border border-gray-200 focus:outline-none w-full focus:ring-amber-400 focus:ring-1 text-sm px-3 py-1 rounded"
+        className="border border-gray-200 focus:outline-none w-full focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 text-sm px-3 py-2 rounded-xl bg-gray-50/50 transition-all"
       />
       <textarea
         value={formData.description}
@@ -46,18 +46,18 @@ export default function ChangeForm({
         }
         placeholder="Description"
         rows={2}
-        className="border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-offset-amber-400 text-sm w-full px-3 py-1"
+        className="border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 text-sm w-full px-3 py-2 bg-gray-50/50 transition-all"
       />
       <div className="flex gap-2 justify-end">
         <button
           onClick={onCancel}
-          className="text-xs px-3 py-1 rounded border border-gray-300 hover:bg-gray-100 cursor-pointer"
+          className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 cursor-pointer transition-colors"
         >
           Cancel
         </button>
         <button
           onClick={handleSave}
-          className="text-xs px-3 py-1 rounded bg-amber-400 text-white hover:bg-amber-600 cursor-pointer"
+          className="text-xs px-3 py-1.5 rounded-lg bg-linear-to-r from-amber-400 to-orange-500 text-white hover:shadow-md hover:shadow-amber-500/20 cursor-pointer transition-all"
         >
           Save
         </button>

@@ -28,7 +28,7 @@ export default function ActivityHeatmap() {
   );
 
   const getColor = (count: number) => {
-    if (count === 0) return "bg-gray-200";
+    if (count === 0) return "bg-gray-100";
     if (count === 1) return "bg-amber-200";
     if (count === 2) return "bg-amber-300";
     if (count === 3) return "bg-amber-400";
@@ -36,31 +36,31 @@ export default function ActivityHeatmap() {
   };
 
   return (
-    <div className="flex bg-white items-center justify-center p-2 w-full rounded-md shadow-sm border border-gray-200 flex-col shrink-0">
+    <div className="glass-card flex items-center justify-center p-4 w-full flex-col shrink-0">
       <h3 className="font-semibold text-gray-700 mb-3 text-sm self-start">
         Activity (This Month)
       </h3>
 
-      <div className="grid grid-cols-10 grid-rows-3 gap-0.75 w-fit">
+      <div className="grid grid-cols-7 sm:grid-cols-10 grid-rows-auto gap-1 w-fit">
         {days.map((date) => {
           const count = heatmapDict[date] || 0;
           return (
             <div
               key={date}
               title={`${date}: ${count} habits`}
-              className={`w-4 h-4 rounded-sm ${getColor(count)} cursor-pointer transition-colors duration-200 hover:ring-1 hover:ring-offset-1 hover:ring-gray-400`}
-            ></div>
+              className={`w-4 h-4 rounded-md ${getColor(count)} cursor-pointer transition-all duration-200 hover:ring-2 hover:ring-offset-1 hover:ring-amber-400/50 hover:scale-110`}
+            />
           );
         })}
       </div>
 
-      <div className="flex items-center gap-1 mt-3 text-[10px] text-gray-500 self-end">
+      <div className="flex items-center gap-1.5 mt-3 text-[10px] text-gray-400 self-end font-medium">
         <span>Less</span>
-        <div className="w-2.5 h-2.5 rounded-sm bg-gray-200"></div>
-        <div className="w-2.5 h-2.5 rounded-sm bg-amber-200"></div>
-        <div className="w-2.5 h-2.5 rounded-sm bg-amber-300"></div>
-        <div className="w-2.5 h-2.5 rounded-sm bg-amber-400"></div>
-        <div className="w-2.5 h-2.5 rounded-sm bg-amber-500"></div>
+        <div className="w-3 h-3 rounded-sm bg-gray-100" />
+        <div className="w-3 h-3 rounded-sm bg-amber-200" />
+        <div className="w-3 h-3 rounded-sm bg-amber-300" />
+        <div className="w-3 h-3 rounded-sm bg-amber-400" />
+        <div className="w-3 h-3 rounded-sm bg-amber-500" />
         <span>More</span>
       </div>
     </div>

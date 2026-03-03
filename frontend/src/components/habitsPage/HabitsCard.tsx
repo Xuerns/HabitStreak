@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdModeEditOutline } from "react-icons/md";
 import ChangeForm from "./ChangeForm";
+
 interface HabitsCardProps {
   title: string;
   description: string;
@@ -38,12 +39,12 @@ export default function HabitsCard({
     ];
     return `${String(dateStr.getDate()).padStart(2, "0")}-${month[dateStr.getMonth()]}-${dateStr.getFullYear()}`;
   };
+
   const [isEditing, setIsEditing] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { removeHabit, toggleComplete } = useHabitsStore();
 
-  // Handle delete / Delete habits
   const handleDelete = async (id: number) => {
     await fetchApi.deleteHabits(id);
     removeHabit(id);
@@ -65,7 +66,6 @@ export default function HabitsCard({
     }
   };
 
-  // Tutup dropdown ketika klik element atau page diluar menu
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -77,42 +77,54 @@ export default function HabitsCard({
   }, []);
 
   return (
-    <li className="bg-white border border-gray-200 rounded-md shadow-sm py-2 px-3">
-      <div className="border-b pb-2 border-b-gray-300 flex justify-between items-center">
+    <li
+      className={`glass-card relative overflow-hidden py-3 px-4 flex flex-col gap-2 group hover:shadow-lg hover:shadow-gray-300/20 hover:scale-[1.01] transition-all duration-200 ${
+        is_completed
+          ? "border-l-3 border-l-green-400"
+          : "border-l-3 border-l-amber-400"
+      }`}
+    >
+      {/* Status + Menu Row */}
+      <div className="flex justify-between items-center">
         <button
-          className={`text-xs p-1 rounded-sm cursor-pointer ${is_completed ? "bg-green-200" : "bg-red-200"}`}
+          className={`text-xs font-semibold px-3 py-1 rounded-full cursor-pointer transition-all duration-200 ${
+            is_completed
+              ? "bg-green-50 text-green-600 hover:bg-green-100"
+              : "bg-amber-50 text-amber-600 hover:bg-amber-100"
+          }`}
           onClick={() => (is_completed ? handleUndo(id) : handleComplete(id))}
         >
-          {is_completed ? "✓ complete" : `incomplete`}
+          {is_completed ? "✓ Complete" : "Incomplete"}
         </button>
-        {/* Menu (update / Delete)*/}
-        <div className="relative">
+
+        {/* Menu */}
+        <div className="relative" ref={menuRef}>
           <button
-            className="cursor-pointer"
+            className="cursor-pointer p-1.5 rounded-lg hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-600"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <VscSettings />
+            <VscSettings className="w-4 h-4" />
           </button>
           {menuOpen && (
-            <div className="absolute bg-white right-0  mt-1 w-32 border border-gray-200 rounded-md shadow-lg z-10 overflow-hidden">
+            <div className="absolute bg-white right-0 mt-1 w-36 border border-gray-100 rounded-xl shadow-xl z-10 overflow-hidden">
               <button
                 onClick={() => {
                   setIsEditing(true);
                   setMenuOpen(false);
                 }}
-                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer flex items-center gap-2"
+                className="w-full text-left px-3 py-2.5 text-sm hover:bg-gray-50 cursor-pointer flex items-center gap-2 text-gray-600"
               >
-                <MdModeEditOutline />
-                Change
+                <MdModeEditOutline className="w-4 h-4" />
+                Edit
               </button>
               <button
                 onClick={() => {
                   handleDelete(id);
                   setMenuOpen(false);
                 }}
-                className="w-full text-left px-3 py-2 text-sm hover:bg-red-50 hover:text-red-400 cursor-pointer flex items-center gap-2"
+                className="w-full text-left px-3 py-2.5 text-sm hover:bg-red-50 hover:text-red-500 cursor-pointer flex items-center gap-2 text-gray-600"
               >
-                <RiDeleteBin6Line />
+                <RiDeleteBin6Line className="w-4 h-4" />
                 Delete
               </button>
             </div>
@@ -120,7 +132,7 @@ export default function HabitsCard({
         </div>
       </div>
 
-      {/* edit Form / Change Form */}
+      {/* Content */}
       {isEditing ? (
         <ChangeForm
           title={title}
@@ -130,14 +142,21 @@ export default function HabitsCard({
           onSaved={() => setIsEditing(false)}
         />
       ) : (
-        <div className="border-b border-b-gray-300 pb-5">
-          <h3 className="font-semibold">{title}</h3>
-          <span className="text-sm">{description}</span>
+        <div className="flex-1">
+          <h3 className="font-bold text-gray-800 text-sm sm:text-base">
+            {title}
+          </h3>
+          <span className="text-xs sm:text-sm text-gray-400 line-clamp-2">
+            {description}
+          </span>
         </div>
       )}
 
-      <div>
-        <span className="text-xs">{dateFormat(create_at)}</span>
+      {/* Date */}
+      <div className="pt-1 border-t border-gray-100">
+        <span className="text-[11px] text-gray-400 font-medium">
+          {dateFormat(create_at)}
+        </span>
       </div>
     </li>
   );

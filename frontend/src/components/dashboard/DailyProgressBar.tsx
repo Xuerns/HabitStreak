@@ -7,42 +7,41 @@ export default function DailyProgressBar() {
   const radius = 60;
   const circumference = 2 * Math.PI * radius;
 
-  // Mencegah NaN jika belum ada habit (habistotalToday = 0)
   const safePercentage = isNaN(precetage) ? 0 : Math.min(precetage, 100);
   const strokeDashoffset =
     circumference - (safePercentage / 100) * circumference;
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 w-full  bg-white rounded-md shadow-sm border border-gray-200">
-      <div className="flex items-center gap-5 w-full mb-4">
-        <div className="bg-amber-400 p-2 rounded shadow-sm shadow-amber-300">
-          <RiFireLine className="w-6 h-6 fill-white" />
+    <div className="glass-card flex flex-col items-center justify-center p-4 w-full">
+      <div className="flex items-center gap-3 w-full mb-4">
+        <div className="bg-linear-to-br from-amber-400 to-orange-500 p-2 rounded-xl shadow-md shadow-amber-500/20">
+          <RiFireLine className="w-5 h-5 fill-white" />
         </div>
         <div>
-          <h3 className="text-gray-700 text-xl font-bold  ">Daily Streak</h3>
-          <h5 className="text-xs text-gray-500">Keep the Momentum going</h5>
+          <h3 className="text-gray-700 text-base sm:text-lg font-bold">
+            Daily Streak
+          </h3>
+          <h5 className="text-[11px] text-gray-400">Keep the Momentum going</h5>
         </div>
       </div>
 
       <div className="relative flex items-center justify-center flex-1 w-full">
-        <svg className="transform -rotate-90 w-40 h-40">
-          {/* Background Circle */}
+        <svg className="transform -rotate-90 w-32 h-32 sm:w-40 sm:h-40">
           <circle
-            cx="80"
-            cy="80"
+            cx="50%"
+            cy="50%"
             r={radius}
             stroke="currentColor"
-            strokeWidth="12"
+            strokeWidth="10"
             fill="transparent"
             className="text-gray-100"
           />
-          {/* Progress Circle */}
           <circle
-            cx="80"
-            cy="80"
+            cx="50%"
+            cy="50%"
             r={radius}
             stroke="currentColor"
-            strokeWidth="12"
+            strokeWidth="10"
             fill="transparent"
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
@@ -53,28 +52,27 @@ export default function DailyProgressBar() {
           />
         </svg>
 
-        {/* Text didalan progres bar */}
         <div className="absolute flex flex-col items-center justify-center text-center">
-          <span className="text-3xl font-bold text-gray-800">
+          <span className="text-2xl sm:text-3xl font-extrabold text-gray-800">
             {Math.round(safePercentage)}%
           </span>
-          <span className="text-xs text-gray-500 mt-1 font-medium">
+          <span className="text-[11px] text-gray-400 mt-0.5 font-medium">
             Completed
           </span>
         </div>
       </div>
 
-      <div className=" text-center">
+      <div className="text-center mt-2">
         {typeof remainingTo70 === "number" && remainingTo70 > 0 ? (
-          <p className="text-sm font-medium text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-100">
+          <p className="text-xs font-semibold text-amber-600 bg-amber-50 px-3 py-1 rounded-full">
             {Math.ceil(remainingTo70)}% more to keep streak
           </p>
         ) : typeof remainingTo70 === "string" && remainingTo70 === "Selesai" ? (
-          <p className="text-sm font-medium text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-100">
+          <p className="text-xs font-semibold text-green-600 bg-green-50 px-3 py-1 rounded-full">
             Streak Secured!
           </p>
         ) : (
-          <p className="text-sm font-medium text-gray-500 bg-gray-50 px-3 py-1 rounded-full border border-gray-200">
+          <p className="text-xs font-semibold text-gray-400 bg-gray-50 px-3 py-1 rounded-full">
             Tidak ada habit hari ini
           </p>
         )}

@@ -22,15 +22,27 @@ export default function WeeklyChart() {
   const { weeklyChart } = useDashboardStore();
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <BarChart data={weeklyChart} className="pb-3">
-        <Tooltip />
-        <Bar dataKey="total" radius={[4, 4, 0, 0]}>
+    <ResponsiveContainer width="100%">
+      <BarChart data={weeklyChart} className="pb-2">
+        <Tooltip
+          contentStyle={{
+            borderRadius: "12px",
+            border: "1px solid #e5e7eb",
+            fontSize: "12px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+          }}
+        />
+        <Bar dataKey="total" radius={[6, 6, 0, 0]}>
           {weeklyChart.map((_entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Bar>
-        <XAxis dataKey="day" />
+        <XAxis
+          dataKey="day"
+          tick={{ fontSize: 11, fill: "#9ca3af" }}
+          axisLine={false}
+          tickLine={false}
+        />
       </BarChart>
     </ResponsiveContainer>
   );

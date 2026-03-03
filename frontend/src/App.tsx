@@ -8,7 +8,7 @@ import AnalyticsPage from "./page/AnalyticsPage";
 
 function App() {
   return (
-    <>
+    <div>
       <Routes>
         <Route path="/" element={<MainPage />}>
           <Route index element={<Navigate to="dashboard" replace />} />
@@ -21,7 +21,7 @@ function App() {
           <Route path="register" element={<RegisterPage />} />
         </Route>
       </Routes>
-    </>
+    </div>
   );
 }
 

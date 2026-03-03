@@ -26,29 +26,39 @@ export default function LogActivity() {
   return (
     <div className="flex flex-col w-full gap-3">
       <div className="flex items-center gap-3">
-        <div className="bg-amber-400 flex items-center justify-center p-2 rounded">
-          <AiOutlineHistory className="w-6 h-6 fill-white" />
+        <div className="bg-linear-to-br from-amber-400 to-orange-500 p-2 rounded-xl shadow-md shadow-amber-500/20">
+          <AiOutlineHistory className="w-5 h-5 fill-white" />
         </div>
-        <h4 className="text-gray-700 text-xl font-bold">Recent Activity</h4>
+        <h4 className="text-gray-700 text-base sm:text-lg font-bold">
+          Recent Activity
+        </h4>
       </div>
       <ul
-        className={`flex flex-col h-full overflow-y-scroll rounded-md [overflow-style:none] [scrollbar-width:none] gap-2 bg-gray-50 p-2 ${(activityLogs ?? []).length === 0 && "items-center justify-center "}`}
+        className={`flex flex-col h-full overflow-y-auto rounded-xl [scrollbar-width:none] gap-1.5 bg-gray-50/50 p-2 ${(activityLogs ?? []).length === 0 && "items-center justify-center"}`}
       >
         {(activityLogs ?? []).length === 0 ? (
-          <span className="text-md font-bold text-gray-400">
+          <span className="text-sm font-bold text-gray-300">
             Belum ada aktivitas
           </span>
         ) : (
-          activityLogs.map((log) => (
-            <li className="flex items-center gap-2.5 text-gray-500">
-              <div className="bg-gray-100 flex justify-between items-center py-1 px-2 rounded-md flex-1">
-                <span className="text-sm flex items-center gap-2">
-                  {log.action === "undo" ? <FaUndo className="fill-red-400"/> : <FaCheckCircle className="fill-green-400"/>}
-                  {log.action === "undo"
-                    ? `Anda Mengundo ${log.title}`
-                    : `Anda Menyelesaikan ${log.title}`}
+          activityLogs.map((log, index) => (
+            <li key={index} className="flex items-center gap-2 text-gray-500">
+              <div className="bg-white flex justify-between items-center py-2 px-3 rounded-xl flex-1 border border-gray-100 hover:shadow-sm transition-shadow duration-200">
+                <span className="text-xs sm:text-sm flex items-center gap-2">
+                  {log.action === "undo" ? (
+                    <FaUndo className="fill-red-400 shrink-0" />
+                  ) : (
+                    <FaCheckCircle className="fill-green-400 shrink-0" />
+                  )}
+                  <span className="truncate">
+                    {log.action === "undo"
+                      ? `Anda Mengundo ${log.title}`
+                      : `Anda Menyelesaikan ${log.title}`}
+                  </span>
                 </span>
-                <span className="text-xs">{formatTime(log.created_at)}</span>
+                <span className="text-[10px] sm:text-xs text-gray-400 shrink-0 ml-2">
+                  {formatTime(log.created_at)}
+                </span>
               </div>
             </li>
           ))

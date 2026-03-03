@@ -5,15 +5,14 @@ import SideBar from "../components/SideBar";
 import { useUsersStore } from "../hooks/useUsersStore";
 
 export default function Profile() {
-  const {name, setUser, clearUser} = useUsersStore()
-  
+  const { setUser, clearUser } = useUsersStore();
   const navigate = useNavigate();
 
   // Get Profile
   const handleProfile = async () => {
     try {
       const data = await fetchApi.getProfile();
-      setUser(data.user.NAME, data.user.gmail)
+      setUser(data.user.NAME, data.user.gmail);
     } catch (err: any) {
       console.log(err.response?.data);
       if (err.response?.status === 401) {
@@ -26,7 +25,7 @@ export default function Profile() {
   // Logout
   const handleLogout = () => {
     localStorage.removeItem("token");
-    clearUser()
+    clearUser();
     navigate("/auth/login");
   };
 
@@ -41,18 +40,13 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className="h-screen flex p-1">
-      <SideBar
-        handleLogout={handleLogout}
-      />
-      <div className="px-2 w-full">
-        <div className="flex items-center justify-end shadow-sm shadow-black/30 py-0.5">
-          <div className="flex items-center gap-2 px-3 py-1 rounded">
-            <h6 className="font-medium">{name || "Loading.."}</h6>
-            <div className="h-10 w-10 rounded-full bg-amber-200"></div>
-          </div>
+    <div className="h-screen flex p-1.5 gap-1.5 bg-[#f5f3ef] overflow-hidden">
+      <SideBar handleLogout={handleLogout} />
+      <div className="flex-1 flex flex-col min-w-0 h-full">
+        {/* Page Content (Header removed since profile is in sidebar) */}
+        <div className="flex-1 flex flex-col overflow-y-auto px-2 sm:px-3 md:px-4 py-4 w-full h-full relative">
+          <Outlet />
         </div>
-        <Outlet />
       </div>
     </div>
   );

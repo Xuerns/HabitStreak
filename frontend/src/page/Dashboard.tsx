@@ -9,7 +9,12 @@ import StreakCard from "../components/dashboard/StreakCard";
 import TodayHabits from "../components/dashboard/TodayHabits";
 import TopHabits from "../components/dashboard/TopHabits";
 import WeeklyChart from "../components/dashboard/WeeklyChart";
-import { IoStatsChartSharp } from "react-icons/io5";
+import {
+  IoStatsChartSharp,
+  IoFlame,
+  IoTrophy,
+  IoCheckmarkCircle,
+} from "react-icons/io5";
 import LogActivity from "../components/dashboard/LogActivity";
 
 export default function Dashboard() {
@@ -48,66 +53,86 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="px-1 py-3 flex flex-col gap-3 h-[calc(100vh-60px)] overflow-hidden">
-      {/* Grid Utama */}
-      <div className="grid grid-cols-[8fr_2fr] gap-3 flex-1 min-h-0">
-        {/* Container 1 (Kiri) */}
-        <div className="flex flex-col gap-2 text-white px-2 min-h-0">
-          <div className="text-black">
-            <DailyMessage />
-          </div>
+    <div className="flex flex-col gap-3 flex-1 h-auto lg:h-full lg:max-h-full max-[1800px]:px-5">
+      {/* Scrollable upper section (Message, Stats, Heatmap, Progress, Top) */}
+      <div className="flex-none flex flex-col gap-3">
+        {/* Greeting */}
+        <DailyMessage />
 
-          {/* Quick Stats Row */}
-          <div className="grid grid-cols-3 gap-2">
-            <DashboardCard data={currentStreak} label="Streak" type="normal" />
-            <DashboardCard
-              data={longestStreak}
-              label="Longest Streak"
-              type="normal"
-            />
-            <DashboardCard
-              data={totalHabit}
-              label="Habit Completed"
-              type="normal"
-            />
-          </div>
-
-          {/* Activity & Progress Row */}
-          <div className="w-full flex-1 min-h-0 text-black rounded grid grid-cols-[1fr_1.5fr] gap-2">
-            <div className="flex flex-col gap-2 min-h-0">
-              <ActivityHeatmap />
-              <div className="flex-1 flex  bg-white border border-gray-200 rounded-md shadow-sm p-3 min-h-0">
-                <LogActivity />
-              </div>
-            </div>
-            <div className="flex flex-col gap-2 min-h-0">
-              <div className="grid grid-cols-2 gap-2">
-                {/*Progress*/}
-                <DailyProgressBar />
-
-                {/*Top Habit*/}
-                <TopHabits />
-              </div>
-
-              <div className="flex-1 px-3 py-2 w-full text-gray-400 font-medium bg-white rounded-md shadow-sm border border-gray-200 min-h-0">
-                <div className="flex items-center gap-3">
-                  <div className="bg-amber-400 p-1 rounded shadow-sm shadow-amber-300">
-                    <IoStatsChartSharp className="fill-white" />
-                  </div>
-                  <h2 className="text-md text-gray-700">Weekly Chart</h2>
-                </div>
-                <WeeklyChart />
-              </div>
-            </div>
-          </div>
+        {/* Quick Stats Row */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <DashboardCard
+            data={currentStreak}
+            label="Current Streak"
+            type="normal"
+            icon={IoFlame}
+            gradient="from-amber-400 to-orange-500"
+          />
+          <DashboardCard
+            data={longestStreak}
+            label="Longest Streak"
+            type="normal"
+            icon={IoTrophy}
+            gradient="from-yellow-400 to-amber-500"
+          />
+          <DashboardCard
+            data={totalHabit}
+            label="Habits Completed"
+            type="normal"
+            icon={IoCheckmarkCircle}
+            gradient="from-orange-400 to-red-500"
+          />
         </div>
-        {/* Container 2 (Kanan) */}
-        <div className="flex flex-col gap-3 pr-1 min-h-0 overflow-hidden">
-          {/* Today Habits */}
-          <TodayHabits />
+        {/* Main Grid - takes remaining height */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-3 flex-1 lg:min-h-0 min-h-200">
+          {/* Left Column */}
+          <div className="flex flex-col gap-3 min-w-0 lg:h-full lg:max-h-full">
+            {/* Activity + Log */}
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_1.5fr] gap-3 lg:h-full lg:max-h-full lg:min-h-0">
+              {/* Heatmap & Log column */}
+              <div className="flex flex-col gap-3 h-175">
+                <div className="flex-none">
+                  <ActivityHeatmap />
+                </div>
+                <div className="glass-card flex-1 flex p-4 min-h-62 lg:min-h-0">
+                  <LogActivity />
+                </div>
+              </div>
 
-          {/* Streak */}
-          <StreakCard />
+              {/* Progress, Top, Chart column */}
+              <div className="flex flex-col gap-3 lg:h-full lg:max-h-full lg:min-h-0">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 flex-none">
+                  <DailyProgressBar />
+                  <TopHabits />
+                </div>
+
+                <div className="glass-card flex-1 px-4 py-3 w-full h-90 flex flex-col">
+                  <div className="flex items-center gap-3 mb-2 flex-none">
+                    <div className="bg-gradient-to-br from-amber-400 to-orange-500 p-2 rounded-xl shadow-md shadow-amber-500/20">
+                      <IoStatsChartSharp className="fill-white w-4 h-4" />
+                    </div>
+                    <h2 className="text-base font-bold text-gray-700">
+                      Weekly Chart
+                    </h2>
+                  </div>
+                  {/* The chart container must be positioned absolute inside relative flex child so it can shrink */}
+                  <div className="flex-1 h-60 lg:min-h-0 relative">
+                    <div className="absolute inset-0">
+                      <WeeklyChart />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column — Today Habits + Streak */}
+          <div className="flex flex-col gap-3 lg:h-full lg:max-h-full lg:min-h-0">
+            <TodayHabits />
+            <div className="flex-none">
+              <StreakCard />
+            </div>
+          </div>
         </div>
       </div>
     </div>

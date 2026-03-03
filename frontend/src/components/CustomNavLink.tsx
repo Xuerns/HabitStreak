@@ -9,6 +9,7 @@ interface CustomNavLinkProps {
   label: string;
   isOpen: boolean;
   variant: "dashboard" | "habits" | "analytics";
+  onMobileClick?: () => void;
 }
 
 export default function CustomNavLink({
@@ -16,6 +17,7 @@ export default function CustomNavLink({
   label,
   isOpen,
   variant,
+  onMobileClick,
 }: CustomNavLinkProps) {
   const iconVariant: Record<
     "dashboard" | "habits" | "analytics",
@@ -31,17 +33,31 @@ export default function CustomNavLink({
   return (
     <NavLink
       to={to}
-      className={`w-full flex items-center ${isOpen ? "justify-start" : "justify-center"}`}
+      onClick={onMobileClick}
+      className={`w-full flex items-center ${isOpen ? "justify-start" : "md:justify-center"}`}
     >
       {({ isActive }) => (
         <div
-          className={`w-full flex items-center px-3 py-2.5 rounded font-bold gap-2 group ${isActive ? "bg-amber-400" : "bg-gray-200/30 hover:bg-[#fcd18b]"} ${isOpen ? "justify-start" : "justify-center"}`}
+          className={`
+            w-full flex items-center px-3 py-2.5 rounded-xl font-semibold gap-3 group
+            transition-all duration-200
+            ${
+              isActive
+                ? "bg-amber-500/15 text-amber-400 shadow-sm shadow-amber-500/10"
+                : "text-gray-400 hover:text-white hover:bg-white/5"
+            }
+            ${isOpen ? "justify-start" : "md:justify-center"}
+          `}
         >
           <Icon
-            className={`shrink-0 h-6 w-6 group-hover:fill-white ${isActive ? "fill-white" : "fill-black"}`}
+            className={`shrink-0 h-5 w-5 transition-colors duration-200 ${
+              isActive
+                ? "fill-amber-400"
+                : "fill-gray-400 group-hover:fill-white"
+            }`}
           />
           <span
-            className={`group-hover:text-white ${isActive ? "text-white" : "text-black"} ${isOpen ? "" : "hidden"}`}
+            className={`text-sm transition-colors duration-200 ${isOpen ? "" : "md:hidden"}`}
           >
             {label}
           </span>
