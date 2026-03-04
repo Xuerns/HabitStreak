@@ -5,6 +5,7 @@ import { FaRightFromBracket } from "react-icons/fa6";
 import { IoMenu, IoClose } from "react-icons/io5";
 import CustomNavLink from "./CustomNavLink";
 import { useUsersStore } from "../hooks/useUsersStore";
+import { useStreakTheme } from "../hooks/useStreakTheme";
 
 interface sideBarProps {
   handleLogout: () => void;
@@ -14,6 +15,7 @@ export default function SideBar({ handleLogout }: sideBarProps) {
   const [isOpen, setIsOpen] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { name } = useUsersStore();
+  const theme = useStreakTheme();
 
   return (
     <div
@@ -66,13 +68,15 @@ export default function SideBar({ handleLogout }: sideBarProps) {
         {/* Logo */}
         <div className="w-full flex justify-center items-center flex-col gap-1">
           <div
-            className={`rounded-full bg-linear-to-br from-amber-400 to-orange-500 transition-all duration-300 shadow-lg shadow-amber-500/20 ${isOpen ? "w-14 h-14" : "w-10 h-10"}`}
+            className={`rounded-full ${theme.gradientBg} transition-all duration-300 shadow-lg ${theme.shadow} ${isOpen ? "w-14 h-14" : "w-10 h-10"}`}
           />
           <h5
             className={`font-bold text-lg transition-all duration-300 ${!isOpen && "md:hidden"}`}
           >
             <span className="text-white">Habit</span>
-            <span className="text-amber-400">Streak</span>
+            <span className={theme.primary.replace("text-", "text-")}>
+              Streak
+            </span>
           </h5>
         </div>
 
@@ -121,7 +125,7 @@ export default function SideBar({ handleLogout }: sideBarProps) {
             className={`flex items-center ${isOpen ? "gap-3 px-2 mb-2" : "justify-center mb-2"}`}
           >
             <div
-              className={`rounded-full bg-linear-to-br from-amber-400 to-orange-500 shadow-md shadow-amber-500/20 shrink-0 ${isOpen ? "w-9 h-9" : "w-8 h-8"}`}
+              className={`rounded-full ${theme.gradientBg} shadow-md ${theme.shadow} shrink-0 ${isOpen ? "w-9 h-9" : "w-8 h-8"}`}
             />
             {isOpen && (
               <div className="flex flex-col min-w-0">

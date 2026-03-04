@@ -5,6 +5,7 @@ import {
   IoChevronBack,
   IoChevronForward,
 } from "react-icons/io5";
+import { useStreakTheme } from "../../hooks/useStreakTheme";
 
 const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -14,6 +15,7 @@ export default function MonthlyHeatmapCalendar() {
     fetchAnalytics,
     currentMonth: storeMonth,
   } = useAnalyticsStore();
+  const theme = useStreakTheme();
 
   // Derive year and month from store's currentMonth ("YYYY-MM" format)
   const [currentYear, currentMonth] = useMemo(() => {
@@ -105,16 +107,16 @@ export default function MonthlyHeatmapCalendar() {
   const getColor = (count: number) => {
     if (count === 0) return "bg-gray-100";
     const ratio = count / maxCount;
-    if (ratio <= 0.25) return "bg-amber-200";
-    if (ratio <= 0.5) return "bg-amber-300";
-    if (ratio <= 0.75) return "bg-amber-400";
-    return "bg-amber-500";
+    if (ratio <= 0.25) return theme.heatmapColors[0];
+    if (ratio <= 0.5) return theme.heatmapColors[1];
+    if (ratio <= 0.75) return theme.heatmapColors[2];
+    return theme.heatmapColors[3];
   };
 
   const getTextColor = (count: number) => {
     if (count === 0) return "text-gray-400";
     const ratio = count / maxCount;
-    if (ratio <= 0.5) return "text-amber-800";
+    if (ratio <= 0.5) return theme.primaryDark;
     return "text-white";
   };
 
@@ -127,7 +129,9 @@ export default function MonthlyHeatmapCalendar() {
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
-          <div className="bg-linear-to-br from-amber-400 to-orange-500 p-2.5 rounded-xl shadow-md shadow-amber-500/20">
+          <div
+            className={`${theme.gradientBg} p-2.5 rounded-xl shadow-md ${theme.shadow}`}
+          >
             <IoCalendarOutline className="w-5 h-5 text-white" />
           </div>
           <div>
@@ -180,15 +184,17 @@ export default function MonthlyHeatmapCalendar() {
               className={`
                 relative aspect-square rounded-xl flex items-center justify-center
                 text-xs font-bold transition-all duration-200
-                hover:ring-2 hover:ring-amber-400/50 hover:ring-offset-1 hover:scale-105 cursor-pointer shadow-sm
+                hover:ring-2 ${theme.hoverRing} hover:ring-offset-1 hover:scale-105 cursor-pointer shadow-sm
                 ${getColor(cell.count)}
                 ${getTextColor(cell.count)}
-                ${cell.date === today ? "ring-2 ring-amber-500 ring-offset-2 opacity-100" : "opacity-90"}
+                ${cell.date === today ? `ring-2 ${theme.ring} ring-offset-2 opacity-100` : "opacity-90"}
               `}
             >
               {cell.day}
               {cell.count > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-orange-500 text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-sm border-2 border-white">
+                <span
+                  className={`absolute -top-1.5 -right-1.5 w-4 h-4 ${theme.primaryBg} text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-sm border-2 border-white`}
+                >
                   {cell.count}
                 </span>
               )}
@@ -201,10 +207,10 @@ export default function MonthlyHeatmapCalendar() {
       <div className="flex items-center gap-1.5 mt-auto pt-4 text-[10px] text-gray-400 font-medium justify-end">
         <span>Less</span>
         <div className="w-3.5 h-3.5 rounded-sm bg-gray-100" />
-        <div className="w-3.5 h-3.5 rounded-sm bg-amber-200" />
-        <div className="w-3.5 h-3.5 rounded-sm bg-amber-300" />
-        <div className="w-3.5 h-3.5 rounded-sm bg-amber-400" />
-        <div className="w-3.5 h-3.5 rounded-sm bg-amber-500" />
+        <div className={`w-3.5 h-3.5 rounded-sm ${theme.heatmapColors[0]}`} />
+        <div className={`w-3.5 h-3.5 rounded-sm ${theme.heatmapColors[1]}`} />
+        <div className={`w-3.5 h-3.5 rounded-sm ${theme.heatmapColors[2]}`} />
+        <div className={`w-3.5 h-3.5 rounded-sm ${theme.heatmapColors[3]}`} />
         <span>More</span>
       </div>
     </div>

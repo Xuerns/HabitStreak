@@ -1,9 +1,11 @@
 import { useMemo } from "react";
 import { useAnalyticsStore } from "../../hooks/useAnalyticsStore";
 import { IoBarChart } from "react-icons/io5";
+import { useStreakTheme } from "../../hooks/useStreakTheme";
 
 export default function PerHabitRateChart() {
   const { perHabitRate } = useAnalyticsStore();
+  const theme = useStreakTheme();
 
   const habitsWithRate = useMemo(() => {
     return perHabitRate.map((habit) => ({
@@ -16,10 +18,10 @@ export default function PerHabitRateChart() {
   }, [perHabitRate]);
 
   const getBarColor = (rate: number) => {
-    if (rate >= 80) return "bg-gradient-to-r from-amber-400 to-orange-500";
-    if (rate >= 60) return "bg-gradient-to-r from-amber-300 to-amber-500";
-    if (rate >= 40) return "bg-gradient-to-r from-yellow-300 to-amber-400";
-    if (rate >= 20) return "bg-gradient-to-r from-orange-200 to-orange-300";
+    if (rate >= 80) return `bg-gradient-to-r ${theme.gradient}`;
+    if (rate >= 60) return `bg-gradient-to-r ${theme.gradient}`;
+    if (rate >= 40) return `${theme.accentMedium}`;
+    if (rate >= 20) return `${theme.accentLight}`;
     return "bg-gradient-to-r from-gray-200 to-gray-300";
   };
 
@@ -27,17 +29,17 @@ export default function PerHabitRateChart() {
     if (rate >= 80)
       return {
         text: "Excellent",
-        color: "text-amber-600 bg-amber-50 border border-amber-100",
+        color: `${theme.badgeText} ${theme.accentLight} border ${theme.border}`,
       };
     if (rate >= 60)
       return {
         text: "Good",
-        color: "text-amber-500 bg-amber-50 border border-amber-100",
+        color: `${theme.primary} ${theme.accentLight} border ${theme.border}`,
       };
     if (rate >= 40)
       return {
         text: "Fair",
-        color: "text-yellow-600 bg-yellow-50 border border-yellow-100",
+        color: `${theme.badgeText} ${theme.accentLight} border ${theme.border}`,
       };
     return {
       text: "Needs Work",
@@ -49,7 +51,9 @@ export default function PerHabitRateChart() {
     <div className="glass-card flex flex-col p-4 sm:p-5 h-full">
       {/* Header */}
       <div className="flex items-center gap-3 mb-5">
-        <div className="bg-linear-to-br from-amber-400 to-orange-500 p-2.5 rounded-xl shadow-md shadow-amber-500/20">
+        <div
+          className={`${theme.gradientBg} p-2.5 rounded-xl shadow-md ${theme.shadow}`}
+        >
           <IoBarChart className="w-5 h-5 fill-white" />
         </div>
         <div>
@@ -81,10 +85,14 @@ export default function PerHabitRateChart() {
                 {/* Habit info row */}
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2.5">
-                    <span className="text-xs font-black text-amber-500/50 w-5">
+                    <span
+                      className={`text-xs font-black ${theme.primary} opacity-50 w-5`}
+                    >
                       #{index + 1}
                     </span>
-                    <span className="text-sm font-bold text-gray-700 group-hover:text-amber-600 transition-colors">
+                    <span
+                      className={`text-sm font-bold text-gray-700 ${theme.hoverText} transition-colors`}
+                    >
                       {habit.title}
                     </span>
                   </div>

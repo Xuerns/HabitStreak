@@ -1,12 +1,16 @@
 import { IoIosPodium } from "react-icons/io";
 import { useDashboardStore } from "../../hooks/useDashboardStore";
+import { useStreakTheme } from "../../hooks/useStreakTheme";
 
 export default function TopHabits() {
   const { topHabits } = useDashboardStore();
+  const theme = useStreakTheme();
   return (
     <div className="glass-card px-4 pt-4 pb-3 h-full flex flex-col">
       <div className="flex items-center gap-3 mb-3">
-        <div className="bg-linear-to-br from-amber-400 to-orange-500 p-2 rounded-xl shadow-md shadow-amber-500/20">
+        <div
+          className={`${theme.gradientBg} p-2 rounded-xl shadow-md ${theme.shadow}`}
+        >
           <IoIosPodium className="h-5 w-5 fill-white" />
         </div>
         <div>
@@ -25,15 +29,23 @@ export default function TopHabits() {
           <ul className="flex flex-col gap-2 flex-1">
             {(topHabits ?? []).map((item, index) => (
               <div className="flex items-center w-full gap-2" key={item.id}>
-                <span className="text-lg font-bold w-8 h-8 flex items-center justify-center text-amber-500 rounded-lg bg-amber-50">
+                <span
+                  className={`text-lg font-bold w-8 h-8 flex items-center justify-center ${theme.primary} rounded-lg ${theme.accentLight}`}
+                >
                   {index + 1}
                 </span>
-                <li className="flex flex-1 justify-between items-center bg-gray-50/80 border border-gray-100 p-2.5 rounded-xl group hover:shadow-md hover:shadow-gray-300/30 hover:bg-amber-50/30 transition-all duration-200">
-                  <span className="font-medium text-sm text-gray-700 group-hover:text-amber-600 transition-colors">
+                <li
+                  className={`flex flex-1 justify-between items-center bg-gray-50/80 border border-gray-100 p-2.5 rounded-xl group hover:shadow-md hover:shadow-gray-300/30 ${theme.hoverBg} transition-all duration-200`}
+                >
+                  <span
+                    className={`font-medium text-sm text-gray-700 ${theme.hoverText} transition-colors`}
+                  >
                     {item.title}
                   </span>
-                  <div className="px-2.5 py-0.5 bg-amber-100 rounded-full">
-                    <span className="font-bold text-amber-600 text-xs">
+                  <div
+                    className={`px-2.5 py-0.5 ${theme.badgeBg} rounded-full`}
+                  >
+                    <span className={`font-bold ${theme.badgeText} text-xs`}>
                       {item.total_completed}
                     </span>
                   </div>
@@ -43,7 +55,7 @@ export default function TopHabits() {
           </ul>
           <div className="flex items-center justify-center pt-1">
             <span className="text-[11px] font-medium text-gray-400 italic">
-              Small habits, big impact ✨
+              Small habits, big impact 
             </span>
           </div>
         </div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { fetchApi } from "../../service/fetchApi";
 import { useHabitsStore } from "../../hooks/useHabitsStore";
 import { FaWpforms } from "react-icons/fa";
+import { useStreakTheme } from "../../hooks/useStreakTheme";
 
 interface HabitsFormProps {
   onCancel: () => void;
@@ -11,6 +12,7 @@ export default function HabitsForm({ onCancel }: HabitsFormProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const { setHabits } = useHabitsStore();
+  const theme = useStreakTheme();
 
   const handleSubmit = async () => {
     await fetchApi.createHabits({ title, description });
@@ -32,7 +34,9 @@ export default function HabitsForm({ onCancel }: HabitsFormProps) {
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="glass-card w-full max-w-md p-6 flex flex-col gap-4 shadow-2xl animate-slideUp">
           <div className="flex items-center gap-3">
-            <div className="bg-linear-to-br from-amber-400 to-orange-500 p-2.5 rounded-xl shadow-md shadow-amber-500/20">
+            <div
+              className={`${theme.gradientBg} p-2.5 rounded-xl shadow-md ${theme.shadow}`}
+            >
               <FaWpforms className="fill-white w-5 h-5" />
             </div>
             <h2 className="text-xl font-bold text-gray-800">
@@ -50,7 +54,7 @@ export default function HabitsForm({ onCancel }: HabitsFormProps) {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Morning exercise"
-                className="px-4 py-2.5 border border-gray-200 rounded-xl bg-gray-50/50 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
+                className={`px-4 py-2.5 border border-gray-200 rounded-xl bg-gray-50/50 text-sm focus:outline-none focus:ring-2 ${theme.focusRing} transition-all`}
               />
             </div>
             <div className="flex flex-col gap-1">
@@ -62,7 +66,7 @@ export default function HabitsForm({ onCancel }: HabitsFormProps) {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="e.g. 30 minutes workout every day"
-                className="px-4 py-2.5 border border-gray-200 rounded-xl bg-gray-50/50 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
+                className={`px-4 py-2.5 border border-gray-200 rounded-xl bg-gray-50/50 text-sm focus:outline-none focus:ring-2 ${theme.focusRing} transition-all`}
               />
             </div>
           </div>
@@ -79,7 +83,7 @@ export default function HabitsForm({ onCancel }: HabitsFormProps) {
                 handleSubmit();
                 onCancel();
               }}
-              className="px-5 py-2 text-sm font-semibold rounded-xl bg-linear-to-r from-amber-400 to-orange-500 text-white hover:shadow-lg hover:shadow-amber-500/25 transition-all cursor-pointer"
+              className={`px-5 py-2 text-sm font-semibold rounded-xl bg-linear-to-r ${theme.gradient} text-white hover:shadow-lg hover:${theme.shadow}/25 transition-all cursor-pointer`}
             >
               Save
             </button>

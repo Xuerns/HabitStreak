@@ -6,6 +6,7 @@ import {
   IoList,
   IoStar,
 } from "react-icons/io5";
+import { useStreakTheme } from "../../hooks/useStreakTheme";
 
 const STAT_CONFIG = [
   {
@@ -47,6 +48,7 @@ const STAT_CONFIG = [
 
 export default function SummaryStatsCards() {
   const { summaryStats } = useAnalyticsStore();
+  const theme = useStreakTheme();
 
   return (
     <div className="grid grid-cols-5 gap-3">
@@ -57,7 +59,7 @@ export default function SummaryStatsCards() {
         return (
           <div
             key={stat.key}
-            className={`relative overflow-hidden rounded-xl bg-linear-to-br ${stat.gradient} p-4 text-white shadow-md hover:shadow-lg transition-shadow duration-300 group`}
+            className={`relative overflow-hidden rounded-xl bg-linear-to-br ${theme.gradient} p-4 text-white shadow-md hover:shadow-lg transition-shadow duration-300 group`}
           >
             {/* Background decoration */}
             <div className="absolute -top-4 -right-4 w-20 h-20 bg-white/10 rounded-full group-hover:scale-125 transition-transform duration-500" />

@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdModeEditOutline } from "react-icons/md";
 import ChangeForm from "./ChangeForm";
+import { useStreakTheme } from "../../hooks/useStreakTheme";
 
 interface HabitsCardProps {
   title: string;
@@ -44,6 +45,7 @@ export default function HabitsCard({
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { removeHabit, toggleComplete } = useHabitsStore();
+  const theme = useStreakTheme();
 
   const handleDelete = async (id: number) => {
     await fetchApi.deleteHabits(id);
@@ -80,8 +82,8 @@ export default function HabitsCard({
     <li
       className={`glass-card relative overflow-hidden py-3 px-4 flex flex-col gap-2 group hover:shadow-lg hover:shadow-gray-300/20 hover:scale-[1.01] transition-all duration-200 ${
         is_completed
-          ? "border-l-3 border-l-green-400"
-          : "border-l-3 border-l-amber-400"
+          ? `border-l-3 ${theme.border}`
+          : "border-l-3 border-l-gray-200"
       }`}
     >
       {/* Status + Menu Row */}
@@ -89,8 +91,8 @@ export default function HabitsCard({
         <button
           className={`text-xs font-semibold px-3 py-1 rounded-full cursor-pointer transition-all duration-200 ${
             is_completed
-              ? "bg-green-50 text-green-600 hover:bg-green-100"
-              : "bg-amber-50 text-amber-600 hover:bg-amber-100"
+              ? `${theme.completedBadgeBg} ${theme.completedBadgeText} hover:${theme.accentMedium}`
+              : `${theme.accentLight} ${theme.badgeText} hover:${theme.accentMedium}`
           }`}
           onClick={() => (is_completed ? handleUndo(id) : handleComplete(id))}
         >

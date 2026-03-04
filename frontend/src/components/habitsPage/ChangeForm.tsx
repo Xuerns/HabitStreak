@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { fetchApi } from "../../service/fetchApi";
 import { useHabitsStore } from "../../hooks/useHabitsStore";
+import { useStreakTheme } from "../../hooks/useStreakTheme";
 
 interface ChangeFormProps {
   title: string;
@@ -22,6 +23,7 @@ export default function ChangeForm({
     description,
   });
   const { setHabits } = useHabitsStore();
+  const theme = useStreakTheme();
 
   const handleSave = async () => {
     await fetchApi.updateHabits(formData, id);
@@ -37,7 +39,7 @@ export default function ChangeForm({
         value={formData.title}
         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
         placeholder="Habit Title"
-        className="border border-gray-200 focus:outline-none w-full focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 text-sm px-3 py-2 rounded-xl bg-gray-50/50 transition-all"
+        className={`border border-gray-200 focus:outline-none w-full focus:ring-2 ${theme.focusRing} text-sm px-3 py-2 rounded-xl bg-gray-50/50 transition-all`}
       />
       <textarea
         value={formData.description}
@@ -46,7 +48,7 @@ export default function ChangeForm({
         }
         placeholder="Description"
         rows={2}
-        className="border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 text-sm w-full px-3 py-2 bg-gray-50/50 transition-all"
+        className={`border border-gray-200 rounded-xl focus:outline-none focus:ring-2 ${theme.focusRing} text-sm w-full px-3 py-2 bg-gray-50/50 transition-all`}
       />
       <div className="flex gap-2 justify-end">
         <button
@@ -57,7 +59,7 @@ export default function ChangeForm({
         </button>
         <button
           onClick={handleSave}
-          className="text-xs px-3 py-1.5 rounded-lg bg-linear-to-r from-amber-400 to-orange-500 text-white hover:shadow-md hover:shadow-amber-500/20 cursor-pointer transition-all"
+          className={`text-xs px-3 py-1.5 rounded-lg bg-linear-to-r ${theme.gradient} text-white hover:shadow-md hover:${theme.shadow} cursor-pointer transition-all`}
         >
           Save
         </button>

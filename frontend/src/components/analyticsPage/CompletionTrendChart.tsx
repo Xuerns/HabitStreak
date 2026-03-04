@@ -9,6 +9,7 @@ import {
 } from "recharts";
 import { useAnalyticsStore } from "../../hooks/useAnalyticsStore";
 import { IoTrendingUp } from "react-icons/io5";
+import { useStreakTheme } from "../../hooks/useStreakTheme";
 
 const PERIOD_OPTIONS = [
   { label: "7D", value: 7 },
@@ -19,6 +20,7 @@ const PERIOD_OPTIONS = [
 export default function CompletionTrendChart() {
   const { completionTrend, fetchAnalytics, currentPeriod } =
     useAnalyticsStore();
+  const theme = useStreakTheme();
 
   const handlePeriodChange = (period: number) => {
     fetchAnalytics(period, undefined);
@@ -38,7 +40,9 @@ export default function CompletionTrendChart() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-4">
         <div className="flex items-center gap-3">
-          <div className="bg-linear-to-br from-amber-400 to-orange-500 p-2.5 rounded-xl shadow-md shadow-amber-500/20">
+          <div
+            className={`${theme.gradientBg} p-2.5 rounded-xl shadow-md ${theme.shadow}`}
+          >
             <IoTrendingUp className="w-5 h-5 fill-white" />
           </div>
           <div>
@@ -59,7 +63,7 @@ export default function CompletionTrendChart() {
               onClick={() => handlePeriodChange(opt.value)}
               className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200 cursor-pointer ${
                 currentPeriod === opt.value
-                  ? "bg-white text-amber-500 shadow-sm border border-gray-200/50"
+                  ? `bg-white ${theme.primary} shadow-sm border border-gray-200/50`
                   : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
               }`}
             >
@@ -92,8 +96,16 @@ export default function CompletionTrendChart() {
                     x2="0"
                     y2="1"
                   >
-                    <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
+                    <stop
+                      offset="5%"
+                      stopColor={theme.primaryHex}
+                      stopOpacity={0.3}
+                    />
+                    <stop
+                      offset="95%"
+                      stopColor={theme.primaryHex}
+                      stopOpacity={0}
+                    />
                   </linearGradient>
                 </defs>
                 <CartesianGrid
@@ -125,7 +137,7 @@ export default function CompletionTrendChart() {
                   }}
                   labelFormatter={(label) => ` ${label}`}
                   formatter={(value: number | undefined) => [
-                    <span className="font-semibold text-amber-500">
+                    <span className={`font-semibold ${theme.primary}`}>
                       {value ?? 0} habits
                     </span>,
                     <span className="text-gray-500">Completed</span>,
@@ -134,13 +146,13 @@ export default function CompletionTrendChart() {
                 <Area
                   type="monotone"
                   dataKey="completed"
-                  stroke="#f59e0b"
+                  stroke={theme.primaryHex}
                   strokeWidth={3}
                   fill="url(#colorCompleted)"
                   dot={false}
                   activeDot={{
                     r: 6,
-                    stroke: "#f59e0b",
+                    stroke: theme.primaryHex,
                     strokeWidth: 2,
                     fill: "white",
                   }}

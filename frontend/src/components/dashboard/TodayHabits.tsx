@@ -2,9 +2,11 @@ import { IoIosTrendingUp } from "react-icons/io";
 import { useDashboardStore } from "../../hooks/useDashboardStore";
 import ListHabitDashboard from "./ListHabitDashboard";
 import { fetchApi } from "../../service/fetchApi";
+import { useStreakTheme } from "../../hooks/useStreakTheme";
 
 export default function TodayHabits() {
   const { todayHabits, refreshDashboard } = useDashboardStore();
+  const theme = useStreakTheme();
 
   const handleToggle = async (id: number) => {
     const habit = todayHabits.find((h) => h.id === id);
@@ -26,11 +28,13 @@ export default function TodayHabits() {
     <div className="glass-card flex-1 p-4 flex flex-col gap-2 min-h-0 overflow-hidden">
       <div className="flex flex-col shrink-0">
         <div className="flex items-center gap-2.5">
-          <div className="bg-linear-to-br from-amber-400 to-orange-500 p-2 rounded-xl shadow-md shadow-amber-500/20">
+          <div
+            className={`${theme.gradientBg} p-2 rounded-xl shadow-md ${theme.shadow}`}
+          >
             <IoIosTrendingUp className="w-5 h-5 fill-white" />
           </div>
           <div>
-            <h3 className="text-base sm:text-lg font-bold text-amber-500">
+            <h3 className={`text-base sm:text-lg font-bold ${theme.primary}`}>
               Today Habit
             </h3>
           </div>

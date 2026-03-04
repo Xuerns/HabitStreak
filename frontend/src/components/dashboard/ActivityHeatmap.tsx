@@ -1,7 +1,9 @@
 import { useDashboardStore } from "../../hooks/useDashboardStore";
+import { useStreakTheme } from "../../hooks/useStreakTheme";
 
 export default function ActivityHeatmap() {
   const { heatMaps } = useDashboardStore();
+  const theme = useStreakTheme();
 
   const getCurrentMonthDays = () => {
     const dates = [];
@@ -29,10 +31,10 @@ export default function ActivityHeatmap() {
 
   const getColor = (count: number) => {
     if (count === 0) return "bg-gray-100";
-    if (count === 1) return "bg-amber-200";
-    if (count === 2) return "bg-amber-300";
-    if (count === 3) return "bg-amber-400";
-    return "bg-amber-500";
+    if (count === 1) return theme.heatmapColors[0];
+    if (count === 2) return theme.heatmapColors[1];
+    if (count === 3) return theme.heatmapColors[2];
+    return theme.heatmapColors[3];
   };
 
   return (
@@ -48,7 +50,7 @@ export default function ActivityHeatmap() {
             <div
               key={date}
               title={`${date}: ${count} habits`}
-              className={`w-4 h-4 rounded-md ${getColor(count)} cursor-pointer transition-all duration-200 hover:ring-2 hover:ring-offset-1 hover:ring-amber-400/50 hover:scale-110`}
+              className={`w-4 h-4 rounded-md ${getColor(count)} cursor-pointer transition-all duration-200 hover:ring-2 hover:ring-offset-1 ${theme.hoverRing} hover:scale-110`}
             />
           );
         })}
@@ -57,10 +59,10 @@ export default function ActivityHeatmap() {
       <div className="flex items-center gap-1.5 mt-3 text-[10px] text-gray-400 self-end font-medium">
         <span>Less</span>
         <div className="w-3 h-3 rounded-sm bg-gray-100" />
-        <div className="w-3 h-3 rounded-sm bg-amber-200" />
-        <div className="w-3 h-3 rounded-sm bg-amber-300" />
-        <div className="w-3 h-3 rounded-sm bg-amber-400" />
-        <div className="w-3 h-3 rounded-sm bg-amber-500" />
+        <div className={`w-3 h-3 rounded-sm ${theme.heatmapColors[0]}`} />
+        <div className={`w-3 h-3 rounded-sm ${theme.heatmapColors[1]}`} />
+        <div className={`w-3 h-3 rounded-sm ${theme.heatmapColors[2]}`} />
+        <div className={`w-3 h-3 rounded-sm ${theme.heatmapColors[3]}`} />
         <span>More</span>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { SiActivitypub } from "react-icons/si";
 import { IoMdAnalytics } from "react-icons/io";
 import type { ComponentType, SVGProps } from "react";
+import { useStreakTheme } from "../hooks/useStreakTheme";
 
 interface CustomNavLinkProps {
   to: string;
@@ -19,6 +20,7 @@ export default function CustomNavLink({
   variant,
   onMobileClick,
 }: CustomNavLinkProps) {
+  const theme = useStreakTheme();
   const iconVariant: Record<
     "dashboard" | "habits" | "analytics",
     ComponentType<SVGProps<SVGSVGElement>>
@@ -43,7 +45,7 @@ export default function CustomNavLink({
             transition-all duration-200
             ${
               isActive
-                ? "bg-amber-500/15 text-amber-400 shadow-sm shadow-amber-500/10"
+                ? theme.activeBg
                 : "text-gray-400 hover:text-white hover:bg-white/5"
             }
             ${isOpen ? "justify-start" : "md:justify-center"}
@@ -51,9 +53,7 @@ export default function CustomNavLink({
         >
           <Icon
             className={`shrink-0 h-5 w-5 transition-colors duration-200 ${
-              isActive
-                ? "fill-amber-400"
-                : "fill-gray-400 group-hover:fill-white"
+              isActive ? theme.fill : "fill-gray-400 group-hover:fill-white"
             }`}
           />
           <span

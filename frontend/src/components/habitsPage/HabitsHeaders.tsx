@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { AiFillPlusSquare } from "react-icons/ai";
 import HabitsForm from "./HabitsForm";
+import { useStreakTheme } from "../../hooks/useStreakTheme";
 
 export default function HabitsHeaders() {
   const [isOpen, setIsOpen] = useState(false);
+  const theme = useStreakTheme();
 
   return (
     <>
@@ -17,7 +19,7 @@ export default function HabitsHeaders() {
           </h5>
         </div>
         <button
-          className="flex items-center gap-1.5 bg-linear-to-r from-amber-400 to-orange-500 text-white py-2.5 px-4 rounded-xl hover:shadow-lg hover:shadow-amber-500/25 hover:scale-[1.02] transition-all duration-200 cursor-pointer"
+          className={`flex items-center gap-1.5 bg-linear-to-r ${theme.gradient} text-white py-2.5 px-4 rounded-xl hover:shadow-lg hover:${theme.shadow.replace("shadow-", "shadow-")}/25 hover:scale-[1.02] transition-all duration-200 cursor-pointer`}
           onClick={() => setIsOpen(!isOpen)}
         >
           <AiFillPlusSquare className="h-5 w-5" />

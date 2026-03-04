@@ -16,6 +16,7 @@ import {
   IoCheckmarkCircle,
 } from "react-icons/io5";
 import LogActivity from "../components/dashboard/LogActivity";
+import { useStreakTheme } from "../hooks/useStreakTheme";
 
 export default function Dashboard() {
   const {
@@ -33,6 +34,7 @@ export default function Dashboard() {
     setWeeklyChart,
     setActivityLogs,
   } = useDashboardStore();
+  const theme = useStreakTheme();
 
   const getDashboard = async () => {
     const data = await fetchApi.getDashboard();
@@ -66,21 +68,21 @@ export default function Dashboard() {
             label="Current Streak"
             type="normal"
             icon={IoFlame}
-            gradient="from-amber-400 to-orange-500"
+            gradient={theme.gradient}
           />
           <DashboardCard
             data={longestStreak}
             label="Longest Streak"
             type="normal"
             icon={IoTrophy}
-            gradient="from-yellow-400 to-amber-500"
+            gradient={theme.gradient}
           />
           <DashboardCard
             data={totalHabit}
             label="Habits Completed"
             type="normal"
             icon={IoCheckmarkCircle}
-            gradient="from-orange-400 to-red-500"
+            gradient={theme.gradient}
           />
         </div>
         {/* Main Grid - takes remaining height */}
@@ -108,7 +110,9 @@ export default function Dashboard() {
 
                 <div className="glass-card flex-1 px-4 py-3 w-full h-90 flex flex-col">
                   <div className="flex items-center gap-3 mb-2 flex-none">
-                    <div className="bg-gradient-to-br from-amber-400 to-orange-500 p-2 rounded-xl shadow-md shadow-amber-500/20">
+                    <div
+                      className={`${theme.gradientBg} p-2 rounded-xl shadow-md ${theme.shadow}`}
+                    >
                       <IoStatsChartSharp className="fill-white w-4 h-4" />
                     </div>
                     <h2 className="text-base font-bold text-gray-700">

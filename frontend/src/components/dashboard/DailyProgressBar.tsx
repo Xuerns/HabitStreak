@@ -1,8 +1,10 @@
 import { RiFireLine } from "react-icons/ri";
 import { useDashboardStore } from "../../hooks/useDashboardStore";
+import { useStreakTheme } from "../../hooks/useStreakTheme";
 
 export default function DailyProgressBar() {
   const { precetage, remainingTo70 } = useDashboardStore();
+  const theme = useStreakTheme();
 
   const radius = 60;
   const circumference = 2 * Math.PI * radius;
@@ -14,7 +16,9 @@ export default function DailyProgressBar() {
   return (
     <div className="glass-card flex flex-col items-center justify-center p-4 w-full">
       <div className="flex items-center gap-3 w-full mb-4">
-        <div className="bg-linear-to-br from-amber-400 to-orange-500 p-2 rounded-xl shadow-md shadow-amber-500/20">
+        <div
+          className={`${theme.gradientBg} p-2 rounded-xl shadow-md ${theme.shadow}`}
+        >
           <RiFireLine className="w-5 h-5 fill-white" />
         </div>
         <div>
@@ -47,7 +51,7 @@ export default function DailyProgressBar() {
             strokeDashoffset={strokeDashoffset}
             strokeLinecap="round"
             className={`transition-all duration-1000 ease-out ${
-              safePercentage >= 70 ? "text-green-500" : "text-amber-500"
+              safePercentage >= 70 ? theme.progressVivid : theme.progressFaded
             }`}
           />
         </svg>
@@ -64,11 +68,15 @@ export default function DailyProgressBar() {
 
       <div className="text-center mt-2">
         {typeof remainingTo70 === "number" && remainingTo70 > 0 ? (
-          <p className="text-xs font-semibold text-amber-600 bg-amber-50 px-3 py-1 rounded-full">
+          <p
+            className={`text-xs font-semibold ${theme.badgeText} ${theme.accentLight} px-3 py-1 rounded-full`}
+          >
             {Math.ceil(remainingTo70)}% more to keep streak
           </p>
         ) : typeof remainingTo70 === "string" && remainingTo70 === "Selesai" ? (
-          <p className="text-xs font-semibold text-green-600 bg-green-50 px-3 py-1 rounded-full">
+          <p
+            className={`text-xs font-semibold ${theme.progressBadgeVivid} px-3 py-1 rounded-full`}
+          >
             Streak Secured!
           </p>
         ) : (
