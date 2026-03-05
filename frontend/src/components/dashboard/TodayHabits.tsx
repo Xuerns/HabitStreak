@@ -3,14 +3,19 @@ import { useDashboardStore } from "../../hooks/useDashboardStore";
 import ListHabitDashboard from "./ListHabitDashboard";
 import { fetchApi } from "../../service/fetchApi";
 import { useStreakTheme } from "../../hooks/useStreakTheme";
+import GlassCardSkeleton from "../skeleton/GlassCardSkeleton";
+import ListItemSkeleton from "../skeleton/ListItemSkeleton";
 
 export default function TodayHabits() {
-  const { todayHabits, refreshDashboard } = useDashboardStore();
+  const { todayHabits, toggleTodayHabits, isLoading } = useDashboardStore();
   const theme = useStreakTheme();
 
   const handleToggle = async (id: number) => {
     const habit = todayHabits.find((h) => h.id === id);
     if (!habit) return;
+
+    // Optimistic update — UI updates instantly
+    toggleTodayHabits(id);
 
     try {
       if (habit.is_completed) {
@@ -18,11 +23,20 @@ export default function TodayHabits() {
       } else {
         await fetchApi.completeHabits(id);
       }
-      await refreshDashboard();
     } catch (error: any) {
+      // Rollback on failure
+      toggleTodayHabits(id);
       console.log(error.message);
     }
   };
+
+  if (isLoading) {
+    return (
+      <GlassCardSkeleton className="flex-1 min-h-0 overflow-hidden">
+        <ListItemSkeleton count={4} />
+      </GlassCardSkeleton>
+    );
+  }
 
   return (
     <div className="glass-card flex-1 p-4 flex flex-col gap-2 min-h-0 overflow-hidden">

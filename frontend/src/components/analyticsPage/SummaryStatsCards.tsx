@@ -7,6 +7,7 @@ import {
   IoStar,
 } from "react-icons/io5";
 import { useStreakTheme } from "../../hooks/useStreakTheme";
+import StatCardSkeleton from "../skeleton/StatCardSkeleton";
 
 const STAT_CONFIG = [
   {
@@ -47,8 +48,16 @@ const STAT_CONFIG = [
 ];
 
 export default function SummaryStatsCards() {
-  const { summaryStats } = useAnalyticsStore();
+  const { summaryStats, isLoading } = useAnalyticsStore();
   const theme = useStreakTheme();
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-5 gap-3">
+        <StatCardSkeleton count={5} />
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-5 gap-3">

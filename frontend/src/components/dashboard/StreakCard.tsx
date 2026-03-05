@@ -1,11 +1,26 @@
 import { useDashboardStore } from "../../hooks/useDashboardStore";
 import { FireIcon } from "../FireIcon";
 import { FaFire } from "react-icons/fa";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 type level = 1 | 2 | 3 | 4 | 5 | 6;
 
 export default function StreakCard() {
-  const { currentStreak } = useDashboardStore();
+  const { currentStreak, isLoading } = useDashboardStore();
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col gap-3 bg-gray-100 rounded-2xl p-5 shrink-0 border border-white/40 shadow-sm w-full min-h-40 h-full justify-center items-center">
+        <Skeleton width={140} height={20} />
+        <Skeleton circle width={64} height={64} />
+        <div className="flex flex-col items-center gap-1">
+          <Skeleton width={60} height={32} />
+          <Skeleton width={40} height={14} />
+        </div>
+      </div>
+    );
+  }
 
   const levels: { min: number; level: level }[] = [
     { min: 200, level: 6 },
@@ -60,7 +75,6 @@ export default function StreakCard() {
     <div
       className={`flex flex-col gap-3 ${LevelColor.background} rounded-2xl p-5 shrink-0 border border-white/40 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow duration-300 w-full min-h-40 h-full justify-center`}
     >
-
       <span className="flex items-center justify-center gap-2 relative z-10">
         <FaFire className={`w-5 h-5 ${LevelColor.fill}`} />
         <h3 className="text-lg font-bold text-gray-700">Current Streak</h3>

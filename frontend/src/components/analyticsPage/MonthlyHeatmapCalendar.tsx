@@ -6,6 +6,9 @@ import {
   IoChevronForward,
 } from "react-icons/io5";
 import { useStreakTheme } from "../../hooks/useStreakTheme";
+import GlassCardSkeleton from "../skeleton/GlassCardSkeleton";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -14,6 +17,7 @@ export default function MonthlyHeatmapCalendar() {
     monthlyHeatMap,
     fetchAnalytics,
     currentMonth: storeMonth,
+    isLoading,
   } = useAnalyticsStore();
   const theme = useStreakTheme();
 
@@ -123,6 +127,36 @@ export default function MonthlyHeatmapCalendar() {
   // Cek apakah hari ini
   const now = new Date();
   const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
+  if (isLoading) {
+    return (
+      <GlassCardSkeleton className="h-full sm:p-5">
+        {/* Month navigator skeleton */}
+        <div className="flex items-center justify-between px-2 mb-2">
+          <Skeleton width={28} height={28} borderRadius={8} />
+          <Skeleton width={120} height={16} />
+          <Skeleton width={28} height={28} borderRadius={8} />
+        </div>
+        {/* Day labels */}
+        <div className="grid grid-cols-7 gap-1 mb-1">
+          {DAY_LABELS.map((day) => (
+            <div
+              key={day}
+              className="text-[10px] font-medium text-gray-400 text-center"
+            >
+              {day}
+            </div>
+          ))}
+        </div>
+        {/* Calendar grid skeleton */}
+        <div className="grid grid-cols-7 gap-1 flex-1">
+          {Array.from({ length: 35 }).map((_, i) => (
+            <Skeleton key={i} borderRadius={12} style={{ aspectRatio: "1" }} />
+          ))}
+        </div>
+      </GlassCardSkeleton>
+    );
+  }
 
   return (
     <div className="glass-card flex flex-col p-4 sm:p-5 h-full">

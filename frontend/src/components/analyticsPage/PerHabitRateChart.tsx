@@ -2,9 +2,12 @@ import { useMemo } from "react";
 import { useAnalyticsStore } from "../../hooks/useAnalyticsStore";
 import { IoBarChart } from "react-icons/io5";
 import { useStreakTheme } from "../../hooks/useStreakTheme";
+import GlassCardSkeleton from "../skeleton/GlassCardSkeleton";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function PerHabitRateChart() {
-  const { perHabitRate } = useAnalyticsStore();
+  const { perHabitRate, isLoading } = useAnalyticsStore();
   const theme = useStreakTheme();
 
   const habitsWithRate = useMemo(() => {
@@ -46,6 +49,35 @@ export default function PerHabitRateChart() {
       color: "text-gray-500 bg-gray-50 border border-gray-200",
     };
   };
+
+  if (isLoading) {
+    return (
+      <GlassCardSkeleton className="h-full sm:p-5">
+        <div className="flex flex-col gap-3">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="p-2.5 rounded-xl">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2.5">
+                  <Skeleton width={20} height={14} />
+                  <Skeleton width={100 + i * 10} height={14} />
+                </div>
+                <div className="flex items-center gap-2">
+                  <Skeleton width={55} height={18} borderRadius={20} />
+                  <Skeleton width={60} height={12} />
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex-1">
+                  <Skeleton height={10} borderRadius={20} />
+                </div>
+                <Skeleton width={30} height={12} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </GlassCardSkeleton>
+    );
+  }
 
   return (
     <div className="glass-card flex flex-col p-4 sm:p-5 h-full">

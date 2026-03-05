@@ -3,10 +3,20 @@ import { FaUndo } from "react-icons/fa";
 import { FaCheckCircle } from "react-icons/fa";
 import { useDashboardStore } from "../../hooks/useDashboardStore";
 import { useStreakTheme } from "../../hooks/useStreakTheme";
+import GlassCardSkeleton from "../skeleton/GlassCardSkeleton";
+import ListItemSkeleton from "../skeleton/ListItemSkeleton";
 
 export default function LogActivity() {
-  const { activityLogs } = useDashboardStore();
+  const { activityLogs, isLoading } = useDashboardStore();
   const theme = useStreakTheme();
+
+  if (isLoading) {
+    return (
+      <GlassCardSkeleton className="w-full">
+        <ListItemSkeleton count={4} />
+      </GlassCardSkeleton>
+    );
+  }
 
   const formatTime = (dateStr: string) => {
     const date = new Date(dateStr);

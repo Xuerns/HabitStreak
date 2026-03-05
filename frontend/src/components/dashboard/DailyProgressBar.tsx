@@ -1,10 +1,25 @@
-import { RiFireLine } from "react-icons/ri";
 import { useDashboardStore } from "../../hooks/useDashboardStore";
 import { useStreakTheme } from "../../hooks/useStreakTheme";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import GlassCardSkeleton from "../skeleton/GlassCardSkeleton";
 
 export default function DailyProgressBar() {
-  const { precetage, remainingTo70 } = useDashboardStore();
+  const { precetage, remainingTo70, isLoading } = useDashboardStore();
   const theme = useStreakTheme();
+
+  if (isLoading) {
+    return (
+      <GlassCardSkeleton className="items-center justify-center w-full">
+        <div className="flex items-center justify-center py-4">
+          <Skeleton circle width={140} height={140} />
+        </div>
+        <div className="flex justify-center">
+          <Skeleton width={120} height={24} borderRadius={20} />
+        </div>
+      </GlassCardSkeleton>
+    );
+  }
 
   const radius = 60;
   const circumference = 2 * Math.PI * radius;
@@ -19,7 +34,9 @@ export default function DailyProgressBar() {
         <div
           className={`${theme.gradientBg} p-2 rounded-xl shadow-md ${theme.shadow}`}
         >
-          <RiFireLine className="w-5 h-5 fill-white" />
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="white">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+          </svg>
         </div>
         <div>
           <h3 className="text-gray-700 text-base sm:text-lg font-bold">

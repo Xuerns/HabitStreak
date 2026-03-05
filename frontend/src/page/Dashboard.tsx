@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { fetchApi } from "../service/fetchApi";
 import DashboardCard from "../components/dashboard/DashboardCard";
 import DailyMessage from "../components/dashboard/DailyMessage";
 import { useDashboardStore } from "../hooks/useDashboardStore";
@@ -17,41 +16,20 @@ import {
 } from "react-icons/io5";
 import LogActivity from "../components/dashboard/LogActivity";
 import { useStreakTheme } from "../hooks/useStreakTheme";
+import Skeleton from "react-loading-skeleton";
 
 export default function Dashboard() {
   const {
     currentStreak,
     longestStreak,
     totalHabit,
-    setCurrentStreak,
-    setLongestStreak,
-    setTotalHabit,
-    setPrecentage,
-    setRemainingTo70,
-    setTodayHabits,
-    setTopHabits,
-    setHeatmap,
-    setWeeklyChart,
-    setActivityLogs,
+    isLoading,
+    fetchDashboard,
   } = useDashboardStore();
   const theme = useStreakTheme();
 
-  const getDashboard = async () => {
-    const data = await fetchApi.getDashboard();
-    setCurrentStreak(data.streak);
-    setLongestStreak(data.longestStreak);
-    setTotalHabit(data.totalHabit);
-    setPrecentage(data.precentage);
-    setRemainingTo70(data.remainingTo70);
-    setTodayHabits(data.todayHabits);
-    setTopHabits(data.topHabits);
-    setHeatmap(data.heatmap);
-    setWeeklyChart(data.weeklyChart);
-    setActivityLogs(data.activitylogs);
-  };
-
   useEffect(() => {
-    getDashboard();
+    fetchDashboard();
   }, []);
 
   return (
@@ -69,6 +47,7 @@ export default function Dashboard() {
             type="normal"
             icon={IoFlame}
             gradient={theme.gradient}
+            isLoading={isLoading}
           />
           <DashboardCard
             data={longestStreak}
@@ -76,6 +55,7 @@ export default function Dashboard() {
             type="normal"
             icon={IoTrophy}
             gradient={theme.gradient}
+            isLoading={isLoading}
           />
           <DashboardCard
             data={totalHabit}
@@ -83,6 +63,7 @@ export default function Dashboard() {
             type="normal"
             icon={IoCheckmarkCircle}
             gradient={theme.gradient}
+            isLoading={isLoading}
           />
         </div>
         {/* Main Grid - takes remaining height */}
@@ -109,16 +90,20 @@ export default function Dashboard() {
                 </div>
 
                 <div className="glass-card flex-1 px-4 py-3 w-full h-90 flex flex-col">
-                  <div className="flex items-center gap-3 mb-2 flex-none">
-                    <div
-                      className={`${theme.gradientBg} p-2 rounded-xl shadow-md ${theme.shadow}`}
-                    >
-                      <IoStatsChartSharp className="fill-white w-4 h-4" />
+                  {isLoading ? (
+                    <Skeleton width={200} height={30}/>
+                  ) : (
+                    <div className="flex items-center gap-3 mb-2 flex-none">
+                      <div
+                        className={`${theme.gradientBg} p-2 rounded-xl shadow-md ${theme.shadow}`}
+                      >
+                        <IoStatsChartSharp className="fill-white w-4 h-4" />
+                      </div>
+                      <h2 className="text-base font-bold text-gray-700">
+                        Weekly Chart
+                      </h2>
                     </div>
-                    <h2 className="text-base font-bold text-gray-700">
-                      Weekly Chart
-                    </h2>
-                  </div>
+                  )}
                   {/* The chart container must be positioned absolute inside relative flex child so it can shrink */}
                   <div className="flex-1 h-60 lg:min-h-0 relative">
                     <div className="absolute inset-0">

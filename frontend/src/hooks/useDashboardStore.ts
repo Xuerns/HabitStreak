@@ -43,6 +43,7 @@ interface dashboardState {
   heatMaps: heatMap[];
   weeklyChart: weeklyChart[];
   activityLogs: activityLogs[];
+  isLoading: boolean;
 
   // Action
   setCurrentStreak: (streak: number) => void;
@@ -57,9 +58,11 @@ interface dashboardState {
   setWeeklyChart: (data: weeklyChart[]) => void;
   setActivityLogs: (data: activityLogs[]) => void;
   refreshDashboard: () => Promise<void>;
+  fetchDashboard: () => Promise<void>;
 }
 
 export const useDashboardStore = create<dashboardState>()((set) => ({
+  isLoading: true,
   currentStreak: 0,
   longestStreak: 0,
   totalHabit: 0,
@@ -70,6 +73,7 @@ export const useDashboardStore = create<dashboardState>()((set) => ({
   heatMaps: [],
   weeklyChart: [],
   activityLogs: [],
+  isloading: false,
 
   setCurrentStreak: (streak: number) => set({ currentStreak: streak }),
   setLongestStreak: (longestStreak: number) =>
@@ -108,14 +112,35 @@ export const useDashboardStore = create<dashboardState>()((set) => ({
       totalHabit: data.totalHabit,
       precetage: data.precentage,
       remainingTo70: data.remainingTo70,
-      todayHabits: data.todayHabits.map((h: any) => ({
-        ...h,
-        is_completed: !!h.is_completed,
-      })),
       topHabits: data.topHabits,
       heatMaps: data.heatmap,
       weeklyChart: data.weeklyChart,
       activityLogs: data.activitylogs,
     });
+  },
+  fetchDashboard: async () => {
+    set({ isLoading: true });
+    try {
+      const data = await fetchApi.getDashboard();
+      set({
+        currentStreak: data.streak,
+        longestStreak: data.longestStreak,
+        totalHabit: data.totalHabit,
+        precetage: data.precentage,
+        remainingTo70: data.remainingTo70,
+        todayHabits: data.todayHabits.map((h: any) => ({
+          ...h,
+          is_completed: !!h.is_completed,
+        })),
+        topHabits: data.topHabits,
+        heatMaps: data.heatmap,
+        weeklyChart: data.weeklyChart,
+        activityLogs: data.activitylogs,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.log(error);
+      set({ isLoading: false });
+    }
   },
 }));

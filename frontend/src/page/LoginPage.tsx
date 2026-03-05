@@ -6,7 +6,7 @@ import AuthForm from "../components/AuthForm";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const handleLogin = async (data: { gmail: string; password: string }) => {
     try {
       setIsLoading(true);

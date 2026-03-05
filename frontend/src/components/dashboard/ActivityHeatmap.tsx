@@ -1,8 +1,10 @@
 import { useDashboardStore } from "../../hooks/useDashboardStore";
 import { useStreakTheme } from "../../hooks/useStreakTheme";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function ActivityHeatmap() {
-  const { heatMaps } = useDashboardStore();
+  const { heatMaps, isLoading } = useDashboardStore();
   const theme = useStreakTheme();
 
   const getCurrentMonthDays = () => {
@@ -20,6 +22,24 @@ export default function ActivityHeatmap() {
   };
 
   const days = getCurrentMonthDays();
+
+  if (isLoading) {
+    return (
+      <div className="glass-card flex items-center justify-center p-4 w-full flex-col shrink-0">
+        <div className="self-start mb-3">
+          <Skeleton width={140} height={14} />
+        </div>
+        <div className="grid grid-cols-7 sm:grid-cols-10 gap-1 w-fit">
+          {days.map((_, i) => (
+            <Skeleton key={i} width={16} height={16} borderRadius={6} />
+          ))}
+        </div>
+        <div className="flex items-center gap-1.5 mt-3 self-end">
+          <Skeleton width={80} height={10} />
+        </div>
+      </div>
+    );
+  }
 
   const heatmapDict = (heatMaps ?? []).reduce(
     (acc, curr) => {

@@ -10,6 +10,9 @@ import {
 import { useAnalyticsStore } from "../../hooks/useAnalyticsStore";
 import { IoTrendingUp } from "react-icons/io5";
 import { useStreakTheme } from "../../hooks/useStreakTheme";
+import GlassCardSkeleton from "../skeleton/GlassCardSkeleton";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const PERIOD_OPTIONS = [
   { label: "7D", value: 7 },
@@ -18,13 +21,34 @@ const PERIOD_OPTIONS = [
 ];
 
 export default function CompletionTrendChart() {
-  const { completionTrend, fetchAnalytics, currentPeriod } =
+  const { completionTrend, fetchAnalytics, currentPeriod, isLoading } =
     useAnalyticsStore();
   const theme = useStreakTheme();
 
   const handlePeriodChange = (period: number) => {
     fetchAnalytics(period, undefined);
   };
+
+  if (isLoading) {
+    return (
+      <GlassCardSkeleton className="h-full min-h-0 overflow-hidden sm:p-5">
+        <div className="flex justify-end">
+          <Skeleton width={140} height={32} borderRadius={12} />
+        </div>
+        <div className="flex-1 flex items-end gap-1 pt-4">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <div key={i} className="flex-1">
+              <Skeleton
+                height={`${30 + Math.random() * 60}%`}
+                style={{ minHeight: 20 + Math.random() * 80 }}
+                borderRadius={4}
+              />
+            </div>
+          ))}
+        </div>
+      </GlassCardSkeleton>
+    );
+  }
 
   // Format tanggal agar lebih singkat di X-axis
   const formattedData = completionTrend.map((item) => ({

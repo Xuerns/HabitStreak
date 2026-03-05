@@ -57,7 +57,7 @@ export const fetchApi = {
     const res = await api.delete(`/habits/${id}`, {
       headers: getAuthHeader(),
     });
-    return withDelay(Promise.resolve(res.data));
+    return res.data;
   },
 
   async completeHabits(id: number) {
@@ -68,14 +68,14 @@ export const fetchApi = {
         headers: getAuthHeader(),
       },
     );
-    return withDelay(Promise.resolve(res.data));
+    return res.data;
   },
 
   async undohabit(id: number) {
     const res = await api.delete(`/habits/${id}/completed`, {
       headers: getAuthHeader(),
     });
-    return withDelay(Promise.resolve(res.data));
+    return res.data;
   },
 
   // Dashboard

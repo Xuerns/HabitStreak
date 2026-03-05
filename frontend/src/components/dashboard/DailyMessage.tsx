@@ -1,7 +1,11 @@
-import { useUsersStore } from "../../hooks/useUsersStore";
+import { useDashboardStore } from "../../hooks/useDashboardStore";
 import { useStreakTheme } from "../../hooks/useStreakTheme";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { useUsersStore } from "../../hooks/useUsersStore";
 
 export default function DailyMessage() {
+  const { isLoading } = useDashboardStore();
   const { name } = useUsersStore();
   const theme = useStreakTheme();
   const hari = [
@@ -16,14 +20,25 @@ export default function DailyMessage() {
   const Witchday = new Date().getDay();
 
   const dailyQuotes = [
-  "Time to rest and reflect for the week ahead!",
-  "A brand new week! Let’s start strong with good habits.",
-  "Stay focused and keep your streak alive today!",
-  "Midweek already — don’t lose momentum!",
-  "The weekend is almost here. Let’s finish your goals strong.",
-  "Happy Friday! Complete your habits before you unwind.",
-  "The weekend is here! Don’t forget to keep up your daily habits.",
-];
+    "Time to rest and reflect for the week ahead!",
+    "A brand new week! Let's start strong with good habits.",
+    "Stay focused and keep your streak alive today!",
+    "Midweek already — don't lose momentum!",
+    "The weekend is almost here. Let's finish your goals strong.",
+    "Happy Friday! Complete your habits before you unwind.",
+    "The weekend is here! Don't forget to keep up your daily habits.",
+  ];
+
+  if (isLoading) {
+    return (
+      <div className="glass-card relative overflow-hidden px-5 py-4 sm:px-6 sm:py-5">
+        <div className="pl-3">
+          <Skeleton width={250} height={22} />
+          <Skeleton width={320} height={14} style={{ marginTop: 6 }} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="glass-card relative overflow-hidden px-5 py-4 sm:px-6 sm:py-5">

@@ -11,8 +11,10 @@ interface habits {
 interface habitsState {
   // Initial Value
   Habits: habits[];
+  isLoading: boolean;
 
   // Action
+  setIsLoading: (loading: boolean) => void;
   setHabits: (habits: habits[]) => void;
   removeHabit: (id: number) => void;
   updateHabit: (id: number, title: string, DESCRIPTION: string) => void;
@@ -22,7 +24,12 @@ interface habitsState {
 export const useHabitsStore = create<habitsState>()((set, get) => ({
   Habits: [],
   todayHabits: [],
-  setHabits: (habits) => set({ Habits: habits }),
+  isLoading: true,
+  setIsLoading: (loading) => set({ isLoading: loading }),
+  setHabits: (habits) =>
+    set({
+      Habits: habits,
+    }),
   removeHabit: (id) =>
     set({ Habits: get().Habits.filter((habit) => habit.id !== id) }),
   updateHabit: (id, title, description) =>
@@ -37,6 +44,4 @@ export const useHabitsStore = create<habitsState>()((set, get) => ({
         habit.id === id ? { ...habit, is_completed: status } : habit,
       ),
     }),
-
-  
 }));

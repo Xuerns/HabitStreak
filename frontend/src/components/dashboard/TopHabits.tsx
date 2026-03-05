@@ -1,10 +1,21 @@
 import { IoIosPodium } from "react-icons/io";
 import { useDashboardStore } from "../../hooks/useDashboardStore";
 import { useStreakTheme } from "../../hooks/useStreakTheme";
+import GlassCardSkeleton from "../skeleton/GlassCardSkeleton";
+import ListItemSkeleton from "../skeleton/ListItemSkeleton";
 
 export default function TopHabits() {
-  const { topHabits } = useDashboardStore();
+  const { topHabits, isLoading } = useDashboardStore();
   const theme = useStreakTheme();
+
+  if (isLoading) {
+    return (
+      <GlassCardSkeleton className="h-full">
+        <ListItemSkeleton count={3} />
+      </GlassCardSkeleton>
+    );
+  }
+
   return (
     <div className="glass-card px-4 pt-4 pb-3 h-full flex flex-col">
       <div className="flex items-center gap-3 mb-3">
@@ -55,7 +66,7 @@ export default function TopHabits() {
           </ul>
           <div className="flex items-center justify-center pt-1">
             <span className="text-[11px] font-medium text-gray-400 italic">
-              Small habits, big impact 
+              Small habits, big impact
             </span>
           </div>
         </div>
