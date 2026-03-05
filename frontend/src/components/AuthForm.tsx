@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 interface AuthFormProps {
   type: "login" | "register";
   onSubmit: (data: { name?: string; gmail: string; password: string }) => void;
-  loading?: boolean;
+  isLoading: boolean;
 }
 
-export default function AuthForm({ type, onSubmit, loading }: AuthFormProps) {
+export default function AuthForm({ type, onSubmit, isLoading }: AuthFormProps) {
   const [name, setName] = useState("");
   const [gmail, setGmail] = useState("");
   const [password, setPassword] = useState("");
@@ -87,10 +87,10 @@ export default function AuthForm({ type, onSubmit, loading }: AuthFormProps) {
         </div>
         <button
           type="submit"
-          disabled={loading}
+          disabled={isLoading}
           className="bg-amber-600 text-white font-bold rounded p-2 hover:bg-amber-700 disabled:opacity-50"
         >
-          {loading ? "Loading..." : isRegister ? "Register" : "Login"}
+          {isLoading ? "Loading..." : isRegister ? "Register" : "Login"}
         </button>
         <h6 className="justify-center text-xs flex gap-1">
           {isRegister ? "Already have an account?" : "Don't have an account?"}
