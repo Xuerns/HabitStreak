@@ -40,7 +40,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className="h-screen flex p-1.5 gap-1.5 bg-[#f5f3ef] overflow-hidden">
+    <div className="relative h-screen flex p-1.5 gap-1.5 bg-[#f5f3ef] overflow-hidden">
       <SideBar handleLogout={handleLogout} />
       <div className="flex-1 flex flex-col min-w-0 h-full">
         {/* Page Content (Header removed since profile is in sidebar) */}

@@ -11,7 +11,11 @@ const generateToken = (id: string) => {
 // Services  Register
 export const registerUser = async (data: any) => {
   if (!data.name || !data.gmail || !data.password) {
-    throw { status: 400, message: "Data tidak lengkap" };
+    throw {
+      status: 400,
+      message: "Please fill in all required fields.",
+      titleMessage: "Required Fields Missing",
+    };
   }
 
   const [rowsUser]: any = await pool.execute(
@@ -20,7 +24,12 @@ export const registerUser = async (data: any) => {
   );
 
   if (rowsUser.length > 0) {
-    throw { status: 401, message: "Akun sudah terdaftar" };
+    throw {
+      status: 401,
+      message:
+        "This account is already registered. Please go to the login page to continue.",
+      titleMessage: "Account Already Exists",
+    };
   }
 
   await pool.execute(
@@ -28,13 +37,17 @@ export const registerUser = async (data: any) => {
     [data.name, data.gmail, await bcrypt.hash(data.password, 10)],
   );
 
-  return { message: "Berhasil Register" };
+  return { message: "Register Succesfully" };
 };
 
 // Services Login
 export const loginUser = async (data: any) => {
   if (!data.gmail || !data.password) {
-    throw { status: 400, message: "Data tidak lengkap" };
+    throw {
+      status: 400,
+      message: "Please fill in all required fields.",
+      titleMessage: "Required Fields Missing",
+    };
   }
 
   const [dataUser] = await pool.execute("SELECT * FROM user WHERE gmail = ?", [
@@ -42,17 +55,26 @@ export const loginUser = async (data: any) => {
   ]);
 
   if (dataUser.length === 0) {
-    throw { status: 401, message: "Akun belum terdaftar" };
+    throw {
+      status: 401,
+      message:
+        "This account is not registered yet. Please go to the register page to continue.",
+      titleMessage: "Account Doesn't Exists",
+    };
   }
   const user = dataUser[0];
   const isMatch = await bcrypt.compare(data.password, user.PASSWORD);
 
   if (!isMatch) {
-    throw { status: 401, message: "Password invalid" };
+    throw {
+      status: 401,
+      message: "The password you entered is incorrect. Please try again.",
+      titleMessage: "Incorrect Password",
+    };
   }
 
   return {
-    message: "berhasil login",
+    message: "Login Succesfully",
     token: generateToken(user.id),
   };
 };

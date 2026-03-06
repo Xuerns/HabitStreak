@@ -2,10 +2,17 @@ import { fetchApi } from "../service/fetchApi";
 import { useNavigate } from "react-router-dom";
 import Bg_register from "../assets/BG_Register.png";
 import AuthForm from "../components/AuthForm";
+import { useState } from "react";
+import { ErrorFeedback } from "@/components/feedback/ErrorFeedback";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [feedback, setFeedback] = useState({
+    title: "",
+    message: "",
+  });
   const handleRegister = async (data: {
     name?: string;
     gmail: string;
@@ -20,11 +27,22 @@ export default function RegisterPage() {
       alert("Berhasil Register boss");
       navigate("/auth/login");
     } catch (err: any) {
-      setIsLoading(false)
-      console.log(err.response?.data);
-      alert("Gagal register");
+      setIsLoading(false);
+      setIsError(true);
+      console.log(err.response);
+      setFeedback({
+        title: err.response?.data?.titleMessage,
+        message: err.response?.data?.message,
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
+      setTimeout(() => {
+        setIsError(false);
+        setFeedback({
+          title: "",
+          message: "",
+        });
+      }, 2000);
     }
   };
 
@@ -33,7 +51,17 @@ export default function RegisterPage() {
       className="flex h-screen justify-center items-center bg-cover"
       style={{ backgroundImage: `url(${Bg_register})` }}
     >
-      <AuthForm type="register" onSubmit={handleRegister} isLoading={isLoading}/>
+      <div className="absolute top-5">
+        {isError && (
+          <ErrorFeedback message={feedback.message} title={feedback.title} />
+        )}
+      </div>
+
+      <AuthForm
+        type="register"
+        onSubmit={handleRegister}
+        isLoading={isLoading}
+      />
     </div>
   );
 }
