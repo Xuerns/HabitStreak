@@ -53,6 +53,7 @@ export default function AuthForm({ type, onSubmit, isLoading }: AuthFormProps) {
                 onChange={(e) => setName(e.target.value)}
                 className="text-sm bg-slate-100 border-slate-200 border rounded focus:outline-none focus:border-amber-600 focus:border-2 py-2 px-2"
                 placeholder="Enter your name...."
+                required
               />
             </div>
           )}
@@ -64,6 +65,7 @@ export default function AuthForm({ type, onSubmit, isLoading }: AuthFormProps) {
               onChange={(e) => setGmail(e.target.value)}
               className="text-sm bg-slate-100 border-slate-200 border rounded focus:outline-none focus:border-amber-600 focus:border-2 py-2 px-2"
               placeholder="Enter your gmail...."
+              required
             />
           </div>
           <div className="flex flex-col">
@@ -82,6 +84,7 @@ export default function AuthForm({ type, onSubmit, isLoading }: AuthFormProps) {
               onChange={(e) => setPassword(e.target.value)}
               className="text-sm bg-slate-100 border-slate-200 border rounded focus:outline-none focus:border-amber-600 focus:border-2 py-2 px-2"
               placeholder="Enter your password...."
+              required
             />
           </div>
         </div>

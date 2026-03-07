@@ -3,12 +3,12 @@ import { fetchApi } from "../service/fetchApi";
 import { useNavigate } from "react-router-dom";
 import Bg_login from "../assets/BG_Login.png";
 import AuthForm from "../components/AuthForm";
-import { ErrorFeedback } from "@/components/feedback/ErrorFeedback";
+import { Feedback } from "@/components/feedback/Feedback";
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [isfeedback, setIsFeedback] = useState<"error" | "succes" | "">("");
   const [feedback, setFeedback] = useState({
     title: "",
     message: "",
@@ -17,11 +17,17 @@ export default function LoginPage() {
     try {
       setIsLoading(true);
       const res = await fetchApi.login(data);
-      console.log("data:", res);
-      navigate("/dashboard");
+      setIsFeedback("succes");
+      setFeedback({
+        title: res.titleMessage,
+        message: res.message,
+      });
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 2000);
     } catch (err: any) {
       setIsLoading(false);
-      setIsError(true)
+      setIsFeedback("error");
       setFeedback({
         title: err.response?.data?.titleMessage,
         message: err.response?.data?.message,
@@ -30,7 +36,7 @@ export default function LoginPage() {
     } finally {
       setIsLoading(false);
       setTimeout(() => {
-        setIsError(false);
+        setIsFeedback("");
         setFeedback({
           title: "",
           message: "",
@@ -52,7 +58,7 @@ export default function LoginPage() {
       style={{ backgroundImage: `url(${Bg_login})` }}
     >
       <div className="absolute top-5">
-        {isError && <ErrorFeedback title={feedback.title} message={feedback.message}/>}
+        {isfeedback != "" && <Feedback title={feedback.title} message={feedback.message} type={isfeedback}/>}
       </div>
 
       <AuthForm type="login" onSubmit={handleLogin} isLoading={isLoading}/>

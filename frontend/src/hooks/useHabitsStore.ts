@@ -12,6 +12,11 @@ interface habitsState {
   // Initial Value
   Habits: habits[];
   isLoading: boolean;
+  isFeedback: string;
+  feedback: {
+    title: string,
+    message: string
+  };
 
   // Action
   setIsLoading: (loading: boolean) => void;
@@ -19,12 +24,19 @@ interface habitsState {
   removeHabit: (id: number) => void;
   updateHabit: (id: number, title: string, DESCRIPTION: string) => void;
   toggleComplete: (id: number, status: boolean) => void;
+  setIsFeedback: (type: string) => void;
+  setFeedback: (title: string, message: string) => void;
 }
 
 export const useHabitsStore = create<habitsState>()((set, get) => ({
   Habits: [],
   todayHabits: [],
   isLoading: true,
+  isFeedback: "",
+  feedback: {
+    title: "",
+    message: ""
+  },
   setIsLoading: (loading) => set({ isLoading: loading }),
   setHabits: (habits) =>
     set({
@@ -44,4 +56,6 @@ export const useHabitsStore = create<habitsState>()((set, get) => ({
         habit.id === id ? { ...habit, is_completed: status } : habit,
       ),
     }),
+    setIsFeedback: (type: string) => set({isFeedback: type}),
+    setFeedback: (title: string, message: string) => set({feedback: {title, message}})
 }));

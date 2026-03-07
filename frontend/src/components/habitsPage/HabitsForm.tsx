@@ -11,7 +11,7 @@ interface HabitsFormProps {
 export default function HabitsForm({ onCancel }: HabitsFormProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const { setHabits } = useHabitsStore();
+  const { setHabits, setIsFeedback, setFeedback } = useHabitsStore();
   const theme = useStreakTheme();
 
   const handleSubmit = async () => {

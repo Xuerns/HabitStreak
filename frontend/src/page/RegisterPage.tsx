@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import Bg_register from "../assets/BG_Register.png";
 import AuthForm from "../components/AuthForm";
 import { useState } from "react";
-import { ErrorFeedback } from "@/components/feedback/ErrorFeedback";
+import { Feedback } from "@/components/feedback/Feedback";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [isfeedback, setIsFeedback] = useState<"error" | "succes" | "">("");
   const [feedback, setFeedback] = useState({
     title: "",
     message: "",
@@ -23,12 +23,17 @@ export default function RegisterPage() {
       const res = await fetchApi.register(
         data as { name: string; gmail: string; password: string },
       );
-      console.log("Data:", res);
-      alert("Berhasil Register boss");
-      navigate("/auth/login");
+      setFeedback({
+        title: res.titleMessage,
+        message: res.message,
+      })
+      setIsFeedback("succes")
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 2000);
     } catch (err: any) {
       setIsLoading(false);
-      setIsError(true);
+      setIsFeedback("error");
       console.log(err.response);
       setFeedback({
         title: err.response?.data?.titleMessage,
@@ -37,7 +42,7 @@ export default function RegisterPage() {
     } finally {
       setIsLoading(false);
       setTimeout(() => {
-        setIsError(false);
+        setIsFeedback("");
         setFeedback({
           title: "",
           message: "",
@@ -52,8 +57,8 @@ export default function RegisterPage() {
       style={{ backgroundImage: `url(${Bg_register})` }}
     >
       <div className="absolute top-5">
-        {isError && (
-          <ErrorFeedback message={feedback.message} title={feedback.title} />
+        {isfeedback != "" && (
+          <Feedback message={feedback.message} title={feedback.title} type={isfeedback}/>
         )}
       </div>
 

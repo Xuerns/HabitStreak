@@ -37,7 +37,10 @@ export const registerUser = async (data: any) => {
     [data.name, data.gmail, await bcrypt.hash(data.password, 10)],
   );
 
-  return { message: "Register Succesfully" };
+  return {
+    titleMessage: "Registration Successful",
+    message: "Your account has been created successfully. You can now log in.",
+  };
 };
 
 // Services Login
@@ -74,7 +77,8 @@ export const loginUser = async (data: any) => {
   }
 
   return {
-    message: "Login Succesfully",
+    titleMessage: "Welcome Back",
+    message: "You have logged in successfully.",
     token: generateToken(user.id),
   };
 };

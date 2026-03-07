@@ -26,7 +26,7 @@ function HabitCardSkeleton() {
 }
 
 export default function HabitsPage() {
-  const { Habits, setHabits, isLoading, setIsLoading } = useHabitsStore();
+  const { Habits, setHabits, isLoading, setIsLoading, feedback, setFeedback } = useHabitsStore();
 
   useEffect(() => {
     const fetchHabits = async () => {
