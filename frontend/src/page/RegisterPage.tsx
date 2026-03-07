@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Bg_register from "../assets/BG_Register.png";
 import AuthForm from "../components/AuthForm";
 import { useState } from "react";
-import { Feedback } from "@/components/feedback/Feedback";
+import { AuthFeedback } from "@/components/feedback/AuthFeedback";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ export default function RegisterPage() {
     >
       <div className="absolute top-5">
         {isfeedback != "" && (
-          <Feedback message={feedback.message} title={feedback.title} type={isfeedback}/>
+          <AuthFeedback message={feedback.message} title={feedback.title} type={isfeedback}/>
         )}
       </div>
 

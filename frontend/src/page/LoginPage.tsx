@@ -3,7 +3,7 @@ import { fetchApi } from "../service/fetchApi";
 import { useNavigate } from "react-router-dom";
 import Bg_login from "../assets/BG_Login.png";
 import AuthForm from "../components/AuthForm";
-import { Feedback } from "@/components/feedback/Feedback";
+import { AuthFeedback } from "@/components/feedback/AuthFeedback";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ export default function LoginPage() {
       style={{ backgroundImage: `url(${Bg_login})` }}
     >
       <div className="absolute top-5">
-        {isfeedback != "" && <Feedback title={feedback.title} message={feedback.message} type={isfeedback}/>}
+        {isfeedback != "" && <AuthFeedback title={feedback.title} message={feedback.message} type={isfeedback}/>}
       </div>
 
       <AuthForm type="login" onSubmit={handleLogin} isLoading={isLoading}/>

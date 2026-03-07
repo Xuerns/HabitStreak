@@ -15,11 +15,25 @@ export default function HabitsForm({ onCancel }: HabitsFormProps) {
   const theme = useStreakTheme();
 
   const handleSubmit = async () => {
-    await fetchApi.createHabits({ title, description });
-    setTitle("");
-    setDescription("");
-    const data = await fetchApi.gethabits();
-    setHabits(data);
+    try {
+      const res = await fetchApi.createHabits({ title, description });
+      setTitle("");
+      setDescription("");
+      const data = await fetchApi.gethabits();
+      setIsFeedback("succes");
+      console.log(res.titleMessage, res.message)
+      setFeedback(res.titleMessage, res.message);
+      setHabits(data);
+    } catch (err: any) {
+      setIsFeedback("error")
+      console.log(err);
+      setFeedback(err.response?.data?.titleMessage, err.response?.data?.message,)
+    } finally {
+      setTimeout(() => {
+        setIsFeedback("");
+        setFeedback("", "");
+      }, 2000)
+    }
   };
 
   return (

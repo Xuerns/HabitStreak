@@ -57,5 +57,5 @@ export const useHabitsStore = create<habitsState>()((set, get) => ({
       ),
     }),
     setIsFeedback: (type: string) => set({isFeedback: type}),
-    setFeedback: (title: string, message: string) => set({feedback: {title, message}})
+    setFeedback: (title: string, message: string) => set({feedback: {title: title, message: message}})
 }));

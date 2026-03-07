@@ -16,7 +16,7 @@ export const createHabits = async (req: Request, res: Response) => {
     res.status(200).json(result);
   } catch (error: any) {
     const status = error.status || 500;
-    res.status(status).json({ message: error.message || "Server Error" });
+    res.status(status).json({ message: error.message, titleMessage: error.titleMessage || "Server Error" });
   }
 };
 

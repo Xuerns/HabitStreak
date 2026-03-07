@@ -7,7 +7,7 @@ interface ErrorFeedbackState {
   title: string;
 }
 
-export function Feedback({ message, title, type }: ErrorFeedbackState) {
+export function AuthFeedback({ message, title, type }: ErrorFeedbackState) {
   return (
     <div>
       {type === "error" ? (

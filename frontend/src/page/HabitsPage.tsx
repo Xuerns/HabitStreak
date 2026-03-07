@@ -5,6 +5,7 @@ import HabitsCard from "../components/habitsPage/HabitsCard";
 import HabitsHeaders from "../components/habitsPage/HabitsHeaders";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import HabitsFeedback from "@/components/feedback/HabitsFeedback";
 
 function HabitCardSkeleton() {
   return (
@@ -26,13 +27,18 @@ function HabitCardSkeleton() {
 }
 
 export default function HabitsPage() {
-  const { Habits, setHabits, isLoading, setIsLoading, feedback, setFeedback } = useHabitsStore();
+  const { Habits, setHabits, isLoading, setIsLoading, feedback, isFeedback } =
+    useHabitsStore();
 
   useEffect(() => {
     const fetchHabits = async () => {
-      const data = await fetchApi.gethabits();
-      setHabits(data);
-      setIsLoading(false);
+      try {
+        const data = await fetchApi.gethabits();
+        setHabits(data);
+        setIsLoading(false);
+      } catch (error: any) {
+        console.log(error);
+      }
     };
     fetchHabits();
   }, []);
@@ -69,6 +75,10 @@ export default function HabitsPage() {
           ))}
         </ul>
       )}
+
+      <div className="absolute top-10 right-0 overflow-hidden">
+        {isFeedback != "" && <HabitsFeedback title={feedback.title} message={feedback.message} type={isFeedback}/>}
+      </div>
     </div>
   );
 }

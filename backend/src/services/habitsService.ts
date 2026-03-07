@@ -3,14 +3,21 @@ import pool from "../db";
 // Create Habit
 export const createHabitsService = async (data: any, id: number) => {
   if (!data.title || !data.description) {
-    throw { status: 400, message: "Data tidak lengkap" };
+    throw {
+      status: 400,
+      message: "Please fill in all required fields.",
+      titleMessage: "Required Fields Missing",
+    };
   }
 
   await pool.execute(
     "INSERT INTO habits (title, DESCRIPTION, user_id) VALUES (?, ?, ?)",
     [data.title, data.description, id],
   );
-  return { message: "Berhasil menambahkan habits" };
+  return {
+    titleMessage: "Habit Created",
+    message: "The habit has been created successfully.",
+  };
 };
 
 // Get Habit
