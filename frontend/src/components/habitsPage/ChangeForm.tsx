@@ -22,14 +22,26 @@ export default function ChangeForm({
     title,
     description,
   });
-  const { setHabits } = useHabitsStore();
+  const { setHabits, setFeedback, setIsFeedback } = useHabitsStore();
   const theme = useStreakTheme();
 
   const handleSave = async () => {
-    await fetchApi.updateHabits(formData, id);
-    const data = await fetchApi.gethabits();
-    setHabits(data);
-    onSaved();
+    try {
+      const res = await fetchApi.updateHabits(formData, id);
+      const data = await fetchApi.gethabits();
+      setIsFeedback("succes");
+      setFeedback(res.titleMessage, res.message);
+      setHabits(data);
+      onSaved();
+    } catch (err: any) {
+      setIsFeedback("error");
+      setFeedback(err.response?.data?.titleMessage, err.response?.data?.message);
+    } finally {
+      setTimeout(() => {
+        setIsFeedback("");
+        setFeedback("", "");
+      }, 2000);
+    }
   };
 
   return (

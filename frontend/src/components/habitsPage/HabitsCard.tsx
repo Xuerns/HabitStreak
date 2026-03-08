@@ -44,12 +44,31 @@ export default function HabitsCard({
   const [isEditing, setIsEditing] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const { removeHabit, toggleComplete } = useHabitsStore();
+  const { removeHabit, toggleComplete, setFeedback, setIsFeedback } =
+    useHabitsStore();
   const theme = useStreakTheme();
 
   const handleDelete = async (id: number) => {
-    await fetchApi.deleteHabits(id);
-    removeHabit(id);
+    try {
+      const res = await fetchApi.deleteHabits(id);
+      setIsFeedback("succes");
+      setFeedback(res.titleMessage, res.message);
+      removeHabit(id);
+    } catch (err: any) {
+      setIsFeedback("error");
+      setFeedback(
+        err.response?.data?.titleMessage,
+        err.response?.data?.message,
+      );
+    } finally {
+      setTimeout(() => {
+        setIsFeedback("error");
+        setFeedback(
+          "",
+          "",
+        );
+      }, 2000);
+    }
   };
 
   const handleUndo = async (id: number) => {

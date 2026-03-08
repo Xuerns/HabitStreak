@@ -40,7 +40,11 @@ export const updateHabitsService = async (
   habitsId: any,
 ) => {
   if (!data.title || !data.description) {
-    throw { status: 400, message: "Data tidak lengkap" };
+    throw {
+      status: 400,
+      titleMessage: "Required Fields Missing",
+      message: "Please fill in all required fields.",
+    };
   }
 
   const result = await pool.execute(
@@ -49,10 +53,17 @@ export const updateHabitsService = async (
   );
 
   if (result.affectedRows === 0) {
-    throw { status: 404, message: "Habit tidak ditemukan" };
+    throw {
+      status: 404,
+      titleMessage: "Habit Not Found",
+      message: "The requested habit could not be found.",
+    };
   }
 
-  return { message: "Berhasil update habit" };
+  return {
+    titleMessage: "Habit Updated",
+    message: "Your habit has been updated successfully.",
+  };
 };
 
 // Delete habit
@@ -61,7 +72,10 @@ export const deleteHabitsService = async (userId: number, habitId: any) => {
     habitId,
     userId,
   ]);
-  return { message: "Berhasil menghapus habit" };
+  return {
+    titleMessage: "Habit Deleted",
+    message: "The habit was successfully removed.",
+  };
 };
 
 // Complete habit

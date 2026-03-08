@@ -41,7 +41,7 @@ export const updateHabits = async (req: Request, res: Response) => {
     res.status(200).json(result);
   } catch (error: any) {
     const status = error.status || 500;
-    res.status(status).json({ message: error.message || "Server Error" });
+    res.status(status).json({ message: error.message, titleMessage: error.titleMessage || "Server Error" });
   }
 };
 
@@ -54,7 +54,8 @@ export const deleteHabits = async (req: Request, res: Response) => {
     const result = await deleteHabitsService(userId, id);
     res.status(200).json(result);
   } catch (error: any) {
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ titleMessage: "Server Error",
+message: "Something went wrong on our server. Please try again later." });
   }
 };
 
