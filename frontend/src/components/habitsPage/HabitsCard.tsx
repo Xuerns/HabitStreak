@@ -62,7 +62,7 @@ export default function HabitsCard({
       );
     } finally {
       setTimeout(() => {
-        setIsFeedback("error");
+        setIsFeedback("");
         setFeedback(
           "",
           "",

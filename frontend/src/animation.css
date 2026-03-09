@@ -1,9 +1,64 @@
-@keyframes slideDown {
+@keyframes authSlideIn {
   0% {
-    transform: translateY(-2rem);
+    transform: translateY(-3rem);
+    opacity: 0;
   }
   100% {
     transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes authSlideOut {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-3rem);
+    opacity: 0;
+  }
+}
+
+@keyframes habitSlideIn {
+  0% {
+    transform: translateX(110%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes habitSlideOut {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(110%);
+    opacity: 0;
+  }
+}
+
+/* Legacy - kept for compatibility */
+@keyframes slideDown {
+  0% {
+    transform: translateY(-2rem);
+    opacity: 0;
+  }
+  30% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-2rem);
+    opacity: 0;
   }
 }
 

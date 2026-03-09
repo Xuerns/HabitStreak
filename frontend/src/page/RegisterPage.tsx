@@ -56,7 +56,7 @@ export default function RegisterPage() {
       className="flex h-screen justify-center items-center bg-cover"
       style={{ backgroundImage: `url(${Bg_register})` }}
     >
-      <div className="absolute top-5">
+      <div className="absolute top-0 h-40 overflow-hidden">
         {isfeedback != "" && (
           <AuthFeedback message={feedback.message} title={feedback.title} type={isfeedback}/>
         )}

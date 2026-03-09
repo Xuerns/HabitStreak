@@ -57,7 +57,7 @@ export default function LoginPage() {
       className="flex h-screen justify-center items-center bg-cover"
       style={{ backgroundImage: `url(${Bg_login})` }}
     >
-      <div className="absolute top-5">
+      <div className="absolute top-5 overflow-hidden">
         {isfeedback != "" && <AuthFeedback title={feedback.title} message={feedback.message} type={isfeedback}/>}
       </div>
 
