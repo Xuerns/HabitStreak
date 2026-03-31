@@ -108,7 +108,7 @@ Preview of all levels in HabitStreak. The UI progressively improves based on the
 ## Level 3
 ![Dashboard Level 3](preview/Level_3/Dashboard.jpg)
 
-![HabitsPage Level 3](preview/Level_3/abits.jpg)
+![HabitsPage Level 3](preview/Level_3/Habits.jpg)
 
 ![Analytics Level 3](preview/Level_3/Analytics.jpg)
 
