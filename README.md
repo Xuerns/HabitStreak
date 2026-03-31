@@ -85,3 +85,52 @@ cd frontend
 npm install
 npm run dev
 ```
+
+# Preview
+Preview of all levels in HabitStreak. The UI progressively improves based on the user's streak, delivering a better experience at each milestone.
+
+## Level 1
+![Dashboard Level 1](.\preview\Level_1\Dashboard.jpg)
+
+![HabitsPage Level 1](.\preview\Level_1\Habits.jpg)
+
+![Analytics Level 1](.\preview\Level_1\Analytics.jpg)
+
+
+## Level 2
+![Dashboard Level 1](.\preview\Level_2\Dashboard.jpg)
+
+![HabitsPage Level 1](.\preview\Level_2\Habits.jpg)
+
+![Analytics Level 1](.\preview\Level_2\Analytics.jpg)
+
+
+## Level 3
+![Dashboard Level 1](.\preview\Level_3\Dashboard.jpg)
+
+![HabitsPage Level 1](.\preview\Level_3\Habits.jpg)
+
+![Analytics Level 1](.\preview\Level_3\Analytics.jpg)
+
+
+## Level 4
+![Dashboard Level 1](.\preview\Level_4\Dashboard.jpg)
+
+![HabitsPage Level 1](.\preview\Level_4\Habits.jpg)
+
+![Analytics Level 1](.\preview\Level_4\Analytics.jpg)
+
+
+## Level 5
+![Dashboard Level 1](.\preview\Level_5\Dashboard.jpg)
+
+![HabitsPage Level 1](.\preview\Level_5\Habits.jpg)
+
+![Analytics Level 1](.\preview\Level_5\Analytics.jpg)
+
+## Level 6
+![Dashboard Level 1](.\preview\Level_6\Dashboard.jpg)
+
+![HabitsPage Level 1](.\preview\Level_6\Habits.jpg)
+
+![Analytics Level 1](.\preview\Level_6\Analytics.jpg)
