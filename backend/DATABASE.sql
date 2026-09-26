@@ -1,8 +1,9 @@
-{/* Create Database */}
-CREATE DATABASE habitStreak;
+-- Create Database
+CREATE DATABASE IF NOT EXISTS habitStreak;
+USE habitStreak;
 
-{/* Table User */}
-CREATE TABLE user (
+-- Table User
+CREATE TABLE IF NOT EXISTS user (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
   email VARCHAR(150) NOT NULL UNIQUE,
@@ -10,19 +11,20 @@ CREATE TABLE user (
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-{/* Table Habits */} 
-CREATE TABLE habits (
+-- Table Habits 
+CREATE TABLE IF NOT EXISTS habits (
     id INT AUTO_INCREMENT PRIMARY KEY, 
     user_id INT NOT NULL, 
     title VARCHAR(255) NOT NULL, 
     DESCRIPTION TEXT, 
     create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
     streak INT DEFAULT 0, 
-    last_completed DATE NULL FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE, 
+    last_completed DATE NULL,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 );
 
-{/* Table Habits Logs */}
-CREATE TABLE habits_logs (
+-- Table Habits Logs
+CREATE TABLE IF NOT EXISTS habits_logs (
     id INT AUTO_INCREMENT PRIMARY KEY, 
     habits_id INT NOT NULL, 
     Date DATE NOT NULL, 
@@ -31,8 +33,8 @@ CREATE TABLE habits_logs (
     FOREIGN KEY (habits_id) REFERENCES habits(id) ON DELETE CASCADE
 );
 
-{/* Table Activity Logs */}
-CREATE TABLE activity_logs (
+-- Table Activity Logs
+CREATE TABLE IF NOT EXISTS activity_logs (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   habits_id INT NOT NULL,
